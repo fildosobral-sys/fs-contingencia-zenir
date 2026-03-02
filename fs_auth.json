@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "updatedAt": "2026-03-02 21:36:01",
+  "appUrl": "index.html",
+  "filiais": {
+    "28": {
+      "nome": "Iguatu III",
+      "status": "ATIVA",
+      "vendedores": {
+        "fildo": {
+          "nome": "Fildo",
+          "status": "ATIVO",
+          "key": "96PNXN"
+        },
+        "flavio": {
+          "nome": "Flávio",
+          "status": "ATIVO",
+          "key": "S93DWF"
+        },
+        "larissa": {
+          "nome": "Larissa",
+          "status": "ATIVO",
+          "key": "5Z4ZWZ"
+        }
+      }
+    }
+  }
+}
