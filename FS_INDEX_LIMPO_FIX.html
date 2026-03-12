@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FS Hub • Operações</title>
+<meta name="theme-color" content="#4f46e5">
+<style>
+:root{--bg:#f1f5ff;--bg2:#eef2ff;--card:#ffffff;--text:#0f172a;--muted:#64748b;--primary:#4f46e5;--primary2:#9333ea;--shadow:0 14px 32px rgba(15,23,42,.10)}
+*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text)}body{min-height:100vh}
+.top-msg{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff;text-align:center;padding:10px 14px;font-size:14px;font-weight:700;box-shadow:0 6px 20px rgba(79,70,229,.22)}
+.container{max-width:1150px;margin:0 auto;padding:18px 16px 96px}
+.header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:12px 18px;border-radius:999px;box-shadow:0 14px 28px rgba(79,70,229,.26)}
+.logo3d{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 25%,#fff 0,#eef2ff 34%,#9ca3af 58%,#111827 100%);color:#111827;font-weight:900;font-size:20px;position:relative;overflow:hidden;box-shadow:inset 0 3px 8px rgba(255,255,255,.85),inset 0 -6px 12px rgba(0,0,0,.18),0 10px 18px rgba(0,0,0,.18);transform:perspective(800px) rotateX(12deg)}
+.logo3d::after{content:"";position:absolute;inset:-20% -40%;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.85) 48%,transparent 62%);animation:shine 3.6s linear infinite}@keyframes shine{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.brand-title{font-size:18px;font-weight:800;line-height:1}.brand-sub{font-size:11px;opacity:.9;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.user{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.84);padding:8px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.20);box-shadow:0 8px 18px rgba(15,23,42,.08)}
+.avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#6366f1;color:#fff;font-size:16px;font-weight:800}
+.user-meta small{display:block;color:#94a3b8;font-size:11px;line-height:1.1}.user-meta strong{font-size:15px}
+.menu-btn{display:flex;align-items:center;gap:8px;cursor:pointer;border:none;background:rgba(255,255,255,.84);padding:12px 14px;border-radius:16px;border:1px solid rgba(148,163,184,.20);box-shadow:0 8px 18px rgba(15,23,42,.08);color:#334155;font-weight:700}
+.menu-btn .icon{font-size:20px}
+
+.hero-card,.quick-card{background:#fff;border-radius:28px;padding:22px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.88)}
+.hero-card{background:linear-gradient(135deg,#4f46e5,#9333ea);color:#fff;position:relative;overflow:hidden}
+.hero-card h1{font-size:clamp(28px,4vw,42px);line-height:1.04;margin:0 0 8px}.hero-card p{margin:0 0 14px;color:rgba(255,255,255,.90);line-height:1.5}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px}.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);font-size:13px;font-weight:700}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;cursor:pointer;padding:12px 16px;border:none;border-radius:16px;font-weight:800;font-size:15px}
+.btn-primary{background:#10b981;color:#fff;box-shadow:0 12px 22px rgba(16,185,129,.22)}.btn-secondary{background:#fff;color:#1d4ed8;border:1px solid #dbeafe}
+.quick-card h3{margin:0 0 8px;font-size:22px}.quick-card p{margin:0 0 12px;color:var(--muted);line-height:1.5}
+.quick-box{padding:14px;border-radius:18px;background:#f8fafc;border:1px solid #e2e8f0;margin-top:10px}.quick-label{font-size:12px;color:var(--muted);margin-bottom:6px}.quick-value{font-size:24px;font-weight:900}
+h2{font-size:22px;margin:10px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{background:var(--card);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.82)}
+.card img{width:100%;height:170px;object-fit:cover;display:block}.card-body{padding:18px}.card-title{font-size:18px;font-weight:900;margin-bottom:6px}.card-text{font-size:14px;color:var(--muted);line-height:1.4;min-height:40px}
+.card-link{display:inline-flex;gap:6px;align-items:center;margin-top:14px;color:#4f46e5;font-weight:800;text-decoration:none}
+.badge{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:8px 12px;border-radius:999px;background:#eef2ff;color:#4f46e5;font-size:12px;font-weight:800}
+.whatsapp{position:fixed;right:16px;bottom:72px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;background:#25D366;color:#fff;font-size:24px;box-shadow:0 10px 22px rgba(0,0,0,.22);z-index:30}
+.footer{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;background:rgba(248,250,252,.94);backdrop-filter:blur(10px);border-top:1px solid rgba(148,163,184,.18);box-shadow:0 -6px 18px rgba(15,23,42,.06)}
+.footer-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#475569;font-size:13px}
+.footer-pill,.tool-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;border:1px solid #dbeafe;background:white;color:#334155;font-weight:700;text-decoration:none;box-shadow:0 4px 10px rgba(15,23,42,.05);cursor:pointer}
+.footer-pill{background:#eef2ff;color:#1d4ed8}.footer-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.42);display:none;align-items:flex-start;justify-content:center;padding:22px 16px;z-index:40}.modal.show{display:flex}
+.modal-card{width:min(100%,460px);background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 22px 50px rgba(15,23,42,.22)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff}.modal-head h3{margin:0;font-size:22px}
+.modal-body{padding:16px;display:grid;gap:12px}.menu-card{display:block;padding:16px;border-radius:18px;text-decoration:none;color:#0f172a;background:linear-gradient(135deg,#f8fafc,#eef2ff);border:1px solid #dbeafe}
+.menu-card strong{display:block;font-size:18px;margin-bottom:4px}.menu-card span{font-size:14px;color:#64748b}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.container{padding:14px 14px 92px}.top-msg{font-size:13px;padding:8px 12px}.header{align-items:flex-start}.brand{padding:10px 14px}.logo3d{width:44px;height:44px;font-size:17px}.brand-title{font-size:15px}.brand-sub{display:none}.user{padding:7px 10px}.avatar{width:36px;height:36px}.user-meta small{font-size:10px}.user-meta strong{font-size:14px}.menu-btn{padding:10px 12px}.grid{grid-template-columns:1fr;gap:16px}.card img{height:160px}.footer{padding:8px 10px;justify-content:center}.footer-left{width:100%;justify-content:center;font-size:12px}.footer-tools{width:100%;justify-content:center}.whatsapp{right:12px;bottom:72px;width:50px;height:50px;font-size:22px}}
+</style>
+</head>
+<body>
+<div class="top-msg">🚀 Cada atendimento é uma oportunidade de transformar um cliente em parceiro. Boa venda!</div>
+<div class="container">
+  <div class="header">
+    <div class="brand"><div class="logo3d">FS</div><div><div class="brand-title">FS Soluções</div><div class="brand-sub">Hub inteligente de operações</div></div></div>
+    <div class="header-right">
+      <button class="menu-btn" id="openMenu"><span class="icon">☰</span><span>Menu</span></button>
+      <div class="user"><div class="avatar">F</div><div class="user-meta"><small>Acesso de teste</small><strong>Fildo</strong></div></div>
+    </div>
+  </div>
+  
+  <h2>Operações principais</h2>
+  <div class="grid">
+    <div class="card"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80" alt="Simulações"><div class="card-body"><div class="card-title">Simulações</div><div class="card-text">Operação comercial e atendimento completo, com visualização, envio e fluxo de análise.</div><a class="card-link" href="#" id="linkSimAuto">Abrir →</a><div class="badge">Ativo para integração</div></div></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80" alt="Crediário"><div class="card-body"><div class="card-title">Crediário</div><div class="card-text">Análise e aprovação integrada, já preparada com nomes finais para celular e computador.</div><a class="card-link" href="#" id="linkCredAuto">Abrir →</a><div class="badge">Nome + arquivos conectados</div></div></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="Dashboard"><div class="card-body"><div class="card-title">Dashboard</div><div class="card-text">Indicadores e análises.</div><a class="card-link" href="#">Ver →</a><div class="badge">Standby</div></div></div>
+    <div class="card"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80" alt="Expansão futura"><div class="card-body"><div class="card-title">Expansão futura</div><div class="card-text">Novo módulo da plataforma.</div><a class="card-link" href="#">Reservado</a><div class="badge">Reservado</div></div></div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left"><span>📅 <span id="fsData">--/--/----</span></span><span>•</span><span>⏰ <span id="fsHora">--:--</span></span><span>•</span><span>🏬 Filial 28</span></div>
+  <div class="footer-tools"><a class="footer-pill" href="https://wa.me/5588988222564?text=Olá%20preciso%20de%20suporte%20no%20FS%20Soluções">💬 Suporte FS</a><button class="tool-btn" id="btnCalc">🧮 Calculadora</button><button class="tool-btn" id="btnCalendar">📅 Calendário</button></div>
+</div>
+<div class="modal" id="menuModal"><div class="modal-card"><div class="modal-head"><h3>📋 Menu</h3><button class="menu-btn" id="closeMenu" style="background:rgba(255,255,255,.16);color:#fff;border:none;box-shadow:none;padding:8px 10px;">✕</button></div><div class="modal-body"><a class="menu-card" href="#" id="menuSimAuto"><strong>🛒 Simulações</strong><span>Abrir automaticamente a versão ideal.</span></a><a class="menu-card" href="#" id="menuCredAuto"><strong>🏢 Crediário</strong><span>Abrir automaticamente a versão ideal.</span></a><a class="menu-card" href="#"><strong>📊 Dashboard</strong><span>Espaço reservado para indicadores.</span></a><a class="menu-card" href="https://wa.me/5588988222564?text=Olá%20preciso%20de%20suporte%20no%20FS%20Soluções"><strong>💬 Suporte</strong><span>Abrir atendimento via WhatsApp.</span></a></div></div></div>
+
+<script>
+function isLikelyMobile(){
+  const ua=(navigator.userAgent||'').toLowerCase();
+  const byUA=/android|iphone|ipod|blackberry|windows phone|opera mini|mobile/.test(ua);
+  const byTouchCompact=(navigator.maxTouchPoints||0)>0&&window.innerWidth<900;
+  const byWidth=window.innerWidth<768;
+  return byUA||byTouchCompact||byWidth;
+}
+function routeFor(moduleName){
+  const FILES={
+    simDesktop:'FS_SIMULACOES_DESKTOP.html',
+    simMobile:'FS_SIMULACOES_MOBILE_FINAL.html',
+    credDesktop:'FS_CREDIARIO_DESKTOP.html',
+    credMobile:'FS_CREDIARIO_MOBILE.html'
+  };
+  const mobile=isLikelyMobile();
+  if(moduleName==='cred'){ return mobile ? FILES.credMobile : FILES.credDesktop; }
+  return mobile ? FILES.simMobile : FILES.simDesktop;
+}
+function tick(){
+  const data=document.getElementById('fsData');
+  const hora=document.getElementById('fsHora');
+  if(!data || !hora) return;
+  const now=new Date();
+  data.textContent=now.toLocaleDateString('pt-BR');
+  hora.textContent=now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+tick();
+setInterval(tick,1000);
+
+const menuModal=document.getElementById('menuModal');
+const openMenu=document.getElementById('openMenu');
+const closeMenu=document.getElementById('closeMenu');
+if(openMenu && menuModal){
+  openMenu.addEventListener('click',()=>menuModal.classList.add('show'));
+}
+if(closeMenu && menuModal){
+  closeMenu.addEventListener('click',()=>menuModal.classList.remove('show'));
+}
+if(menuModal){
+  menuModal.addEventListener('click',(e)=>{ if(e.target.id==='menuModal') menuModal.classList.remove('show'); });
+}
+
+const btnCalc=document.getElementById('btnCalc');
+const btnCalendar=document.getElementById('btnCalendar');
+if(btnCalc){ btnCalc.addEventListener('click',()=>alert('Calculadora será conectada aqui.')); }
+if(btnCalendar){ btnCalendar.addEventListener('click',()=>alert('Calendário será conectado aqui.')); }
+
+function bindGo(id,moduleName){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('click',(e)=>{
+    e.preventDefault();
+    window.location.href=routeFor(moduleName);
+  });
+}
+bindGo('linkSimAuto','sim');
+bindGo('linkCredAuto','cred');
+bindGo('menuSimAuto','sim');
+bindGo('menuCredAuto','cred');
+</script>
+
+</body>
+</html>
