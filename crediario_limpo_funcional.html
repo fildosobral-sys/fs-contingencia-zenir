@@ -1,0 +1,4016 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Zenir Offline • Contingência (v187)</title>
+<style>
+  :root{
+    --brand:#112a7a;
+    --brand2:#1b46c9;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --muted:rgba(20,24,40,.62);
+    --line:rgba(20,24,40,.12);
+    --ok:#16a34a;
+    --warn:#f59e0b;
+    --bad:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#0f172a}
+  header{
+    position:sticky;top:0;z-index:50;
+    background:linear-gradient(180deg,var(--brand),#0c1a4d);
+    color:#fff;padding:12px 14px;
+    display:flex;align-items:center;gap:10px;justify-content:space-between;
+    box-shadow:0 10px 25px rgba(14,22,45,.18);
+  }
+  .h-left{display:flex;align-items:center;gap:10px}
+  .logo{font-weight:950;letter-spacing:.2px}
+  button.pill{cursor:pointer;}
+.pill{
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+    padding:7px 10px;border-radius:999px;font-weight:800;font-size:12px;white-space:nowrap
+  }
+  .iconbtn{
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+    color:#fff;border-radius:12px;padding:8px 10px;font-weight:950;cursor:pointer
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 12px 28px rgba(14,22,45,.10)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}
+  .payGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:start}
+  @media(max-width:900px){.payGrid{grid-template-columns:1fr}}
+  .summaryBox{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+  .summaryRow{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px dashed rgba(20,24,40,.12)}
+  .summaryRow:last-child{border-bottom:0}
+  .summaryLabel{color:var(--muted);font-weight:800}
+  .summaryValue{font-weight:950;text-align:right}
+  .actionsBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  .footerTools{margin-top:12px}
+  .footerTools .btn{padding:8px 10px;border-radius:10px;font-weight:850;font-size:13px}
+}
+  .muted{color:var(--muted)}
+  .title{font-weight:950;color:var(--brand);margin:0 0 10px 0}
+  .hr{height:1px;background:var(--line);margin:14px 0}
+  .btn{
+    border:1px solid var(--line);
+    background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:800
+  }
+  .btn.primary{background:var(--brand);color:#fff;border-color:rgba(255,255,255,.12)}
+  .btn.good{background:var(--ok);color:#fff;border-color:rgba(255,255,255,.12)}
+  .btn:active{transform:scale(.99)}
+  .row{display:grid;grid-template-columns:minmax(120px,150px) 1fr;gap:6px;align-items:center;margin:8px 0}
+  @media(max-width:820px){.row{grid-template-columns:1fr;gap:6px}}
+  label{font-weight:800;color:#111827}
+  .chkline{display:flex;align-items:center;gap:10px;font-weight:700;color:rgba(20,24,40,.75)}
+  .chkline input{width:18px;height:18px}
+
+  input, select, textarea{
+    width:100%;padding:10px 10px;border-radius:12px;border:1px solid rgba(20,24,40,.16);
+    background:#fff;outline:none;min-height:40px;font-size:14px
+  }
+  textarea{min-height:88px;resize:vertical}
+  .pay-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px}
+  @media(max-width:980px){.pay-grid{grid-template-columns:repeat(2,minmax(160px,1fr));}}
+  @media(max-width:520px){.pay-grid{grid-template-columns:1fr;}}
+  .pay-card{
+    border:1px solid rgba(20,24,40,.12);
+    background:linear-gradient(180deg,#fff,#f7f8ff);
+    border-radius:18px;padding:18px 16px;text-align:left;cursor:pointer;
+    box-shadow:0 14px 30px rgba(14,22,45,.12), 0 2px 0 rgba(14,22,45,.06);
+    transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    position:relative;overflow:hidden
+  }
+
+  .pay-card-wrap{display:flex;flex-direction:column;gap:10px}
+  .cardActions{display:flex;gap:10px;align-items:center;justify-content:space-between}
+  .cardActions .btn{flex:1;text-align:center;display:flex;justify-content:center;align-items:center}
+  @media(max-width:520px){ .cardActions{flex-direction:column} .cardActions .btn{width:100%} }
+
+  .pay-card:before{
+    content:"";position:absolute;inset:-40px -40px auto auto;width:150px;height:150px;
+    background:radial-gradient(circle at 30% 30%, rgba(27,70,201,.18), rgba(27,70,201,0));
+    transform:rotate(10deg)
+  }
+  .pay-card:hover{transform:translateY(-3px) perspective(900px) rotateX(4deg);
+    box-shadow:0 18px 44px rgba(14,22,45,.16), 0 3px 0 rgba(14,22,45,.08);
+    border-color: rgba(27,70,201,.32)
+  }
+
+  .pay-card.active{
+    border-color: rgba(22,163,74,.55);
+    box-shadow:0 18px 44px rgba(14,22,45,.16), 0 3px 0 rgba(14,22,45,.08);
+    transform:translateY(-2px);
+  }
+  .pay-card.active:after{
+    content:"✓";
+    position:absolute;right:14px;top:12px;
+    width:28px;height:28px;border-radius:999px;
+    display:grid;place-items:center;
+    background:rgba(22,163,74,.14);
+    border:1px solid rgba(22,163,74,.35);
+    color:var(--ok);font-weight:950;
+  }
+  .pay-card.active .pay-title{color:var(--ok)}
+  .pay-ico{font-size:28px;line-height:1;margin-bottom:10px}
+  .pay-title{font-weight:950;color:var(--brand);font-size:18px}
+  .pay-sub{color:rgba(20,24,40,.62);margin-top:4px;font-size:13px}
+  .badge{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:7px 10px;font-weight:900;font-size:12px}
+  .b-ok{background:rgba(22,163,74,.10);color:#065f46;border:1px solid rgba(22,163,74,.22)}
+  .b-warn{background:rgba(245,158,11,.10);color:#92400e;border:1px solid rgba(245,158,11,.22)}
+  .b-bad{background:rgba(220,38,38,.10);color:#7f1d1d;border:1px solid rgba(220,38,38,.22)}
+  .b-na{background:rgba(17,42,122,.08);color:var(--brand);border:1px solid rgba(17,42,122,.18)}
+  .overlay{position:fixed;inset:0;background:rgba(10,14,24,.35);backdrop-filter:blur(2px);display:none;z-index:90}
+  .modal{position:fixed;top:74px;left:12px;right:12px;max-width:980px;margin:0 auto;display:none;z-index:91}
+  .modal .card{padding:0;overflow:hidden}
+  .modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .modal-body{padding:14px}
+  .hide{display:none !important}
+  .kpi{display:flex;gap:10px;flex-wrap:wrap}
+  .kpi .pill{color:var(--brand);background:rgba(17,42,122,.08);border-color:rgba(17,42,122,.18)}
+  .table{width:100%;border-collapse:collapse}
+  .table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
+  .table th{color:var(--brand);font-weight:950;background:rgba(17,42,122,.04)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .pv-actions{justify-content:flex-end}
+  .step{display:none}
+  .step.active{display:block}
+  .tiny{font-size:12px;color:rgba(255,255,255,.82)}
+
+  /* Mobile form improvements (V73) */
+  @media(max-width:820px){
+    .row{grid-template-columns:1fr;gap:6px;align-items:stretch;margin:10px 0}
+    .row label{font-size:13px;font-weight:900}
+    input, select, textarea{min-height:44px;font-size:15px;padding:12px 12px}
+    .btn{padding:12px 14px}
+  }
+
+  .fieldbar{display:flex;align-items:center;gap:8px}
+  .fieldbar > input,.fieldbar > select,.fieldbar > textarea{flex:1}
+  .icon-mini{min-width:40px;padding:10px 10px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:950}
+  .icon-mini:active{transform:scale(.98)}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* === V75: Produtos/Planos (PV) === */
+.prodPlanWrap{ margin-top:14px; }
+.prodPlanHeader{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0 10px; }
+.prodPlanHeader h3{ margin:0; font-size:15px; color:#0b1f44; display:flex; align-items:center; gap:8px; }
+.btnAddProd{ border:none; background:#16a34a; color:#fff; padding:10px 14px; border-radius:12px; font-weight:800; cursor:pointer; box-shadow:0 10px 20px rgba(22,163,74,.18); }
+.btnAddProd:active{ transform:translateY(1px); }
+.prodCard{ background:linear-gradient(180deg,#eef6ff,#f7fbff); border:2px solid #cfe6ff; border-radius:16px; padding:12px; margin:10px 0; box-shadow:0 10px 24px rgba(16,24,40,.08); }
+.prodCardTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer; user-select:none; }
+.prodCardTopLeft{ display:flex; align-items:center; gap:10px; min-width:0; }
+.prodFolder{ width:34px; height:34px; border-radius:12px; background:#fff; border:1px solid #dbeafe; display:flex; align-items:center; justify-content:center; }
+.prodTitle{ font-weight:900; color:#0b1f44; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:58vw; }
+.prodSub{ font-size:12px; color:#6b7280; margin-top:2px; }
+.prodTrash{ width:34px; height:34px; border-radius:12px; background:#fff; border:1px solid #fbcfe8; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.prodTrash:hover{ background:#fff1f2; }
+.prodBody{ margin-top:12px; display:none; }
+.prodCard.open .prodBody{ display:block; }
+.prodRow2{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+@media (max-width: 720px){
+  .prodRow2{ grid-template-columns: 1fr; }
+  .prodTitle{ max-width: 62vw; }
+}
+.inlineBtns{ display:flex; gap:10px; align-items:center; justify-content:flex-end; }
+.btnIcon{ width:44px; height:44px; border-radius:12px; border:2px solid #cfe6ff; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.btnIcon:active{ transform:translateY(1px); }
+.btnPaste{ border:2px solid #86efac; background:#fff; color:#166534; padding:10px 14px; border-radius:12px; font-weight:900; cursor:pointer; }
+.btnPaste:active{ transform:translateY(1px); }
+.toggleSrv{ background:#fff7ed; border:2px solid #fde68a; border-radius:14px; padding:10px; margin-top:10px; }
+.toggleSrvTitle{ font-weight:900; color:#7c2d12; margin-bottom:10px; }
+.toggleSrvBtns{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.tbtnYes,.tbtnNo{ border:none; padding:12px 10px; border-radius:14px; font-weight:1000; cursor:pointer; }
+.tbtnYes{ background:#22c55e; color:#fff; }
+.tbtnNo{ background:#ef4444; color:#fff; }
+.tbtnYes.off, .tbtnNo.off{ opacity:.35; filter:saturate(.7); }
+.resumoBox{ border:2px solid #cfe6ff; border-radius:16px; padding:14px; background:#fff; margin-top:12px; }
+.resumoBox h4{ margin:0 0 10px; font-size:16px; color:#0b1f44; text-align:center; }
+.resumo3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+@media (max-width: 720px){ .resumo3{ grid-template-columns:1fr; } }
+.kpi{ border-radius:14px; padding:12px; background:#f8fafc; border:1px solid #e5e7eb; text-align:center; }
+.kpi .lbl{ font-size:12px; color:#6b7280; font-weight:900; }
+.kpi .val{ font-size:20px; font-weight:1000; margin-top:6px; }
+.kpi .sub{ font-size:12px; color:#6b7280; margin-top:4px; }
+
+/* PV - entrega recolhível */
+.entregaHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
+.btnTiny{padding:8px 12px;border-radius:12px;border:1px solid #cfe6ff;background:#fff;color:#0b2a57;font-weight:800;cursor:pointer}
+.btnTiny:active{transform:translateY(1px)}
+.entregaWrap{margin-top:10px}
+.entregaWrap.collapsed{display:none}
+
+  .span2{grid-column:1 / -1;}
+
+/* PV - layout mais enxuto (dados do PV no topo) */
+.pvTop{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end}
+@media(max-width:860px){.pvTop{grid-template-columns:1fr}}
+
+  /* v94: organização Pagamentos */
+  .subcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 10px 24px rgba(17,42,122,.06);}
+  .subhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px 0;}
+  .subhead .kicker{font-weight:800;color:rgba(17,42,122,.92);letter-spacing:.2px}
+  .actions.compact{display:flex;flex-wrap:wrap;gap:10px}
+  .actions.compact .btn{padding:9px 12px}
+  @media (max-width: 860px){
+    .grid2{grid-template-columns:1fr !important;}
+    #pay .actions{justify-content:flex-start}
+  }
+
+  .btn.sm{padding:8px 10px;font-size:13px;border-radius:12px}
+  .footerTools{margin-top:12px}
+
+/* Modalidade dropdown */
+.pillbtn{cursor:pointer;border:none;background:var(--pill-bg, #EEF2FF);}
+.pillbtn:active{transform:translateY(1px);}
+.mode-dd{position:fixed;top:64px;right:16px;z-index:50;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:14px;
+  box-shadow:0 18px 48px rgba(0,0,0,.18);padding:12px;min-width:260px;}
+.mode-dd.hide{display:none;}
+.mode-dd-title{font-weight:800;margin-bottom:8px;}
+.mode-dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mode-dd-btn{padding:10px 10px;border-radius:12px;border:1px solid rgba(0,0,0,.10);background:#F9FAFB;font-weight:700;cursor:pointer}
+.mode-dd-btn:hover{background:#EEF2FF;}
+
+  .card-lite{background:#fff;border:1px solid rgba(17,24,39,.08);border-radius:16px;padding:14px 16px;box-shadow:0 1px 8px rgba(15,23,42,.04);}
+  .home-cpf-title{font-weight:800;color:#0b2b5a;margin-bottom:8px}
+  .home-cpf-row{display:flex;gap:10px;align-items:center}
+  .home-cpf-row .input{flex:1}
+  .home-cpf-hint{margin-top:8px;color:#6b7280;font-size:12px}
+
+/* === HOME LIMPO v117 === */
+#home .home-cpf,
+#home #dashCard,
+#home .hr,
+#home .title,
+#home .muted{
+  display:none !important;
+}
+
+/* === HOME SUPER LIMPO v118 === */
+#home ~ header,
+header{
+  display:none !important;
+}
+
+/* === v124 OCULTAR PRODUTOS / PLANOS === */
+#pvProdutosWrap,
+.prodPlanWrap,
+.pvProdutos,
+#produtosPlanos,
+.produtosPlanos{
+    display:none !important;
+}
+
+/* === v125: garante sumiço total dos Produtos/Planos === */
+#pvProdutosWrap, .prodPlanWrap, #pvProdutosList { display:none !important; }
+
+/* === v138: Botão simples para voltar às Modalidades (rodapé) === */
+#bottomBackBar{
+  position:fixed;
+  left:0; right:0;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  display:flex;
+  justify-content:center;
+  z-index:120;
+  pointer-events:none;
+}
+#bottomBackBar.hide{ display:none !important; }
+#bottomBackBar .backBtn{
+  pointer-events:auto;
+  border:none;
+  background:rgba(15,23,42,.92);
+  color:#fff;
+  padding:12px 16px;
+  border-radius:999px;
+  font-weight:950;
+  letter-spacing:.2px;
+  box-shadow:0 14px 34px rgba(0,0,0,.22);
+}
+#bottomBackBar .backBtn:active{ transform:scale(.99); }
+
+/* === v140: Ajustes PIX + Resumo mais organizado === */
+#pay_pix .actionsBar{display:flex;justify-content:center;align-items:center}
+#btnPixMesmoCadastro{min-width:260px;font-weight:950;border-radius:14px}
+#btnPixMesmoCadastro.btn.sm{padding:10px 14px;font-size:14px}
+
+.resGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.resGrid{grid-template-columns:1fr}}
+.resCard{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.resCard .resTitle{font-weight:950;color:var(--brand);margin:0 0 8px 0;font-size:14px}
+.resCard .summaryRow{border-bottom:1px dashed rgba(20,24,40,.12)}
+.resCard .summaryRow:last-child{border-bottom:0}
+
+  .pixSameBtnWrap{display:flex;justify-content:center;}
+  #btnPixMesmoCadastro{min-width:280px;font-weight:900;}
+
+  .tinyTools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .tinyBtn{border:1px solid var(--line);background:#fff;color:#111827;border-radius:10px;padding:6px 10px;font-weight:700;font-size:12px;cursor:pointer}
+  .tinyBtn:hover{filter:brightness(.98)}
+  .tinyBtn.danger{border-color:rgba(220,38,38,.35);color:#b91c1c}
+
+  /* === v179: Pré-visualização do documento (igual impressão) === */
+  .pvPreviewWrap{
+    margin-top:10px;
+    border:1px solid rgba(0,0,0,.07);
+    border-radius:16px;
+    padding:12px;
+    background:#fff;
+    box-shadow:0 10px 24px rgba(0,0,0,.06);
+  }
+  .pvPrevHead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;position:sticky;top:0;background:#fff;padding:8px 0;z-index:5;border-bottom:1px solid rgba(0,0,0,.08)}
+  .pvPrevTitle{font-weight:950;color:#0e2a5a;letter-spacing:.2px}
+  #pvPreviewFrame{
+    width:100%;
+    height:720px;
+    background:#f8fafc;
+    border:1px solid rgba(0,0,0,.12);
+    border-radius:14px;
+    background:#fff;
+    margin-top:10px;
+  }
+  @media(max-width:900px){
+    #pvPreviewFrame{height:640px;}
+  }
+  @media print{
+    .pvPreviewWrap{display:none !important;}
+  }
+
+  /* Ações (menu no cabeçalho) */
+  .actionsWrap{position:relative;display:flex;justify-content:flex-end;gap:10px;align-items:center}
+  .actionsBtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 12px;font-weight:700;cursor:pointer;display:flex;gap:8px;align-items:center}
+  .actionsBtn:hover{filter:brightness(0.98)}
+  .actionsDrop{position:absolute;right:0;top:44px;min-width:260px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.12);padding:8px;z-index:50;display:none}
+  .actionsWrap.open .actionsDrop{display:block}
+  .actionsItem{width:100%;text-align:left;border:0;background:transparent;padding:10px 10px;border-radius:10px;cursor:pointer;display:flex;gap:10px;align-items:center;color:#0f172a}
+  .actionsItem:hover{background:rgba(17,42,122,.06)}
+  .actionsSep{height:1px;background:var(--line);margin:6px 0}
+  .actionsHint{font-size:12px;color:var(--muted);padding:6px 10px}
+
+/* v179: evitar cortes e compactar espaçamentos */
+.sec{page-break-inside:avoid; break-inside:avoid}
+.tbl tr{page-break-inside:avoid; break-inside:avoid}
+.tbl td,.tbl th{padding:6px 6px} /* mais compacto */
+.kv .k{width:84px} /* aproxima rótulos do valor (Nome/CPF/Telefone) */
+.grid2{gap:10px}   /* compacta espaçamento entre colunas */
+.box{padding:10px} /* compacta área interna */
+/* v187: Página 3 - Visão Crediário */
+.credTitle{font-weight:900;font-size:16px;margin:6px 0 2px}
+.credSub{font-size:12px;color:#111;margin:0 0 8px}
+.credBox{border:2px solid #111;padding:10px;border-radius:10px;margin-top:8px}
+.miniTbl{width:100%;border-collapse:collapse;font-size:12px}
+.miniTbl th,.miniTbl td{border:2px solid #111;padding:6px 6px}
+.miniTbl th{background:#f3f4f6;font-weight:900}
+.right{text-align:right}
+.muted{color:#444}
+/* === v187: Upload de Simulação (PDF/Imagem) + Itens por Colagem === */
+.pilotBox{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:12px;margin-top:10px;background:rgba(255,255,255,.75)}
+.pilotRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pilotRow .tinyBtn{white-space:nowrap}
+.pilotPreview{margin-top:10px;border:1px dashed rgba(0,0,0,.18);border-radius:14px;overflow:hidden;background:#fff}
+.pilotPreview iframe,.pilotPreview img{width:100%;height:420px;border:0;display:block}
+@media (max-width:520px){
+  .pilotPreview iframe,.pilotPreview img{height:360px}
+}
+/* === v187 Dashboard + Home clean === */
+
+/* === v187: Home cards sem Upload/Abrir (card inteiro clicável) === */
+.pay-card-wrap .cardActions{display:none !important;}
+.pay-card-wrap [data-import-mode], .pay-card-wrap [data-open-mode]{display:none !important;}
+.homeCard .btnUpload, .homeCard button[data-role="upload"], .homeCard .uploadBtn { display:none !important; }
+.homeCard .cardActions { justify-content:center; }
+.topHeader{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid rgba(0,0,0,.08)}
+.topHeader .inner{max-width:1100px;margin:0 auto;padding:10px 14px;display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.2px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:#0b2b6f;display:inline-block}
+.headerBtns{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hBtn{border:1px solid rgba(0,0,0,.14);border-radius:999px;padding:8px 12px;background:#fff;font-weight:800;font-size:12px}
+.hBtn:active{transform:scale(.98)}
+.menuLauncher{background:#112a7a;color:#fff;border-color:#112a7a;box-shadow:0 8px 18px rgba(17,42,122,.18)}
+.topGhost{position:absolute!important;left:-9999px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
+.compactTopActions{gap:6px}
+@media(max-width:820px){
+  .topHeader .inner{padding:8px 10px}
+  .brand{font-size:14px}
+  .hBtn{padding:7px 10px;font-size:12px}
+  .menuLauncher{min-width:84px}
+  header{padding:10px 10px;gap:8px}
+  .logo{font-size:14px}
+  .tiny{font-size:11px}
+  .pill{padding:6px 9px;font-size:11px}
+  .iconbtn{padding:7px 9px;border-radius:10px}
+  .wrap{padding:10px}
+  .card{padding:10px;border-radius:14px}
+  .pay-grid{gap:10px}
+  .pay-card{padding:14px 12px;border-radius:16px}
+  .pay-title{font-size:16px}
+  .pay-sub{font-size:12px}
+}
+/* modal */
+.modalMask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:flex-end}
+.modalMask.show{display:flex}
+.modalPanel{width:100%;max-height:92vh;background:#fff;border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -12px 30px rgba(0,0,0,.22);overflow:auto}
+@media(min-width:800px){
+  .modalMask{align-items:center;justify-content:center}
+  .modalPanel{max-width:1100px;border-radius:18px}
+}
+.modalHead{position:sticky;top:0;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);padding:12px 14px;display:flex;align-items:center;gap:10px;z-index:5}
+.modalHead .ttl{font-weight:900}
+.modalBody{padding:14px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:900px){ .kpis{grid-template-columns:repeat(4,minmax(0,1fr));} }
+.kpi{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:12px;background:linear-gradient(180deg,rgba(11,43,111,.04),rgba(255,255,255,1))}
+.kpi .k{font-size:11px;font-weight:800;opacity:.75}
+.kpi .v{font-size:18px;font-weight:950;margin-top:4px}
+.seg{margin-top:14px;border:1px solid rgba(0,0,0,.08);border-radius:16px;overflow:hidden}
+.segHead{padding:12px 12px;background:rgba(0,0,0,.03);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid rgba(0,0,0,.14);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;background:#fff}
+.pill.on{background:#0b2b6f;color:#fff;border-color:#0b2b6f}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th,.tbl td{border-top:1px solid rgba(0,0,0,.08);padding:10px 10px;vertical-align:top}
+.tbl th{background:rgba(0,0,0,.02);text-align:left;font-size:11px;letter-spacing:.2px}
+.rowBtns{display:flex;gap:6px;flex-wrap:wrap}
+.smallBtn{border:1px solid rgba(0,0,0,.14);border-radius:10px;padding:6px 8px;background:#fff;font-weight:900;font-size:11px}
+</style>
+<style>
+.cards-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap:28px; /* MAIS ESPAÇO ENTRE CARDS */
+    margin-top:30px;
+}
+
+.card{
+    padding:22px;
+    border-radius:18px;
+    background:#ffffff;
+    box-shadow:0 12px 25px rgba(0,0,0,0.08);
+    transition:all 0.25s ease;
+    margin-bottom:10px;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 35px rgba(0,0,0,0.12);
+}
+
+.card-actions{
+    display:flex;
+    gap:14px; /* MAIS ESPAÇO ENTRE BOTÕES */
+    margin-top:18px;
+}
+
+.card-actions button{
+    flex:1;
+    padding:10px 12px;
+    border-radius:10px;
+}
+
+@media(max-width:768px){
+    .cards-grid{
+        gap:22px;
+        padding:0 10px;
+    }
+    .card{
+        padding:20px;
+    }
+}
+</style>
+<style>
+/* === FS Layout: botões dentro do card da modalidade === */
+.pay-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:22px; /* espaço entre cards */
+}
+
+/* O card inteiro (inclui conteúdo + botões) */
+.pay-card-wrap{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 25px rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.04);
+}
+
+/* Área superior clicável (título/ícone) */
+.pay-card{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  padding:18px 18px 14px 18px;
+  background:linear-gradient(135deg, rgba(34,92,197,.08), rgba(34,92,197,0));
+  border:none;
+  box-shadow:none !important; /* remove sombra separada do botão */
+  border-radius:0 !important;
+}
+
+/* Melhorar tipografia interna (se existirem essas classes) */
+.pay-title{ font-weight:800; }
+.pay-sub{ opacity:.75; font-size:.88rem; }
+
+/* Faixa dos botões (dentro do card) */
+.cardActions{
+  display:flex;
+  gap:12px;
+  padding:12px 14px 14px 14px;
+  background:rgba(0,0,0,.015);
+  border-top:1px solid rgba(0,0,0,.06);
+}
+
+.cardActions .btn{
+  flex:1;
+  height:40px;
+  border-radius:12px;
+}
+
+/* Mobile: garantir cards mais “respiráveis” */
+@media (max-width:520px){
+  .pay-grid{ gap:16px; }
+  .pay-card{ padding:16px 16px 12px 16px; }
+  .cardActions{ padding:12px; gap:10px; }
+  .cardActions .btn{ height:42px; }
+}
+</style>
+<style>
+/* === Desktop organizado 2x2 === */
+@media (min-width: 900px){
+  .pay-grid{
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 900px;
+    margin: 30px auto 0 auto;
+  }
+}
+
+/* Tablet mantém 2 colunas */
+@media (min-width:600px) and (max-width:899px){
+  .pay-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile 1 coluna */
+@media (max-width:599px){
+  .pay-grid{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+<style>
+/* === Sombra mais destacada estilo FS === */
+.pay-card-wrap{
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08),
+    0 4px 10px rgba(0,0,0,0.04);
+  transition: all 0.25s ease;
+}
+
+.pay-card-wrap:hover{
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.12),
+    0 8px 18px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+}
+</style>
+<style>
+/* === Destaque mais forte + hover verde FS === */
+
+.pay-card-wrap{
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.18),
+    0 6px 14px rgba(0,0,0,0.12);
+  transition: all 0.25s ease;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.pay-card-wrap:hover{
+  transform: translateY(-6px);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.25),
+    0 10px 25px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,180,90,0.6);
+  background: linear-gradient(
+    135deg,
+    rgba(0,180,90,0.08),
+    rgba(0,180,90,0.02)
+  );
+}
+
+/* brilho sutil verde por fora */
+.pay-card-wrap:hover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  box-shadow: 0 0 25px rgba(0,180,90,0.35);
+  pointer-events:none;
+}
+</style>
+<style>
+/* === Travar modalidade após seleção inicial === */
+.mode-locked #payModeCards{ display:none !important; }
+.mode-locked .pay-mode-hint{ display:none !important; }
+</style>
+<style>
+/* === Tela final: esconder seleção de modalidade após travar === */
+.mode-locked .pay-grid{ display:none !important; }
+.mode-locked .pay-select-wrap{ display:none !important; } /* wrapper (se existir) */
+.mode-locked .pay-mode-header{ margin-top:0 !important; }
+
+/* Pill/modalidade destacada no topo */
+.pay-mode-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(0,180,90,.10);
+  border:1px solid rgba(0,180,90,.35);
+  color:#0f6b3a;
+  font-weight:800;
+  font-size:13px;
+}
+</style>
+<style>
+/* === Tela final (pay): esconder seleção de modalidade === */
+.tela-final .pay-select-wrap{ display:none !important; }
+.tela-final .pay-grid{ display:none !important; }
+
+/* === Resumão único === */
+.resOne{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(0,0,0,.10);
+}
+.resSec{
+  padding:14px 16px;
+}
+.resSec + .resSec{
+  border-top:1px solid rgba(0,0,0,.07);
+}
+.resSecTitle{
+  font-weight:900;
+  color:#0e2a5a;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.resSecBody{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px 14px;
+}
+.resRow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,.02);
+  border:1px solid rgba(0,0,0,.05);
+}
+.resRow .k{
+  color:rgba(0,0,0,.65);
+  font-weight:700;
+}
+.resRow .v{
+  font-weight:800;
+  color:#111;
+  text-align:right;
+}
+@media(max-width:720px){
+  .resSecBody{ grid-template-columns: 1fr; }
+}
+</style>
+<style>
+/* === Cabeçalho Pagamentos + Modalidade (mesmo nível do H2) === */
+.payTitleWrap{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.payTitleWrap h2{ margin:0; }
+.payTitlePill{
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 800;
+  color: rgba(14,42,90,.75);
+}
+</style>
+<style>
+/* === v187: HOME - esconder botão Abrir e reduzir Upload === */
+.cardActions button[data-open-mode]{
+  display:none !important;
+}
+/* Upload ~30% menor (mantém estilo) */
+.cardActions .btn.primary[data-import-mode]{
+  transform: scale(0.70);
+  transform-origin: right center;
+}
+/* Corrige alinhamento quando "Abrir" some */
+.cardActions{
+  justify-content:flex-end;
+}
+@media (max-width:520px){
+  .cardActions .btn.primary[data-import-mode]{ transform: scale(0.85); }
+}
+
+/* === v187: Emojis 3D animados nos cards (HOME) === */
+#modeCards .pay-ico{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  font-size:28px;
+  border-radius:14px;
+  background:rgba(255,255,255,.70);
+  box-shadow:0 10px 22px rgba(0,0,0,.10);
+  transform-style:preserve-3d;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,.18));
+  animation: fsFloaty 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes fsFloaty{
+  0%,100%{ transform: perspective(700px) translateZ(18px) translateY(0) rotateX(0) rotateY(0); }
+  50%{ transform: perspective(700px) translateZ(18px) translateY(-2px) rotateX(6deg) rotateY(-6deg); }
+}
+#modeCards .pay-card-wrap:hover .pay-ico{
+  transform: perspective(700px) translateZ(26px) rotateX(12deg) rotateY(-12deg) scale(1.05);
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,.22));
+}
+#modeCards .pay-card-wrap:active .pay-ico{
+  transform: perspective(700px) translateZ(18px) scale(.98);
+}
+</style>
+<style id="fs-v191-card-qr-fix">
+.pay-card-wrap{position:relative;}
+.pay-card-wrap .cardActions.fsQrMiniActions{
+  display:flex !important;
+  flex-direction:column;
+  gap:8px;
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  width:140px;
+  padding:0;
+  z-index:3;
+}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:38px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:800;
+  box-shadow:0 6px 14px rgba(15,23,42,.10);
+}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn[data-fs-qr-scan]{background:#12337a;color:#fff;border:1px solid rgba(18,51,122,.35);}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn[data-fs-qr-paste]{background:#fff;color:#0f172a;border:1px solid rgba(15,23,42,.16);}
+.pay-card-wrap .pay-card{padding-right:170px;}
+@media (max-width: 760px){
+  .pay-card-wrap .cardActions.fsQrMiniActions{position:static;transform:none;width:100%;padding:0 12px 12px;}
+  .pay-card-wrap .pay-card{padding-right:20px;}
+  .pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn{min-height:40px;}
+}
+
+/* === v188: menu + mobile compacto === */
+.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.menu-grid .btn{width:100%}
+@media(max-width:680px){
+  body{font-size:14px}
+  header{padding:10px 10px;gap:8px;align-items:flex-start;flex-wrap:wrap}
+  .h-left{min-width:0;flex:1}
+  .logo{font-size:14px;line-height:1.15}
+  .tiny{font-size:11px}
+  header > .pill{padding:8px 10px;font-size:11px}
+  .iconbtn{padding:8px 9px;border-radius:10px}
+  .wrap{padding:10px}
+  .card{padding:12px;border-radius:14px}
+  .title{font-size:18px}
+  .muted{font-size:13px}
+  .pay-grid{gap:10px}
+  .pay-card{padding:14px 12px;border-radius:15px}
+  .pay-title{font-size:16px}
+  .pay-sub{font-size:12px}
+  .btn{min-height:42px;padding:10px 12px;font-size:13px}
+  .actions{gap:8px}
+  .actions .btn{flex:1 1 calc(50% - 8px)}
+  .row{margin:6px 0}
+  input,select,textarea{min-height:42px;padding:10px 11px;font-size:14px;border-radius:10px}
+  .modal{top:58px;left:8px;right:8px}
+  .modal-body{padding:12px}
+  .menu-grid{grid-template-columns:1fr}
+  .mode-dd{left:8px;right:8px}
+  .summaryRow{gap:8px}
+}
+
+</style>
+</head>
+<body>
+<div class="topHeader" id="topHeader">
+<div class="inner">
+<div class="brand"><span class="dot"></span> FS Contingência</div>
+<div class="headerBtns compactTopActions">
+<button class="hBtn topGhost" id="btnDash" type="button">📊 Dashboard</button>
+<button class="hBtn topGhost" id="btnHist" type="button">📚 Relatórios</button>
+<button aria-label="Abrir menu" class="hBtn menuLauncher" id="topMenuBtn" type="button">☰ Menu</button>
+</div>
+</div>
+</div>
+<!-- Dashboard Modal -->
+<div aria-hidden="true" class="modalMask" id="dashMask">
+<div aria-label="Dashboard" aria-modal="true" class="modalPanel" role="dialog">
+<div class="modalHead">
+<div class="ttl">📊 Dashboard do dia</div>
+<div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+<input id="dashDate" style="border:1px solid rgba(0,0,0,.14);border-radius:10px;padding:6px 8px;font-weight:800;font-size:12px" type="date"/>
+<button class="hBtn" id="btnDashClose" type="button">Fechar ✖</button>
+</div>
+</div>
+<div class="modalBody">
+<div class="kpis">
+<div class="kpi"><div class="k">Total de atendimentos</div><div class="v" id="dk_total">0</div></div>
+<div class="kpi"><div class="k">Carnê</div><div class="v" id="dk_carne">0</div></div>
+<div class="kpi"><div class="k">Cartão</div><div class="v" id="dk_cartao">0</div></div>
+<div class="kpi"><div class="k">PIX / À vista</div><div class="v" id="dk_pix_av">0</div></div>
+</div>
+<div class="seg" style="margin-top:12px">
+<div class="segHead">
+<b>Modalidades</b>
+<div class="pills" id="dashPills">
+<button class="pill on" data-mode="all" type="button">Todas</button>
+<button class="pill" data-mode="carne" type="button">Carnê</button>
+<button class="pill" data-mode="cartao" type="button">Cartão</button>
+<button class="pill" data-mode="pix" type="button">PIX</button>
+<button class="pill" data-mode="avista" type="button">À vista</button>
+</div>
+<div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<button class="smallBtn" id="btnDashPrint" type="button">🖨️ Imprimir</button>
+<button class="smallBtn" id="btnDashExport" type="button">⬇️ Exportar JSON</button>
+<button class="smallBtn" id="btnDashDeleteFiltered" type="button">🗑️ Excluir filtro</button>
+<button class="smallBtn" id="btnDashDeleteAll" type="button">🧹 Limpar tudo</button>
+</div>
+</div>
+<div style="overflow:auto">
+<table class="tbl">
+<thead>
+<tr>
+<th style="min-width:120px">Horário</th>
+<th style="min-width:160px">Cliente</th>
+<th style="min-width:130px">Contato</th>
+<th style="min-width:120px">Modalidade</th>
+<th style="min-width:140px">Total (dinheiro)</th>
+<th style="min-width:180px">Ações</th>
+</tr>
+</thead>
+<tbody id="dashRows">
+<tr><td class="muted" colspan="6">Sem registros</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="hint" style="margin-top:12px">
+        💡 Clique em <b>Editar</b> para abrir o atendimento e ajustar valores antes de imprimir as vias.
+      </div>
+</div>
+</div>
+</div>
+<header>
+<div class="h-left">
+<button class="iconbtn" id="menuBtn" type="button">☰</button>
+<div>
+<div class="logo">Zenir Offline • Contingência</div>
+<div class="tiny" id="headerSub">Escolha uma modalidade para iniciar</div>
+</div>
+</div>
+<button class="pill pillbtn" id="homeBtn" title="Voltar para a tela inicial" type="button">🏠 Início</button>
+<button aria-expanded="false" aria-haspopup="true" class="pill pillbtn" id="modePill" type="button">Modalidade: —</button>
+</header>
+<div aria-label="Trocar modalidade" class="mode-dd hide" id="modeDropdown" role="menu">
+<div class="mode-dd-title">Trocar modalidade <span class="tiny">(sem perder dados)</span></div>
+<div class="mode-dd-grid">
+<button class="mode-dd-btn" data-mode="avista" type="button">À vista</button>
+<button class="mode-dd-btn" data-mode="pix" type="button">PIX</button>
+<button class="mode-dd-btn" data-mode="cartao" type="button">Cartão</button>
+<button class="mode-dd-btn" data-mode="carne" type="button">Carnê</button>
+</div>
+</div>
+<div class="wrap">
+<!-- HOME -->
+<section class="step active" id="home">
+<div class="card">
+<h2 class="title">Tela inicial</h2>
+<div class="muted">Selecione a modalidade. Depois: Cadastro → PV → Pagamentos → Salvar PV.</div>
+<div class="hr"></div>
+<div class="pay-grid" id="modeCards">
+<div class="pay-card-wrap" data-mode-wrap="carne">
+<button class="pay-card" data-mode="carne" type="button">
+<div class="pay-ico">🧾</div><div class="pay-title">Carnê</div><div class="pay-sub">Cadastro completo (fiado)</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="carne" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="carne" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="cartao">
+<button class="pay-card" data-mode="cartao" type="button">
+<div class="pay-ico">💳</div><div class="pay-title">Cartão</div><div class="pay-sub">Cadastro básico</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="cartao" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="cartao" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="pix">
+<button class="pay-card" data-mode="pix" type="button">
+<div class="pay-ico">⚡</div><div class="pay-title">PIX</div><div class="pay-sub">Cadastro básico</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="pix" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="pix" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="avista">
+<button class="pay-card" data-mode="avista" type="button">
+<div class="pay-ico">💵</div><div class="pay-title">À vista</div><div class="pay-sub">Cadastro básico</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="avista" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="avista" type="button">📥 Upload</button>
+</div>
+</div>
+</div>
+</div>
+<div style="height:14px"></div>
+<div class="hr"></div>
+<div class="home-cpf card-lite">
+<div class="home-cpf-title">Pesquisar cliente por CPF</div>
+<div class="home-cpf-row">
+<input class="input" id="homeCpfSearch" inputmode="numeric" placeholder="Digite o CPF (somente números)">
+<button class="btn btn-primary" id="homeCpfBtn">Buscar</button>
+</input></div>
+<div class="home-cpf-hint">Dica: abre <b>Registros</b> já filtrando pelo CPF, para ver/editar status e histórico.</div>
+</div>
+<div class="card" id="dashCard">
+<h2 class="title">Dashboard</h2>
+<div class="grid2">
+<div>
+<div class="row"><label>Filtrar por modalidade</label>
+<select id="f_mode">
+<option value="">Todas</option>
+<option value="carne">Carnê</option>
+<option value="cartao">Cartão</option>
+<option value="pix">PIX</option>
+<option value="avista">À vista</option>
+</select>
+</div>
+<div class="row"><label>Filtrar por status</label>
+<select id="f_status">
+<option value="">Todos</option>
+<option value="autorizado">Autorizado</option>
+<option value="negado">Negado</option>
+<option value="analise">Em análise</option>
+<option value="na">Não precisa</option>
+</select>
+</div>
+<div class="row"><label>Filtrar por vendedor</label>
+<input id="f_vend" placeholder="Digite o nome do vendedor"/>
+</div>
+<div class="actionsBar">
+<button class="btn" id="btnPrintDash" type="button">🖨️ Imprimir dashboard</button>
+<button class="btn" id="btnNew" type="button">➕ Novo atendimento</button>
+</div>
+</div>
+<div>
+<div class="kpi">
+<div class="pill">Total: <b id="k_total">0</b></div>
+<div class="pill">Autorizado: <b id="k_ok">0</b></div>
+<div class="pill">Em análise: <b id="k_an">0</b></div>
+<div class="pill">Negado: <b id="k_no">0</b></div>
+</div>
+<div class="hr"></div>
+<div class="muted" style="font-weight:900;margin-bottom:6px">Por modalidade</div>
+<table class="table" id="t_mod">
+<thead><tr><th>Modalidade</th><th>Total</th><th>OK</th><th>Análise</th><th>Negado</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<div class="hr"></div>
+<div class="muted" style="font-weight:900;margin-bottom:6px">Por vendedor</div>
+<table class="table" id="t_vend">
+<thead><tr><th>Vendedor</th><th>Total</th><th>OK</th><th>Análise</th><th>Negado</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</section>
+<!-- CADASTRO -->
+<section class="step" id="cadastro">
+<div class="card">
+<h2 class="title">Cadastro do cliente <span class="muted" id="cadModeLabel"></span></h2>
+<div class="grid2">
+<div>
+<div class="row"><label>Nome completo</label><input id="c_nome"/></div>
+<div class="row"><label>CPF</label><input id="c_cpf" inputmode="numeric" placeholder="Somente números"/></div>
+<div class="row"><label>Apelido (opcional)</label><input id="c_apelido"/></div>
+<div class="row"><label>Celular</label><input id="c_cel" inputmode="numeric"/></div>
+<div class="row"><label>E-mail (opcional)</label><input id="c_email"/></div>
+</div>
+<div>
+<div class="row">
+<label>CEP</label>
+<div style="display:flex;gap:10px">
+<input id="c_cep" inputmode="numeric" placeholder="00000000"/>
+<button class="btn" id="btnCep" title="Pesquisar CEP" type="button">🔎</button>
+</div>
+</div>
+<div class="row"><label>Endereço</label><input id="c_end"/></div>
+<div class="row"><label>Nº</label><input id="c_num"/></div>
+<div class="row"><label>Complemento</label><input id="c_comp"/></div>
+<div class="row"><label>Bairro</label><input id="c_bairro"/></div>
+<div class="row"><label>Cidade/UF</label><input id="c_cidade" placeholder="Ex.: Iguatu/CE"/></div>
+<div class="row"><label>Ponto de referência</label><input id="c_ref"/></div>
+</div>
+</div>
+<!-- CARNÊ extra -->
+<div class="hide" id="carneExtra">
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Dados cadastrais</h3>
+<div class="grid2">
+<div>
+<div class="row"><label>Data de nascimento</label><input id="c_nasc" type="date"/></div>
+<div class="row">
+<label>É sexo masculino?</label>
+<label class="chkline"><input id="c_sexo_m" type="checkbox"/> <span>Marque se for masculino</span></label>
+</div>
+<div class="row"><label>Nacionalidade</label>
+<select id="c_nacionalidade">
+<option value="">Selecione...</option>
+<option value="Brasileira">Brasileira</option>
+<option value="Estrangeira">Estrangeira</option>
+</select>
+</div>
+</div>
+<div>
+<div class="row"><label>RG</label><input id="c_rg"/></div>
+<div class="row"><label>Órgão emissor do RG</label><input id="c_rg_org"/></div>
+<div class="row"><label>Data de expedição do RG</label><input id="c_rg_data" type="date"/></div>
+</div>
+</div>
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Dados pessoais</h3>
+<div class="grid2">
+<div>
+<div class="row"><label>Local de trabalho</label><input id="c_trabalho"/></div>
+<div class="row">
+<label>É funcionário?</label>
+<label class="chkline"><input id="c_func" type="checkbox"/> <span>Marque se for funcionário</span></label>
+</div>
+<div class="row"><label>Profissão</label><input id="c_prof"/></div>
+<div class="row"><label>Grau de instrução</label><input id="c_instrucao" placeholder="Ex.: Fundamental, Médio, Superior..."/></div>
+</div>
+<div>
+<div class="row"><label>Renda Bruta do Cliente (R$)</label><input id="c_renda" inputmode="decimal"/></div>
+<div class="row"><label>Tipo de renda informal</label><input id="c_renda_inf_tipo" placeholder="Ex.: bicos, autônomo..."/></div>
+<div class="row"><label>Renda informal do cliente (R$)</label><input id="c_renda_inf" inputmode="decimal"/></div>
+<div class="row"><label>Tempo no emprego atual (meses)</label><input id="c_emp_meses" inputmode="numeric"/></div>
+<div class="row"><label>Tipo de ocupação profissional</label><input id="c_ocupacao"/></div>
+</div>
+</div>
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Endereço (complementos)</h3>
+<div class="grid2">
+<div>
+<div class="row">
+<label>Zona rural?</label>
+<label class="chkline"><input id="c_zona_rural" type="checkbox"/> <span>Marque se for zona rural</span></label>
+</div>
+<div class="row"><label>Tempo no endereço (meses)</label><input id="c_end_meses" inputmode="numeric"/></div>
+</div>
+<div>
+<div class="row"><label>Tipo de residência</label><input id="c_res_tipo" placeholder="Ex.: Própria, Alugada..."/></div>
+<div class="row"><label>Obs.</label><textarea id="c_obs" placeholder="Observações importantes..." rows="3"></textarea></div>
+</div>
+</div>
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Contatos</h3>
+<div class="grid2">
+<div class="row"><label>Fone</label><input id="c_fone" inputmode="numeric" placeholder="(00) 0000-0000"/></div>
+<div class="row"><label>E-mail para envio da NF-e</label><input id="c_email_nfe" placeholder="email@exemplo.com"/></div>
+</div>
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Familiares</h3>
+<div class="grid2">
+<div>
+<div class="row"><label>Nome do pai</label><input id="c_pai"/></div>
+<div class="row"><label>Nome da mãe</label><input id="c_mae"/></div>
+<div class="row"><label>Estado civil</label><input id="c_est_civil" placeholder="Ex.: Solteiro(a), Casado(a)..."/></div>
+</div>
+<div>
+<div class="row"><label>Cônjuge</label><input id="c_conj" placeholder="Nome do cônjuge (se houver)"/></div>
+<div class="row"><label>CPF do cônjuge</label><input id="c_conjcpf" inputmode="numeric"/></div>
+<div class="row"><label>Número de dependentes</label><input id="c_depend" inputmode="numeric"/></div>
+</div>
+</div>
+<div class="hr"></div>
+<h3 class="title" style="font-size:16px;margin-top:0">Avalista</h3>
+<div class="grid2">
+<div class="row"><label>Nome do avalista</label><input id="c_aval"/></div>
+<div class="row"><label>CPF do avalista</label><input id="c_avalcpf" inputmode="numeric"/></div>
+<div class="row"><label>Contato do avalista</label><input id="c_avalcel" inputmode="numeric"/></div>
+<div class="row"><label>Profissão do avalista</label><input id="c_avalprof"/></div>
+<div class="row"><label>Renda do avalista</label><input id="c_avalrenda" inputmode="numeric"/></div>
+</div>
+</div>
+<!-- Modalidade extra -->
+<div class="hr"></div>
+<div id="modeExtra"></div>
+<div class="hr"></div>
+<div class="actionsBar">
+<button class="btn good" id="btnSaveGo" type="button">Gravar e avançar (PV)</button>
+<button class="btn" id="btnSaveOnly" type="button">Salvar cadastro</button>
+<button class="btn" id="btnBackHome" type="button">Voltar</button>
+</div>
+</div>
+</section>
+<!-- PV -->
+<section class="step" id="pv">
+<div class="card">
+<h2>Pedido de Venda (PV)</h2>
+<div class="pvTop">
+<div class="field">
+<label>Local de saída</label>
+<select id="pv_saida">
+<option value="Loja">Loja</option>
+<option value="CDZ">CDZ</option>
+</select>
+</div>
+</div>
+<div id="pvEntregaBox"></div>
+<!-- === V75: Produtos / Planos (PV) === -->
+<div class="prodPlanWrap" id="pvProdutosWrap">
+<div class="prodPlanHeader">
+<h3>🛒 Produtos / Planos</h3>
+</div>
+<div id="pvProdutosList"></div>
+</div>
+<div class="hr"></div>
+<div class="actions pv-actions">
+<button class="btn primary" id="btnGoServ" type="button">Avançar para Pagamento</button>
+<button class="btn" id="btnBackCad" type="button">Voltar (Cadastro)</button>
+</div>
+</div>
+</section>
+<!-- SERVIÇOS -->
+<section class="step" id="serv">
+<div class="card">
+<h2 class="title">Serviços (Garantia &amp; Presta Mista)</h2>
+<div class="grid2">
+<div>
+<h3 class="title" style="font-size:16px;margin-top:0">Garantia estendida</h3>
+<div class="row"><label>Tem garantia?</label>
+<select id="s_g_tem">
+<option value="nao">Não</option>
+<option value="sim">Sim</option>
+</select>
+</div>
+<div class="hide" id="g_bloc">
+<div class="row"><label>Tempo (meses)</label><input id="s_g_tempo" inputmode="numeric" placeholder="Ex.: 12"/></div>
+<div class="row"><label>Valor à vista (R$)</label><input id="s_g_av" inputmode="decimal"/></div>
+<div class="row"><label>Parcelas</label>
+<select id="s_g_parc">
+<option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option><option value="7">7x</option><option value="8">8x</option><option value="9">9x</option><option value="10">10x</option><option value="11">11x</option><option value="12">12x</option>
+</select>
+</div>
+<div class="row"><label>Valor parcela (R$)</label><input id="s_g_parc_v" inputmode="decimal"/></div>
+</div>
+</div>
+<div>
+<h3 class="title" style="font-size:16px;margin-top:0">Presta Mista (Prestamista)</h3>
+<div class="row"><label>Tem presta mista?</label>
+<select id="s_p_tem">
+<option value="nao">Não</option>
+<option value="sim">Sim</option>
+</select>
+</div>
+<div class="hide" id="p_bloc">
+<div class="row"><label>Valor à vista (R$)</label><input id="s_p_av" inputmode="decimal"/></div>
+<div class="row"><label>Parcelas</label>
+<select id="s_p_parc">
+<option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option><option value="7">7x</option><option value="8">8x</option><option value="9">9x</option><option value="10">10x</option><option value="11">11x</option><option value="12">12x</option>
+</select>
+</div>
+<div class="row"><label>Valor parcela (R$)</label><input id="s_p_parc_v" inputmode="decimal"/></div>
+</div>
+</div>
+</div>
+<div class="hr"></div>
+<div class="actions">
+<button class="btn primary" id="btnGoPay" type="button">Avançar para Pagamentos</button>
+<button class="btn" id="btnBackPV" type="button">Voltar (PV)</button>
+</div>
+</div>
+</section>
+<!-- PAGAMENTO -->
+<section class="step" id="pay">
+<div class="card">
+<div class="payTitleWrap" id="payTitleWrap"><h2 class="title">Pagamentos</h2> <span class="payTitlePill" id="payModeHeader">Modalidade: —</span></div>
+<div class="hr"></div>
+<div class="muted" style="margin-top:6px">Escolha a <b>modalidade de pagamento</b> (você pode trocar sem perder os dados).</div>
+<div class="pay-grid" id="payModeCards" style="margin-top:14px">
+<div class="pay-card-wrap" data-mode-wrap="carne">
+<button class="pay-card" data-mode="carne" type="button">
+<div class="pay-ico">🧾</div><div class="pay-title">Carnê</div><div class="pay-sub">Cadastro completo (fiado)</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="carne" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="carne" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="cartao">
+<button class="pay-card" data-mode="cartao" type="button">
+<div class="pay-ico">💳</div><div class="pay-title">Cartão</div><div class="pay-sub">Cadastro básico</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="cartao" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="cartao" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="pix">
+<button class="pay-card" data-mode="pix" type="button">
+<div class="pay-ico">⚡</div><div class="pay-title">PIX</div><div class="pay-sub">Cadastro básico</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="pix" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="pix" type="button">📥 Upload</button>
+</div>
+</div>
+<div class="pay-card-wrap" data-mode-wrap="avista">
+<button class="pay-card" data-mode="avista" type="button">
+<div class="pay-ico">💵</div><div class="pay-title">À vista</div><div class="pay-sub">Dinheiro</div>
+</button>
+<div class="cardActions">
+<button class="btn sm" data-open-mode="avista" type="button">Abrir</button>
+<button class="btn sm primary" data-import-mode="avista" type="button">📥 Upload</button>
+</div>
+</div>
+</div>
+<div class="hr" style="margin-top:16px"></div>
+<div class="payGrid">
+<div>
+<div class="subcard">
+<div class="subhead">
+<div class="kicker">Dados do pagamento</div>
+<div class="hint" style="margin:0"><b>Modalidade:</b> <span id="payModeFixed">—</span> <span class="locked-badge" id="lockedBadge" style="display:none">🔒 Finalizado</span></div>
+<div class="actionsWrap" id="payActions">
+<button class="actionsBtn" id="btnActionsToggle" type="button">☰ Ações</button>
+<div class="actionsDrop" id="actionsDrop">
+<div class="actionsHint">Atendimento atual (não apaga o histórico salvo)</div>
+<button class="actionsItem" id="actClearNow" type="button">🧹 Limpar atendimento atual</button>
+<div class="actionsSep"></div>
+<div class="actionsHint">Formulários para preencher manualmente (A4 • Retrato)</div>
+<div class="actionsHint" style="margin-top:6px">Carnê</div>
+<button class="actionsItem" id="actFormCarneHTML" type="button">📁 Baixar arquivo (HTML)</button>
+<button class="actionsItem" id="actFormCarnePDF" type="button">📄 Baixar PDF (A4)</button>
+<div class="actionsHint" style="margin-top:6px">Cartão</div>
+<button class="actionsItem" id="actFormCartaoHTML" type="button">📁 Baixar arquivo (HTML)</button>
+<button class="actionsItem" id="actFormCartaoPDF" type="button">📄 Baixar PDF (A4)</button>
+<div class="actionsHint" style="margin-top:6px">PIX</div>
+<button class="actionsItem" id="actFormPixHTML" type="button">📁 Baixar arquivo (HTML)</button>
+<button class="actionsItem" id="actFormPixPDF" type="button">📄 Baixar PDF (A4)</button>
+<div class="actionsHint" style="margin-top:6px">À vista</div>
+<button class="actionsItem" id="actFormAvistaHTML" type="button">📁 Baixar arquivo (HTML)</button>
+<button class="actionsItem" id="actFormAvistaPDF" type="button">📄 Baixar PDF (A4)</button>
+</div>
+</div>
+</div><div class="hide" id="pay_carne">
+<h3 class="title" style="font-size:16px;margin:10px 0 0 0">Carnê</h3>
+<div class="row">
+<label>Parcelas</label>
+<select class="in" id="pn_parc">
+<option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option>
+<option value="7">7x</option><option value="8">8x</option><option value="9">9x</option><option value="10">10x</option><option value="11">11x</option><option value="12">12x</option>
+</select>
+</div>
+<div class="row"><label>Valor da parcela (R$)</label><input id="pn_vparc" inputmode="decimal" placeholder="Ex.: 123,45"/></div>
+<div class="row"><label>1º vencimento</label><input id="pn_venc" type="date"/></div>
+<div class="hr" style="margin:12px 0"></div>
+<div class="row"><label>Autorização do atendente</label><input id="pn_aut_atend" placeholder="Nome • matrícula (opcional)"/></div>
+<div class="row"><label>Autorização da gerente de crédito</label><input id="pn_aut_ger" placeholder="Nome • matrícula (opcional)"/></div>
+<div class="row"><label>Anotações importantes</label><textarea id="pn_obsimp" placeholder="Ex.: cliente autorizou via ligação, etc."></textarea></div>
+<div class="actions compact" style="margin-top:10px">
+<button class="btn sm" data-filled-print="carne" type="button">🖨️ Imprimir preenchido (A4)</button>
+<button class="btn sm" data-filled-pdf="carne" type="button">📄 Baixar PDF preenchido (A4)</button>
+</div>
+</div>
+<div class="hide" id="pay_cartao">
+<h3 class="title" style="font-size:16px;margin:10px 0 0 0">Cartão</h3>
+<div class="row"><label>Crédito/Débito</label>
+<select id="pc_tipo">
+<option value="credito">Crédito</option>
+<option value="debito">Débito</option>
+</select>
+</div>
+<div class="row"><label>Bandeira (opcional)</label><input id="pc_band"/></div>
+<div class="row"><label>Final do cartão (4 dígitos)</label><input id="pc_final" inputmode="numeric"/></div>
+<div class="row"><label>Parcelas</label>
+<select id="pc_parc"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option><option value="6">6x</option><option value="7">7x</option><option value="8">8x</option><option value="9">9x</option><option value="10">10x</option><option value="11">11x</option><option value="12">12x</option></select>
+</div>
+<div class="row"><label>NSU / Autorização (opcional)</label><input id="pc_nsu"/></div>
+</div>
+<div class="hide" id="pay_pix">
+<h3 class="title" style="font-size:16px;margin:10px 0 0 0">PIX</h3>
+<div class="actionsBar pixSameBtnWrap" style="margin:10px 0 12px">
+<button class="btn sm" id="btnPixMesmoCadastro" type="button">✔ Mesmo titular do cadastro</button>
+</div>
+<div class="row"><label>Nome do titular</label><input id="pp_nome"/></div>
+<div class="row"><label>CPF do titular</label><input id="pp_cpf" inputmode="numeric"/></div>
+<div class="row"><label>Telefone do titular</label><input id="pp_tel" inputmode="numeric"/></div>
+<div class="row"><label>Tipo de chave</label>
+<select id="pp_tipo">
+<option value="cpf">CPF</option>
+<option value="telefone">Telefone</option>
+<option value="email">E-mail</option>
+<option value="aleatoria">Aleatória</option>
+</select>
+</div>
+<div class="row"><label>Chave PIX</label><input id="pp_chave"/></div>
+</div>
+<div class="hide" id="pay_avista">
+<h3 class="title" style="font-size:16px;margin:10px 0 0 0">À vista</h3>
+<div class="row"><label>Recebido por (caixa)</label><input id="pa_caixa"/></div>
+</div>
+<div class="grid2">
+<div class="row"><label>Valor recebido (R$)</label><input id="pay_valor" inputmode="decimal" placeholder="Ex.: 1.234,56"/></div>
+<div class="row"><label>Troco (R$)</label><input id="pay_troco" inputmode="decimal" placeholder="Ex.: 10,00"/></div>
+</div>
+<div class="row"><label>Observações do pagamento</label><textarea id="pay_obs"></textarea></div>
+<div style="height:12px"></div>
+<div>
+<h3 class="title" style="font-size:16px;margin-top:0;display:none">Resumo geral</h3>
+<div class="summaryBox" id="resumoBox" style="display:none">
+<div class="muted" id="resumoTxt">Preencha para ver o resumo.</div>
+</div>
+<div class="hr"></div>
+<div class="pvPreviewWrap">
+<div class="pvPrevHead">
+<div class="pvPrevTitle">PRÉ-VISUALIZAÇÃO (IGUAL IMPRESSÃO)</div>
+<button class="tinyBtn" id="btnRefreshPreview" type="button">↻ Atualizar prévia</button>
+</div>
+<div class="hint" style="margin-top:6px">A prévia atualiza em tempo real conforme você altera modalidade, parcelas, dados do cliente, entrega e pagamento.</div>
+<iframe id="pvPreviewFrame" title="Pré-visualização do documento"></iframe>
+</div>
+<div class="hr" style="margin:12px 0"></div>
+<div class="hr"></div>
+</div>
+<div class="hr"></div>
+<div class="actions">
+<button class="btn good" id="btnSavePV" type="button">Salvar PV</button>
+<button class="btn" id="btnBackServ" type="button">Voltar (PV)</button>
+<button class="btn" id="btnPrintPV" type="button">🖨️ Imprimir PV (A4)</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- MENU -->
+<div class="overlay" id="ovMenu"></div>
+<div class="modal" id="menuModal">
+<div class="card">
+<div class="modal-head">
+<div class="title" style="margin:0">Menu</div>
+<button class="iconbtn" id="menuClose" style="background:rgba(17,42,122,.08);border-color:rgba(17,42,122,.18);color:var(--brand)" type="button">✕</button>
+</div>
+<div class="modal-body">
+<div class="menu-grid">
+<button class="btn" id="btnMenuDashboard" type="button">📊 Dashboard</button>
+<button class="btn" id="btnMenuReports" type="button">📚 Relatórios</button>
+<button class="btn good" id="btnDownloadApp" type="button">⬇️ Baixar este arquivo</button>
+<button class="btn" id="btnInstallApp" type="button">📲 Baixar aplicativo</button>
+<button class="btn" id="btnExport" type="button">Exportar backup</button>
+<button class="btn" id="btnImport" type="button">Importar backup</button>
+<button class="btn" id="btnClearAll" type="button">Limpar dados</button>
+<button class="btn" id="btnRegistros" type="button">Registros</button>
+<button class="btn" id="btnAbout" type="button">Ajuda</button>
+</div>
+<div class="hr"></div>
+<div class="muted">Dica: no fim do dia exporte o backup para enviar ao gerente ou guardar.</div>
+<input accept="application/json" class="hide" id="importFile" type="file"/>
+</div>
+<div class="actions compact" style="margin-top:10px">
+<button class="btn sm" data-filled-print="avista" type="button">🖨️ Imprimir preenchido (A4)</button>
+<button class="btn sm" data-filled-pdf="avista" type="button">📄 Baixar PDF preenchido (A4)</button>
+</div>
+</div>
+</div>
+<!-- Registros (buscar por CPF e continuar atendimento) -->
+<div class="overlay" id="ovRegs"></div>
+<div aria-hidden="true" class="modal" id="regsModal">
+<div class="card" style="max-width:980px">
+<div class="modal-head">
+<div class="title" style="margin:0">Registros</div>
+<button aria-label="Fechar" class="x" id="btnRegsClose">×</button>
+</div>
+<div class="modal-body">
+<div class="seg-tabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="btn sm" id="btnRegsTabLista">📋 Lista</button>
+<button class="btn sm ghost" id="btnRegsTabCPF">🔎 Buscar CPF</button>
+<div style="flex:1"></div>
+<button class="btn sm ghost" id="btnRegsRefresh">↻ Atualizar</button>
+</div>
+<!-- TAB: LISTA -->
+<div id="regsTabLista">
+<div class="grid2" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<div>
+<label class="lbl">Data (de)</label>
+<input class="in" id="regsDataIni" type="date"/>
+</div>
+<div>
+<label class="lbl">Data (até)</label>
+<input class="in" id="regsDataFim" type="date"/>
+</div>
+<div>
+<label class="lbl">Vendedor</label>
+<input class="in" id="regsFiltroVend" placeholder="Ex.: Darlan" type="text"/>
+</div>
+<div>
+<label class="lbl">Cliente / CPF</label>
+<input class="in" id="regsFiltroCliente" placeholder="Nome ou CPF" type="text"/>
+</div>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 12px">
+<div style="min-width:220px">
+<label class="lbl">Status</label>
+<select class="in" id="regsFiltroStatus">
+<option value="">Todos</option>
+<option value="Em análise">Em análise</option>
+<option value="Autorizado">Autorizado</option>
+<option value="Negado">Negado</option>
+</select>
+</div>
+<div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap">
+<button class="btn sm" id="btnRegsAplicar">Filtrar</button>
+<button class="btn sm ghost" id="btnRegsLimpar">Limpar</button>
+</div>
+<div style="flex:1"></div>
+<div class="muted" id="regsCount" style="align-self:flex-end"></div>
+</div>
+<div style="overflow:auto;border:1px solid rgba(0,0,0,.08);border-radius:14px">
+<table class="tbl" style="width:100%;border-collapse:collapse;min-width:860px">
+<thead>
+<tr style="background:rgba(0,0,0,.03)">
+<th style="text-align:left;padding:10px">Data</th>
+<th style="text-align:left;padding:10px">Vendedor</th>
+<th style="text-align:left;padding:10px">Cliente</th>
+<th style="text-align:left;padding:10px">Modalidade</th>
+<th style="text-align:left;padding:10px">Status</th>
+<th style="text-align:right;padding:10px">Total</th>
+<th style="text-align:left;padding:10px">Ações</th>
+</tr>
+</thead>
+<tbody id="regsTbody">
+<tr><td class="muted" colspan="7" style="padding:14px">Carregando…</td></tr>
+</tbody>
+</table>
+</div>
+<div class="muted" style="margin-top:10px">
+          Dica: você pode <b>editar</b>, <b>mudar status</b> ou <b>apagar</b> um registro. Para continuar um atendimento, use <b>Editar</b> e depois <b>Abrir atendimento</b>.
+        </div>
+</div>
+<!-- TAB: CPF -->
+<div id="regsTabCPF" style="display:none">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+<div style="flex:1;min-width:220px">
+<label class="lbl">Pesquisar CPF</label>
+<input class="in" id="regsCPF" inputmode="numeric" placeholder="Somente números"/>
+</div>
+<button class="btn" id="btnRegsBuscar">Buscar</button>
+<button class="btn ghost" id="btnRegsNovo">Novo atendimento</button>
+</div>
+<div class="hr"></div>
+<div class="muted" id="regsResult">Digite o CPF e toque em <b>Buscar</b>.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="overlay" id="ovEditReg"></div>
+<div aria-hidden="true" class="modal" id="editRegModal">
+<div class="card" style="max-width:820px">
+<div class="modal-head">
+<div class="title" style="margin:0">Editar registro</div>
+<button aria-label="Fechar" class="x" id="btnEditRegClose">×</button>
+</div>
+<div class="modal-body">
+<div class="muted" id="editRegId" style="margin-bottom:8px"></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+<div>
+<label class="lbl">Cliente</label>
+<input class="in" id="editCliente"/>
+</div>
+<div>
+<label class="lbl">CPF</label>
+<input class="in" id="editCPF" inputmode="numeric"/>
+</div>
+<div>
+<label class="lbl">Celular</label>
+<input class="in" id="editCel" inputmode="tel"/>
+</div>
+<div>
+<label class="lbl">Vendedor</label>
+<input class="in" id="editVend"/>
+</div>
+<div>
+<label class="lbl">Modalidade</label>
+<select class="in" id="editMode">
+<option value="carne">Carnê</option>
+<option value="cartao">Cartão</option>
+<option value="pix">PIX</option>
+<option value="avista">À vista</option>
+</select>
+</div>
+<div>
+<label class="lbl">Status</label>
+<select class="in" id="editStatus">
+<option value="Em análise">Em análise</option>
+<option value="Autorizado">Autorizado</option>
+<option value="Negado">Negado</option>
+</select>
+</div>
+<div>
+<label class="lbl">Valor recebido</label>
+<input class="in" id="editValorRec" inputmode="decimal"/>
+</div>
+<div>
+<label class="lbl">Troco</label>
+<input class="in" id="editTroco" inputmode="decimal"/>
+</div>
+</div>
+<div style="margin-top:10px">
+<label class="lbl">Entrega (texto)</label>
+<input class="in" id="editEntregaTxt" placeholder="Rua, nº, bairro, cidade/UF, CEP"/>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+<button class="btn" id="btnEditRegSalvar">Salvar alterações</button>
+<button class="btn ghost" id="btnEditRegAbrir">Abrir atendimento</button>
+<div style="flex:1"></div>
+<button class="btn danger ghost" id="btnEditRegApagar">Apagar registro</button>
+</div>
+<div class="muted" style="margin-top:10px">
+        *Editar não muda os itens do PV (produtos/serviços) aqui. Isso é para ajustar cadastro/status/valores e depois continuar o atendimento.
+      </div>
+</div>
+</div>
+</div>
+<script>
+
+/* === v132: TROCO SÓ EM DINHEIRO + ENTREGA SALVA NO RESUMO === */
+
+function persistEntregaToState(){
+  try{
+    window.state = window.state || {};
+    state.pv = state.pv || {};
+    state.pv.entrega = state.pv.entrega || {};
+
+    const get = (id)=>{
+      const el = document.getElementById(id);
+      return (el && typeof el.value === "string") ? el.value.trim() : "";
+    };
+
+    // salva no formato que o PV/resumo já usa (chaves e_*)
+    state.pv.entrega.e_nome   = get("e_nome");
+    state.pv.entrega.e_tel    = get("e_tel");
+    state.pv.entrega.e_cep    = get("e_cep");
+    state.pv.entrega.e_num    = get("e_num");
+    state.pv.entrega.e_end    = get("e_end");
+    state.pv.entrega.e_comp   = get("e_comp");
+    state.pv.entrega.e_bairro = get("e_bairro");
+    state.pv.entrega.e_cidade = get("e_cidade");
+    state.pv.entrega.e_ref    = get("e_ref");
+
+    // também grava um resumo pronto (ajuda em qualquer modalidade)
+    state.pv.entrega.__resumo = [
+      state.pv.entrega.e_end,
+      state.pv.entrega.e_num,
+      state.pv.entrega.e_bairro,
+      state.pv.entrega.e_cidade
+    ].filter(Boolean).join(" - ");
+
+    if(typeof saveState === "function") saveState(state);
+    return true;
+  }catch(e){
+    console.warn("persistEntregaToState:", e);
+    return true;
+  }
+}
+
+function applyTrocoVisibility(){
+  try{
+    // Blindado: nunca referenciar variáveis não declaradas (rec/pay) aqui.
+    const st = (window.state && typeof state === "object") ? state : (typeof loadState==="function" ? (loadState()||{}) : {});
+    const records = (typeof loadRecords==="function") ? (loadRecords()||[]) : [];
+    const curId = st.currentId || "";
+    const recSafe = (curId && Array.isArray(records)) ? (records.find(r=>r.id===curId) || null) : null;
+    const paySafe = (st && st.pagamento) || (recSafe && recSafe.pagamento) || {};
+    const modo = (
+      (document.querySelector("#payModeCards .pay-card.active")?.getAttribute("data-mode")) ||
+      (st && st.mode ? st.mode : "") ||
+      (recSafe && recSafe.mode) ||
+      (paySafe && paySafe.forma) ||
+      ""
+    ).toString().toLowerCase();
+    const payAvista = document.getElementById("pay_avista");
+    const isDinheiro = (modo === "avista");
+
+    const valor = document.getElementById("pay_valor");
+    const troco = document.getElementById("pay_troco");
+
+    const grid = (troco && troco.closest(".grid2")) || (valor && valor.closest(".grid2"));
+
+    if(grid) grid.style.display = isDinheiro ? "" : "none";
+
+    [valor,troco].forEach(el=>{
+      if(!el) return;
+      el.disabled = !isDinheiro;
+      if(!isDinheiro) el.value = "";
+      const row = el.closest(".row");
+      if(row) row.style.display = isDinheiro ? "" : "none";
+    });
+
+  }catch(e){
+    console.warn("applyTrocoVisibility:", e);
+  }
+}
+
+// aliases de segurança (evita erro se algum ponto chamar outro nome)
+window.savePVToCurrent = window.savePVToCurrent || window.savePVtoCurrent;
+
+/* === v128: TROCO SOMENTE À VISTA === */
+function controleTrocoPorModalidade(){
+  try{
+    const modo = (state && state.modalidade) ? state.modalidade.toLowerCase() : "";
+    const trocoBox = document.getElementById("trocoBox") || document.querySelector(".trocoBox");
+    const trocoInput = document.getElementById("trocoValor") || document.querySelector(".trocoValor");
+
+    const permitir = (modo === "avista" || modo === "à vista");
+
+    if(trocoBox){
+      trocoBox.style.display = permitir ? "" : "none";
+    }
+
+    if(trocoInput){
+      trocoInput.disabled = !permitir;
+      if(!permitir) trocoInput.value = "";
+    }
+
+  }catch(e){
+    console.warn("controleTrocoPorModalidade:",e);
+  }
+}
+
+/* === v125: PV SEM PRODUTOS (módulo removido de execução) === */
+
+/* === v126: FIX SAVE PV (garante funções globais) === */
+(function(){
+  function _savePVBase(){
+    try{
+      window.state = window.state || {};
+      window.state.pv = window.state.pv || {};
+      if (typeof window.saveState === "function") window.saveState(window.state);
+      return true;
+    }catch(e){
+      console.warn("savePV base fallback:", e);
+      return true;
+    }
+  }
+  // base
+  window.savePVtoCurrent = window.savePVtoCurrent || _savePVBase;
+  // aliases vistos no console
+  window.savePVToCurrent = window.savePVToCurrent || _savePVBase;
+  window.savePVTOCurrent = window.savePVTOCurrent || _savePVBase;
+  window.savePVTCorrent  = window.savePVTCorrent  || _savePVBase;
+})();
+
+window.__DISABLE_PV_PRODUCTS__ = true;
+
+// Escapes usados pelo módulo antigo (evita erros no console)
+function escapeAttr(v){
+  return String(v ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
+// Stubs do módulo Produtos/Planos (não executa nada)
+function renderPVProductsFromRecord(){ return; }
+function renderPVProductsUI(){ return; }
+function prodCardHTML(){ return ""; }
+function pvProductsToRecord(){ return []; }
+
+/* === Compat Polyfills (offline) === */
+(function(){
+  // Element.matches
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector ||
+                                Element.prototype.webkitMatchesSelector ||
+                                function(s) {
+                                  var matches = (this.document || this.ownerDocument).querySelectorAll(s);
+                                  var i = matches.length;
+                                  while (--i >= 0 && matches.item(i) !== this) {}
+                                  return i > -1;
+                                };
+  }
+  // Element.closest
+  if (!Element.prototype.closest) {
+    Element.prototype.closest = function(s) {
+      var el = this;
+      while (el && el.nodeType === 1) {
+        if (el.matches(s)) return el;
+        el = el.parentElement || el.parentNode;
+      }
+      return null;
+    };
+  }
+  // Array.from
+  if (!Array.from) {
+    Array.from = function (iterable) {
+      return [].slice.call(iterable);
+    };
+  }
+  // NodeList.forEach
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+})();
+
+/* === Helpers (safe bindings & escaping) === */
+function escapeHtml(s){ return _escapeHtml ? _escapeHtml(s) : String(s||"").replace(/[&<>"']/g, ch=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[ch])); }
+function on(sel, ev, fn){
+  try{
+    const el = $(sel);
+    if(!el) return;
+    if(typeof ev === "function" && fn === undefined){
+      el.addEventListener("click", ev);
+      return;
+    }
+    if(typeof ev === "string" && typeof fn === "function"){
+      el.addEventListener(ev, fn);
+    }
+  }catch(e){}
+}
+
+/* =========================
+   v59 ESTÁVEL - tudo em 1
+   ========================= */
+
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const $  = (sel, root=document) => root.querySelector(sel);
+const n  = (sel, ev, fn) => { const el = document.querySelector(sel); if(el) el.addEventListener(ev, fn); };
+// helper usado em alguns módulos
+const byId = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '')
+  .replace(/&/g,'&amp;')
+  .replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;')
+  .replace(/'/g,'&#39;');
+
+function _getEl(sel){ try{ return $(sel); }catch(e){ return null; } }
+function _val(sel, def){ var el=_getEl(sel); if(!el) return def; var v = (el.value!==undefined? el.value: def); return (v===undefined || v===null) ? def : v; }
+function _chk(sel, def){ var el=_getEl(sel); if(!el) return def; var v = !!el.checked; return v; }
+
+const STORAGE_KEY = "zenir_offline_v59_records";
+const STATE_KEY   = "zenir_offline_v59_state";
+
+const DRAFT_KEY   = "zenir_offline_v59_draft";
+
+/* ===== Draft/Lock (estrutural definitivo) ===== */
+function loadDraft(){ return safeParse(localStorage.getItem(DRAFT_KEY), null); }
+function saveDraft(d){ localStorage.setItem(DRAFT_KEY, JSON.stringify(d||null)); }
+function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+
+function _mergeNonEmpty(dst, src){
+  dst = dst || {};
+  src = src || {};
+  for(const k of Object.keys(src)){
+    const v = src[k];
+    if(v && typeof v === "object" && !Array.isArray(v)){
+      dst[k] = _mergeNonEmpty(dst[k]||{}, v);
+    }else if(Array.isArray(v)){
+      if(v.length) dst[k] = v.slice();
+    }else{
+      const s = String(v ?? "").trim();
+      if(s !== "") dst[k] = v;
+    }
+  }
+  return dst;
+}
+
+function _normalizeEntrega(ent){
+  ent = ent || {};
+  return {
+    e_nome:  (ent.e_nome ?? ent.nome ?? "").trim(),
+    e_tel:   (ent.e_tel  ?? ent.tel  ?? "").trim(),
+    e_cep:   (ent.e_cep  ?? ent.cep  ?? "").trim(),
+    e_end:   (ent.e_end  ?? ent.endereco ?? "").trim(),
+    e_num:   (ent.e_num  ?? ent.numero ?? "").trim(),
+    e_comp:  (ent.e_comp ?? ent.complemento ?? "").trim(),
+    e_bairro:(ent.e_bairro ?? ent.bairro ?? "").trim(),
+    e_cidade:(ent.e_cidade ?? ent.cidadeUF ?? ent.cidade ?? "").trim(),
+    e_ref:   (ent.e_ref ?? ent.referencia ?? "").trim()
+  };
+}
+
+function consolidateDraft(reason){
+  try{
+    const prev = loadDraft() || {};
+    const cad = collectCadastro ? collectCadastro() : (state.cadastro||{});
+    const pv  = collectPV ? collectPV() : (state.pv||{});
+    const entLive = collectEntrega ? collectEntrega() : (state.pv?.entrega||{});
+    const pay = collectPagamento ? collectPagamento() : (state.pagamento||{});
+    const mode = (state.mode || prev.mode || pay.forma || "").toLowerCase();
+
+    const draft = _mergeNonEmpty(prev, {
+      mode,
+      cadastro: cad,
+      pv: Object.assign({}, pv, { entrega: _normalizeEntrega(entLive) }),
+      pagamento: pay,
+      updatedAt: Date.now(),
+      _reason: reason||""
+    });
+
+    saveDraft(draft);
+    // também espelha no state (sem sobrescrever com vazio)
+    state.cadastro = _mergeNonEmpty(state.cadastro||{}, draft.cadastro||{});
+    state.pv = _mergeNonEmpty(state.pv||{}, draft.pv||{});
+    state.pagamento = _mergeNonEmpty(state.pagamento||{}, draft.pagamento||{});
+    state.mode = mode || state.mode;
+    saveState(state);
+    return draft;
+  }catch(e){
+    return loadDraft();
+  }
+}
+
+function setLockedUI(isLocked){
+  try{
+    document.body.classList.toggle("locked", !!isLocked);
+    const badge = document.getElementById("lockedBadge");
+    if(badge) badge.style.display = isLocked ? "inline-flex" : "none";
+
+    // desabilita ações de edição quando locked
+    ["btnSaveOnly","btnSaveGo","btnGoServ","btnSavePV","btnEditRegSalvar","btnEditRegApagar","btnRegsNovo","btnNew"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.disabled = !!isLocked;
+    });
+
+    // impede edição direta nos inputs (mantém impressão/visualização ok)
+    document.querySelectorAll("input,select,textarea").forEach(el=>{
+      if(el.closest(".printArea")) return; // área de impressão (quando existir) pode ficar livre
+      el.disabled = !!isLocked;
+    });
+  }catch(e){}
+}
+
+const ModeLabel = {carne:"Carnê 🧾", cartao:"Cartão 💳", pix:"PIX ⚡", avista:"À vista 💵"};
+
+// V75: Produtos/Planos (PV)
+let pvProducts = []; // array of product objects used only while editing
+
+function safeParse(s, fallback){
+  try{ const v = JSON.parse(s); return (v===null || v===undefined) ? fallback : v; }catch(e){ return fallback; }
+}
+
+function loadRecords(){
+  return safeParse(localStorage.getItem(STORAGE_KEY), []);
+}
+function saveRecords(arr){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+// ===== Registros: abrir/editar/apagar e continuar atendimento =====
+function _dispatchInput(el){
+  try{ el.dispatchEvent(new Event('input',{bubbles:true})); }catch(e){}
+  try{ el.dispatchEvent(new Event('change',{bubbles:true})); }catch(e){}
+}
+function _setVal(id, val){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.value = (val ?? '');
+  _dispatchInput(el);
+}
+function _norm(s){ return String(s||'').trim().toLowerCase(); }
+
+function deleteRecord(id){
+  if(!id) return;
+  const arr = loadRecords();
+  const i = arr.findIndex(r => r && r.id === id);
+  if(i === -1) return;
+  arr.splice(i,1);
+  saveRecords(arr);
+  // se apagou o atendimento atual, limpa o ponteiro
+  if(state && state.currentId === id){
+    state.currentId = null;
+    saveState(state);
+  }
+  try{ renderDashboard(); }catch(e){}
+  try{ renderRegistrosList(); }catch(e){}
+  try{ closeEditRegModal(); }catch(e){}
+  toast('Registro apagado.');
+}
+
+function loadRecordToUI(rec){
+  if(!rec || !rec.id) return;
+  // define atendimento atual e modalidade
+  state.currentId = rec.id;
+  state.mode = rec.mode || state.mode || 'avista';
+  saveState(state);
+  try{ setLockedUI(!!rec.locked); }catch(e){}
+  try{ saveDraft({mode:state.mode, cadastro: rec.cadastro||{}, pv: rec.pv||{}, pagamento: rec.pagamento||{}, locked: !!rec.locked, fromRecord:true, id:rec.id, updatedAt: Date.now()}); }catch(e){}
+
+  // preenche cadastro
+  const cad = rec.cadastro || {};
+  _setVal('c_nome', cad.nome);
+  _setVal('c_cpf', cad.cpf);
+  _setVal('c_apelido', cad.apelido);
+  _setVal('c_cel', cad.celular);
+  _setVal('c_email', cad.email);
+  _setVal('c_cep', cad.cep);
+  _setVal('c_end', cad.endereco);
+  _setVal('c_num', cad.numero);
+  _setVal('c_comp', cad.complemento);
+  _setVal('c_bairro', cad.bairro);
+  _setVal('c_cidade', cad.cidadeUF);
+  _setVal('c_ref', cad.referencia);
+
+  // PV
+  const pv = rec.pv || {};
+  _setVal('pv_vend', pv.vendedor);
+  _setVal('pv_saida', pv.saida);
+
+  // Entrega (mantém o que está salvo no registro)
+  if(pv.entrega && typeof pv.entrega === 'object'){
+    state.entrega = Object.assign({}, pv.entrega);
+    // tenta inferir se é igual ao cadastro
+    const same = _norm(pv.entrega.endereco) === _norm(cad.endereco)
+      && _norm(pv.entrega.numero) === _norm(cad.numero)
+      && _norm(pv.entrega.bairro) === _norm(cad.bairro)
+      && _norm(pv.entrega.cidadeUF) === _norm(cad.cidadeUF)
+      && _norm(pv.entrega.cep) === _norm(cad.cep);
+    state.entregaSameCadastro = !!same;
+  } else {
+    // se não tem entrega salva, força a confirmação na etapa do PV
+    state.entrega = null;
+    state.entregaSameCadastro = false;
+  }
+  saveState(state);
+  try{ renderEntregaPV(); }catch(e){}
+
+  // Pagamento
+  const pag = rec.pagamento || {};
+  _setVal('pay_recebidoPor', pag.recebidoPor);
+  _setVal('pay_valor', pag.valorRecebido);
+  _setVal('pay_troco', pag.troco);
+  _setVal('pay_obs', pag.observacoes);
+
+  // atualiza listagens / resumo
+  try{ renderResumo(); }catch(e){}
+  try{ renderDashboard(); }catch(e){}
+
+  // continua do ponto mais avançado
+  const hasPay = !!(_norm(pag.valorRecebido) || _norm(pag.recebidoPor) || _norm(pag.troco));
+  const hasPV = !!(_norm(pv.vendedor) || (pv.produtos && pv.produtos.length));
+  if(hasPay) showStep('pay');
+  else if(hasPV) showStep('pv');
+  else showStep('cad');
+
+  // fecha modais
+  try{ closeEditRegModal(); }catch(e){}
+  try{ closeRegistrosModal(); }catch(e){}
+  toast('Atendimento carregado. Continue e finalize.');
+}
+
+function saveState(st){
+  localStorage.setItem(STATE_KEY, JSON.stringify(st));
+}
+function loadState(){
+  return safeParse(localStorage.getItem(STATE_KEY), {mode:"", currentId:""});
+}
+
+let state = loadState();
+
+/* === v4: evita tela inicial em branco por estado travado antigo === */
+(function fsResetStaleSessionOnFreshOpen(){
+  try{
+    var navType = '';
+    try{
+      var navEntries = (performance && performance.getEntriesByType) ? performance.getEntriesByType('navigation') : [];
+      navType = (navEntries && navEntries[0] && navEntries[0].type) ? String(navEntries[0].type) : '';
+    }catch(_e){}
+
+    var isReload = navType === 'reload';
+    var hasStaleLockedState = !!(state && (state.modeLocked || state.currentId || state.mode));
+
+    // Ao abrir o arquivo "do zero" (não F5), limpa o estado antigo que escondia os cards da home.
+    if(!isReload && hasStaleLockedState){
+      try{ localStorage.removeItem(STATE_KEY); }catch(_e){}
+      state = {mode:'', currentId:''};
+    }
+  }catch(e){}
+})();
+
+  try{ applyModeLockedClass(); }catch(e){}
+
+// garante estrutura do estado (evita erros em PV/Entrega)
+state.pv = state.pv || {};
+state.pv.entrega = state.pv.entrega || {};
+state.pv.vendedor = state.pv.vendedor || "";
+state.pv.obs = state.pv.obs || "";
+// campos de entrega (ficam vazios por padrão)
+Object.assign(state.pv.entrega, {e_nome: state.pv.entrega.e_nome||"", e_tel: state.pv.entrega.e_tel||"", e_cep: state.pv.entrega.e_cep||"", e_end: state.pv.entrega.e_end||"", e_num: state.pv.entrega.e_num||"", e_comp: state.pv.entrega.e_comp||"", e_bairro: state.pv.entrega.e_bairro||"", e_cidade: state.pv.entrega.e_cidade||"", e_ref: state.pv.entrega.e_ref||""});
+// (Entrega separada do cadastro) NÃO espelhar entrega automaticamente em state.pv.*
+
+function _resetEntregaState(){
+  // zera os campos de entrega do PV (para não "puxar" do atendimento anterior)
+  state.pv = state.pv || {};
+  state.pv.entrega = state.pv.entrega || {};
+  const keys = ["e_nome","e_tel","e_cep","e_end","e_num","e_comp","e_bairro","e_cidade","e_ref"];
+  keys.forEach(k=>{
+    state.pv.entrega[k] = "";
+    state.pv[k] = "";
+  });
+  state.entregaSameCadastro = undefined; // ainda não respondeu
+  saveState(state);
+}
+
+function _prefillEntregaFromCadastro(){
+  // Copia SOMENTE quando o usuário confirmar que a entrega é o mesmo endereço do cadastro.
+  // Entrega fica isolada em state.pv.entrega (não mistura com o cadastro).
+  state.pv = state.pv || {};
+  state.pv.entrega = state.pv.entrega || {};
+
+  const cad = {
+    nome: (_val("#c_nome","")||"").trim(),
+    tel:  (_val("#c_cel","")||"").trim(),
+    cep:  (_val("#c_cep","")||"").replace(/\D/g,"").slice(0,8),
+    end:  (_val("#c_end","")||"").trim(),
+    num:  (_val("#c_num","")||"").trim(),
+    comp: (_val("#c_comp","")||"").trim(),
+    bairro: (_val("#c_bairro","")||"").trim(),
+    cidade: (_val("#c_cidade","")||"").trim(),
+    uf: (_val("#c_uf","")||"").trim(),
+    ref: (_val("#c_ref","")||"").trim()
+  };
+
+  // Preenche a entrega (apenas o container entrega)
+  state.pv.entrega.e_nome = cad.nome || "";
+  state.pv.entrega.e_tel  = cad.tel  || "";
+  state.pv.entrega.e_cep  = cad.cep  || "";
+  state.pv.entrega.e_end  = cad.end  || "";
+  state.pv.entrega.e_num  = cad.num  || "";
+  state.pv.entrega.e_comp = cad.comp || "";
+  state.pv.entrega.e_bairro = cad.bairro || "";
+  state.pv.entrega.e_cidade = cad.cidade || "";
+  state.pv.entrega.e_uf = cad.uf || "";
+  state.pv.entrega.e_ref = cad.ref || "";
+
+  // mantém compatibilidade: garante que os campos antigos NÃO sejam usados por engano
+  // (deixa vazio para não "puxar automático")
+  state.pv.e_nome = state.pv.e_tel = state.pv.e_cep = state.pv.e_end = state.pv.e_num = state.pv.e_comp = "";
+  state.pv.e_bairro = state.pv.e_cidade = state.pv.e_uf = state.pv.e_ref = "";
+
+  saveState(state);
+}
+
+function setMode(mode){
+  // trava: após a modalidade ser definida no início/importação, não permitir troca
+  if(state && state.modeLocked && state.mode && mode && mode !== state.mode){
+    try{ toast('Modalidade travada. Para mudar, inicie uma nova simulação.'); }catch(e){}
+    return;
+  }
+  state.mode = mode;
+  saveState(state);
+  try{ applyTrocoVisibility(); }catch(e){}
+  try{ updatePayModeCardsActive(); }catch(e){}
+  try{ updatePayBlocks(); }catch(e){}
+  try{ $("#modePill").textContent = "Modalidade: " + (ModeLabel[mode] || "—"); }catch(e){}
+  try{ $("#headerSub").textContent = mode ? ("Em atendimento • " + (ModeLabel[mode] || mode)) : "Escolha uma modalidade para iniciar"; }catch(e){}
+  try{ $("#cadModeLabel").textContent = mode ? ("• " + (ModeLabel[mode] || mode)) : ""; }catch(e){}
+  try{ const pretty=(mode==="carne")?"Carnê":(mode==="cartao")?"Cartão":(mode==="pix")?"PIX":(mode==="avista")?"À vista":"—"; const h=document.getElementById("payModeHeader"); if(h) h.textContent="Modalidade: "+pretty; }catch(e){}
+
+  // destaca card selecionado (tela inicial)
+  try{
+    $$("#modeCards .pay-card").forEach(b=>{
+      const m = b.getAttribute("data-mode");
+      b.classList.toggle("active", !!mode && m === mode);
+    });
+  }catch(e){}
+  try{ $("#carneExtra").classList.toggle("hide", mode !== "carne"); }catch(e){}
+
+  // PV: Status/gerente/anotações de autorização só no Carnê
+  const pvAut = byId("pvAutBlock");
+  if(pvAut) pvAut.style.display = (mode === "carne") ? "" : "none";
+  if(mode !== "carne"){
+    const st = byId("pv_status");
+    const gc = byId("pv_gerente");
+    const au = byId("pv_aut");
+    if(st) st.value = "Em análise";
+    if(gc) gc.value = "";
+    if(au) au.value = "";
+  }
+
+  try{ renderModeExtra(mode); }catch(e){}
+  try{ syncPayForm(mode); }catch(e){}
+
+  // IMPORTANTE: atualizar resumo quando alternar modalidade
+  try{ updateResumo(); }catch(e){}
+  try{ renderResumo(); }catch(e){}
+}
+
+function applyModeLockedClass(){
+  try{
+    if(state && state.modeLocked) document.body.classList.add('mode-locked');
+    else document.body.classList.remove('mode-locked');
+  }catch(e){}
+}
+
+function showStep(id){
+  $$(".step").forEach(s => s.classList.remove("active"));
+  const el = document.getElementById(id);
+  if(el) el.classList.add("active");
+  if(id==="pv"){
+    try{ hookEntregaLiveUpdate(); persistEntregaToState(); }catch(e){}
+
+    
+    // v119: após cadastro, abre entrega automaticamente (entrega primeiro)
+    try{ state.pvEntregaOpen = true; saveState(state); }catch(e){}
+    setTimeout(()=>{ try{ const eb = document.getElementById('pvEntregaBox'); if(eb) eb.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){} }, 80);
+// Entrega: inicia SEMPRE em branco por PV (só copia do cadastro se o usuário pedir)
+    if(state._pvEntregaInitFor !== state.currentId){
+      _resetEntregaState();
+      state._pvEntregaInitFor = state.currentId;
+    }
+    // Endereço de entrega fica na etapa PV
+    renderEntregaPV();
+    // Produtos / Planos (handlers + renderização)
+    }
+  // atualiza resumo quando entrar em pagamento
+  if(id === "pay"){
+  try{ document.body.classList.add("tela-final"); }catch(e){}
+  try{ if(state && state.mode){ state.modeLocked = true; saveState(state); document.body.classList.add("mode-locked"); } }catch(e){}
+  try{ bindPayModeCards(); }catch(e){}
+  try{ updatePayBlocks(); }catch(e){}
+  try{ consolidateFinalData(); }catch(e){}
+  renderResumo();
+} else {
+  try{ document.body.classList.remove("tela-final"); }catch(e){}
+}
+}
+
+function uid(){
+  return "R" + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(2,6);
+}
+
+function toast(msg){
+  const t = document.createElement("div");
+  t.textContent = msg;
+  t.style.cssText = "position:fixed;right:12px;bottom:12px;background:#111827;color:#fff;padding:10px 12px;border-radius:12px;font:600 13px/1.2 system-ui;box-shadow:0 10px 25px rgba(0,0,0,.25);z-index:9999;";
+  document.body.appendChild(t);
+  setTimeout(function(){ t.style.opacity="0"; t.style.transform="translateY(6px)"; t.style.transition="all .25s"; }, 1800);
+  setTimeout(function(){ if(t && t.remove) t.remove(); }, 2200);
+}
+
+/* === v120: FIX validatePV ===
+   Em versões onde removemos o campo "Vendedor / Atendente",
+   alguns handlers ainda chamavam validatePV().
+   Mantemos a função para não quebrar o fluxo.
+*/
+function validatePV(){
+  // Entrega é opcional (se vazio, PDF usa endereço do cadastro).
+  return true;
+}
+
+/* === v135: ENTREGA ATUALIZA IMEDIATO === */
+function persistEntregaToState(){
+  try{
+    window.state = window.state || {};
+    state.pv = state.pv || {};
+    state.pv.entrega = state.pv.entrega || {};
+    const get=(id)=>{
+      const el=document.getElementById(id);
+      return (el && typeof el.value==="string")?el.value.trim():"";
+    };
+    state.pv.entrega.nome     = get("e_nome");
+    state.pv.entrega.tel      = get("e_tel");
+    state.pv.entrega.cep      = get("e_cep");
+    state.pv.entrega.numero   = get("e_num");
+    state.pv.entrega.endereco = get("e_end");
+    state.pv.entrega.comp     = get("e_comp");
+    state.pv.entrega.bairro   = get("e_bairro");
+    state.pv.entrega.cidade   = get("e_cidade");
+    state.pv.entrega.ref      = get("e_ref");
+    if(typeof saveState==="function") saveState(state);
+    return true;
+  }catch(e){ return true; }
+}
+
+function hookEntregaLiveUpdate(){
+  try{
+    ["e_nome","e_tel","e_cep","e_num","e_end","e_comp","e_bairro","e_cidade","e_ref"].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el || el.__hookEntrega) return;
+      el.__hookEntrega=true;
+      const fn=()=>{
+        persistEntregaToState();
+        try{ updateResumo(); }catch(e){}
+        try{ renderResumo(); }catch(e){}
+      };
+      el.addEventListener("input", fn);
+      el.addEventListener("change", fn);
+    });
+  }catch(e){}
+}
+
+/* === v127: TRAVA/CONFIRMAÇÃO DE ENTREGA ===
+   Regra:
+   - Se TODOS os campos de entrega estiverem vazios -> perguntar confirmação antes de avançar.
+   - Se alguns campos estiverem preenchidos, exige pelo menos Nome e Telefone.
+*/
+function gateEntregaBeforePay(){
+  try{
+    const get = (id)=>{
+      const el = document.getElementById(id);
+      return (el && typeof el.value === "string") ? el.value.trim() : "";
+    };
+
+    const v = {
+      nome: get("e_nome"),
+      tel:  get("e_tel"),
+      cep:  get("e_cep").replace(/\D/g,""),
+      num:  get("e_num"),
+      end:  get("e_end"),
+      bairro: get("e_bairro"),
+      cidadeuf: (get("e_cidade") || get("e_cidadeuf")),
+      ref: get("e_ref"),
+      comp: get("e_comp"),
+    };
+
+    const allEmpty =
+      !v.nome && !v.tel && !v.cep && !v.num && !v.end &&
+      !v.bairro && !v.cidadeuf && !v.ref && !v.comp;
+
+    // se estiver tudo vazio, TRAVA com confirmação
+    if(allEmpty){
+      const ok = confirm("Você não informou dados de ENTREGA.\n\nDeseja avançar mesmo assim? (O sistema usará o endereço do CADASTRO / retirada)");
+      if(!ok) return false;
+
+      // marca que confirmou (opcional)
+      state.pv = state.pv || {};
+      state.pv.entregaConfirmada = true;
+      saveState(state);
+      return true;
+    }
+
+    // se tiver algo preenchido, exige Nome + Telefone
+    if(!v.nome || !v.tel){
+      alert("Para avançar, informe pelo menos:\n• Nome de quem vai receber\n• Telefone de contato\n\nOu então limpe todos os campos e confirme sem entrega.");
+      return false;
+    }
+
+    return true;
+  }catch(e){
+    console.warn("gateEntregaBeforePay:", e);
+    // em caso de erro, não bloqueia o fluxo
+    return true;
+  }
+}
+
+/* === v121 FIX savePVtoCurrent === */
+function savePVtoCurrent(){
+  try{
+    state.pv = state.pv || {}
+
+/* === v123 ALIASES: compatibilidade nomes de função === */
+function savePVToCurrent(){ return savePVtoCurrent(); }      // T maiúsculo
+function savePVTOCurrent(){ return savePVtoCurrent(); }      // TO maiúsculo
+function savePVtOCurrent(){ return savePVtoCurrent(); }      // variação
+function savePVToCURRENT(){ return savePVtoCurrent(); }      // CURRENT
+function savePVToCurent(){ return savePVtoCurrent(); }       // typo comum
+function savePVToCurr(){ return savePVtoCurrent(); }         // curto
+function savePVToCurrentPV(){ return savePVtoCurrent(); }    // variação
+function savePVToCurrent(){ return savePVtoCurrent(); }      // redundante
+function savePVToCurrent_(){ return savePVtoCurrent(); }     // sufixo
+function savePVToCurrent1(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent2(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent3(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent4(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent5(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent6(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent7(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent8(){ return savePVtoCurrent(); }     // sufixo num
+function savePVToCurrent9(){ return savePVtoCurrent(); }     // sufixo num
+
+// A que está no print: savePVToCurrent (com "PV" no meio) — cobrimos também:
+function savePVToCurrent(){ return savePVtoCurrent(); }
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+// Variação vista: savePVToCurrent (PVTo...) -> savePVTo...
+function savePVToCurrent(){ return savePVtoCurrent(); }
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+// A do print parece: savePVToCurrent (PVToCurrent) mas com "PVToCurrent"
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+// MAIS IMPORTANTE: a que o console mostrou: savePVToCurrent
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+// Se o código estiver chamando exatamente "savePVToCurrent" com PV+TO:
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+// E a que aparece no erro do usuário: savePVToCurrent (sem o 'o'?) - cobre:
+function savePVTCorrent(){ return savePVtoCurrent(); }
+
+// A que o print mostra claramente: savePVToCurrent (PVTOCurrent?) — cobre:
+function savePVTOCurrent(){ return savePVtoCurrent(); }
+
+// A mais provável do print: savePVToCurrent
+function savePVToCurrent(){ return savePVtoCurrent(); }
+
+/* === v122 ALIAS: alguns pontos chamam savePVToCurrent (T maiúsculo) === */
+function savePVToCurrent(){
+  return savePVtoCurrent();
+}
+
+;
+    saveState(state);
+    return true;
+  }catch(e){
+    console.warn("savePVtoCurrent fallback:",e);
+    return true;
+  }
+}
+
+// === FS PATCH V66: Regras Globais (DDD obrigatório + Maiúsculo automático) ===
+var _PHONE_IDS = ["c_cel","c_fone","c_avalcel","pp_tel","m_pix_tel","e_tel"];
+
+function _digits(v){ return (v||"").toString().replace(/\D/g,""); }
+
+function _formatPhoneDigits(d){
+  if(!d) return "";
+  if(d.length < 3) return d;
+  var dd = d.slice(0,2);
+  var rest = d.slice(2);
+
+  // 11 dígitos (celular) -> (DD) 9XXXX-XXXX
+  if(d.length >= 11){
+    rest = rest.slice(0,9);
+    return "(" + dd + ") " + rest.slice(0,5) + "-" + rest.slice(5);
+  }
+  // 10 dígitos (fixo) -> (DD) XXXX-XXXX
+  rest = rest.slice(0,8);
+  return "(" + dd + ") " + rest.slice(0,4) + "-" + rest.slice(4);
+}
+
+function _maskPhoneValue(raw){
+  var d = _digits(raw);
+  if(d.length > 11) d = d.slice(0,11);
+
+  // máscara progressiva
+  if(d.length <= 2) return d;
+  if(d.length <= 6){
+    return "(" + d.slice(0,2) + ") " + d.slice(2);
+  }
+  if(d.length <= 10){
+    var dd = d.slice(0,2), rest = d.slice(2);
+    rest = rest.slice(0,8);
+    return "(" + dd + ") " + rest.slice(0,4) + "-" + rest.slice(4);
+  }
+  return _formatPhoneDigits(d);
+}
+
+function _isPhoneValid(v){
+  var d = _digits(v);
+  return (d.length === 10 || d.length === 11);
+}
+
+function _isPhoneEl(el){
+  if(!el || !el.id) return false;
+  return (_PHONE_IDS.indexOf(el.id) >= 0) || /(^|_)(tel|fone|cel)($|_)/i.test(el.id);
+}
+
+function _applyPhoneMask(el){
+  if(!el) return;
+  el.value = _maskPhoneValue(el.value);
+}
+
+function _countDigitsBefore(str, idx){
+  if(!str) return 0;
+  if(typeof idx !== "number") idx = str.length;
+  if(idx < 0) idx = 0;
+  if(idx > str.length) idx = str.length;
+  var sub = str.slice(0, idx);
+  return _digits(sub).length;
+}
+
+function _caretPosForDigits(formatted, nDigits){
+  if(!formatted) return 0;
+  if(nDigits <= 0) return 0;
+  var count = 0;
+  for(var i=0;i<formatted.length;i++){
+    var c = formatted.charCodeAt(i);
+    if(c >= 48 && c <= 57){
+      count++;
+      if(count >= nDigits) return i+1;
+    }
+  }
+  return formatted.length;
+}
+
+function _validateAllPhoneInputs(){
+  var nodes = [];
+  for(var i=0;i<_PHONE_IDS.length;i++){
+    var el = document.getElementById(_PHONE_IDS[i]);
+    if(el) nodes.push(el);
+  }
+  var extra = document.querySelectorAll("input[id*='tel'],input[id*='fone'],input[id*='cel']");
+  for(var j=0;j<extra.length;j++){
+    if(nodes.indexOf(extra[j]) < 0) nodes.push(extra[j]);
+  }
+
+  for(var k=0;k<nodes.length;k++){
+    var el2 = nodes[k];
+    if(!el2) continue;
+    var v = (el2.value||"").trim();
+    if(!v) continue;
+    if(!_isPhoneValid(v)){
+      toast("Telefone inválido. Informe com DDD: (DD) 9XXXX-XXXX");
+      try{ el2.focus(); }catch(e){}
+      return false;
+    }
+    el2.value = _formatPhoneDigits(_digits(v));
+  }
+  return true;
+}
+
+function _shouldUppercase(el){
+  if(!el) return false;
+  var tag = (el.tagName||"").toLowerCase();
+  if(tag !== "input" && tag !== "textarea") return false;
+
+  // não mexer em campos numéricos/valores/datas/email
+  var type = (el.type||"").toLowerCase();
+  if(type === "email" || type === "number" || type === "date" || type === "time" || type === "month" || type === "week" || type === "datetime-local") return false;
+
+  // telefones: NÃO (usa máscara)
+  if(_isPhoneEl(el)) return false;
+
+  // campos com inputmode numeric geralmente são números (cep/cpf/valor)
+  var im = (el.getAttribute && (el.getAttribute("inputmode")||"").toLowerCase()) || "";
+  if(im === "numeric") return false;
+
+  // ids típicos numéricos
+  var id = (el.id||"").toLowerCase();
+  if(id.indexOf("cpf")>=0 || id.indexOf("cep")>=0 || id.indexOf("valor")>=0 || id.indexOf("preco")>=0 || id.indexOf("r$")>=0) return false;
+
+  return true;
+}
+
+// listener global (captura)
+document.addEventListener("input", function(ev){
+  var el = ev.target;
+
+  // máscara de telefone (mantém cursor)
+  if(_isPhoneEl(el)){
+    var oldVal = el.value || "";
+    var selStart = oldVal.length;
+    try{ selStart = (typeof el.selectionStart === "number") ? el.selectionStart : oldVal.length; }catch(e){ selStart = oldVal.length; }
+    var digitsBefore = _countDigitsBefore(oldVal, selStart);
+
+    _applyPhoneMask(el);
+
+    try{
+      var pos = _caretPosForDigits(el.value || "", digitsBefore);
+      el.setSelectionRange(pos, pos);
+    }catch(e){}
+    return;
+  }
+
+  // maiúsculo automático
+  if(_shouldUppercase(el)){
+    var s = el.selectionStart, e2 = el.selectionEnd;
+    var before = el.value;
+    var after = before.toUpperCase();
+    if(after !== before){
+      el.value = after;
+      try{
+        if(typeof s === "number" && typeof e2 === "number"){
+          el.setSelectionRange(s, e2);
+        }
+      }catch(e){}
+    }
+  }
+}, true);
+
+document.addEventListener("blur", function(ev){
+  var el = ev.target;
+  if(_isPhoneEl(el)){
+    var v = (el.value||"").trim();
+    if(!v) return;
+    if(!_isPhoneValid(v)){
+      toast("Telefone inválido. Informe com DDD: (DD) 9XXXX-XXXX");
+      try{ el.focus(); }catch(e){}
+      return;
+    }
+    el.value = _formatPhoneDigits(_digits(v));
+  }
+}, true);
+// === /FS PATCH V66 ===
+
+function statusBadge(s){
+  if(s==="autorizado") return '<span class="badge b-ok">✅ Autorizado</span>';
+  if(s==="negado") return '<span class="badge b-bad">⛔ Negado</span>';
+  if(s==="analise") return '<span class="badge b-warn">⏳ Em análise</span>';
+  return '<span class="badge b-na">— Não precisa</span>';
+}
+
+function renderModeExtra(mode){
+  const box = $("#modeExtra");
+  // (V68) Modalidade extra ficou livre para futuras regras.
+  // Endereço de entrega foi movido para a etapa PV, abaixo dos dados do produto.
+  if(box) box.innerHTML = "";
+}
+
+function renderEntregaPV(){
+  const box = byId("pvEntregaBox");
+  if(!box) return;
+
+  // estado (recolhido por padrão)
+  if(typeof state.pvEntregaOpen !== "boolean") state.pvEntregaOpen = true;
+
+  const open = !!state.pvEntregaOpen;
+  const btnLabel = open ? "Fechar" : "Abrir";
+  const wrapClass = open ? "entregaWrap" : "entregaWrap collapsed";
+
+  const html = `
+    <div class="entregaHeader">
+      <h3 class="title entregaTitle" style="font-size:16px;margin:0">Endereço para entrega</h3>
+      <button type="button" class="btnTiny" id="btnToggleEntrega">${btnLabel}</button>
+      <button type="button" class="btnTiny" id="btnUseCadEntrega" title="Copiar endereço do cadastro para a entrega">Usar do cadastro</button>
+    </div>
+
+    <div id="entregaWrap" class="${wrapClass}">
+      <div class="grid2">
+        <div class="field">
+          <label>Nome de quem vai receber</label>
+          <input id="e_nome" placeholder="Ex.: Maria da Silva" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_nome)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>CEP (entrega)</label>
+          <div class="row" style="gap:8px">
+            <input id="e_cep" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="postal-code" placeholder="00000000" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_cep)||"")}" />
+            <button type="button" class="btnIcon" id="btnEntCEP" title="Buscar CEP da entrega">🔎</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Telefone de contato</label>
+          <input id="e_tel" type="tel" inputmode="numeric" pattern="[0-9]*" autocomplete="tel" placeholder="(DD) 9XXXX-XXXX" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_tel)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>N° (entrega)</label>
+          <input id="e_num" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_num)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>Endereço (entrega)</label>
+          <input id="e_end" placeholder="" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_end)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>Complemento (entrega)</label>
+          <input id="e_comp" placeholder="" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_comp)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>Bairro (entrega)</label>
+          <input id="e_bairro" placeholder="" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_bairro)||"")}" />
+        </div>
+
+        <div class="field">
+          <label>Cidade/UF (entrega)</label>
+          <input id="e_cidade" placeholder="Ex.: Iguatu/CE" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_cidade)||"")}" />
+        </div>
+
+        <div class="field" style="grid-column:1 / -1">
+          <label>Ponto de referência (entrega)</label>
+          <input id="e_ref" placeholder="" value="${escapeHtml((state.pv.entrega && state.pv.entrega.e_ref)||"")}" />
+        </div>
+      </div>
+
+      <div class="muted" style="margin-top:8px;font-size:12px">
+        Se não informar a entrega, o PDF usa o endereço do cadastro. (Você também pode escolher “mesmo do cadastro” ao avançar.)
+      </div>
+    </div>
+  `;
+
+  box.innerHTML = html;
+
+  // toggle
+  const btn = byId("btnToggleEntrega");
+  const wrap = byId("entregaWrap");
+  if(btn && wrap){
+    btn.onclick = ()=>{
+      state.pvEntregaOpen = !state.pvEntregaOpen;
+      const isOpen = !!state.pvEntregaOpen;
+      wrap.classList.toggle("collapsed", !isOpen);
+      btn.textContent = isOpen ? "Fechar" : "Abrir";
+    };
+  }
+
+  // usar endereço do cadastro (somente quando o usuário pedir)
+  const btnUse = byId("btnUseCadEntrega");
+  if(btnUse){
+    btnUse.onclick = ()=>{
+      const ok = confirm("Usar o endereço do cadastro como endereço de entrega?");
+      if(!ok) return;
+      state.entregaSameCadastro = true;
+      _prefillEntregaFromCadastro();
+      state.pvEntregaOpen = true;
+      renderEntregaPV();
+      toast("Endereço de entrega copiado do cadastro");
+    };
+  }
+
+  // mantém valores no state (para não perder em re-render)
+  const bind = (id, key)=> {
+    const el = byId(id);
+    if(!el) return;
+    el.addEventListener("input", ()=>{ state.pv.entrega = state.pv.entrega || {}; state.pv.entrega[key] = el.value; state.entregaSameCadastro = false; });
+  };
+  bind("e_nome","e_nome");
+  bind("e_tel","e_tel");
+  bind("e_cep","e_cep");
+  bind("e_end","e_end");
+  bind("e_num","e_num");
+  bind("e_comp","e_comp");
+  bind("e_bairro","e_bairro");
+  bind("e_cidade","e_cidade");
+  bind("e_ref","e_ref");
+
+  // CEP entrega
+  const btnCep = byId("btnEntCEP");
+  if(btnCep) btnCep.onclick = ()=>lookupCEPEnt();
+}
+
+function collectEntrega(){
+  return {
+    nome: (_val("#e_nome","")||"").trim(),
+    tel: (_val("#e_tel","")||"").trim(),
+    cep: (_val("#e_cep","")||"").trim(),
+    endereco: (_val("#e_end","")||"").trim(),
+    numero: (_val("#e_num","")||"").trim(),
+    complemento: (_val("#e_comp","")||"").trim(),
+    bairro: (_val("#e_bairro","")||"").trim(),
+    cidade: (_val("#e_cidade","")||"").trim(),
+    referencia: (_val("#e_ref","")||"").trim(),
+  };
+}
+
+async function lookupCEP(){
+  const cepRaw = ($("#c_cep").value||"").replace(/\D/g,"");
+  if(cepRaw.length !== 8){ toast("CEP inválido"); return; }
+  try{
+    const r = await fetch("https://viacep.com.br/ws/"+cepRaw+"/json/");
+    const j = await r.json();
+    if(j.erro){ toast("CEP não encontrado"); return; }
+    $("#c_end").value = j.logradouro || $("#c_end").value;
+    $("#c_bairro").value = j.bairro || $("#c_bairro").value;
+    const city = (j.localidade||"") + (j.uf?"/"+j.uf:"");
+    $("#c_cidade").value = city || $("#c_cidade").value;
+    toast("Endereço preenchido");
+  }catch(e){
+    toast("Sem internet para CEP");
+  }
+}
+
+async function lookupCEPEnt(){
+  const cepRaw = (_val("#e_cep","")||"").replace(/\D/g,"");
+  if(cepRaw.length !== 8){ toast("CEP inválido"); return; }
+  try{
+    const r = await fetch("https://viacep.com.br/ws/"+cepRaw+"/json/");
+    const j = await r.json();
+    if(j.erro){ toast("CEP não encontrado"); return; }
+    const curEnd = (_val("#e_end","")||"");
+    const curB = (_val("#e_bairro","")||"");
+    const curC = (_val("#e_cidade","")||"");
+    _getEl("#e_end").value = (j.logradouro || curEnd);
+    _getEl("#e_bairro").value = (j.bairro || curB);
+    const city = (j.localidade||"") + (j.uf?"/"+j.uf:"");
+    _getEl("#e_cidade").value = (city || curC);
+    toast("Entrega: endereço preenchido");
+  }catch(e){
+    toast("Sem internet para CEP");
+  }
+}
+
+function collectCadastro(){
+  const mode = state.mode || "";
+  const base = {
+    nome: $("#c_nome").value.trim(),
+    cpf: $("#c_cpf").value.trim(),
+    apelido: $("#c_apelido").value.trim(),
+    celular: $("#c_cel").value.trim(),
+    email: $("#c_email").value.trim(),
+    cep: $("#c_cep").value.trim(),
+    endereco: $("#c_end").value.trim(),
+    numero: $("#c_num").value.trim(),
+    complemento: $("#c_comp").value.trim(),
+    bairro: $("#c_bairro").value.trim(),
+    cidade: $("#c_cidade").value.trim(),
+    referencia: $("#c_ref").value.trim(),
+  };
+
+  const extra = { mode };
+
+  if(mode === "carne"){
+    Object.assign(extra, {
+      nasc: $("#c_nasc").value || "",
+      sexoMasculino: $("#c_sexo_m").checked,
+      nacionalidade: $("#c_nacionalidade").value || "",
+      rg: $("#c_rg").value.trim(),
+      rgOrgao: $("#c_rg_org").value.trim(),
+      rgData: $("#c_rg_data").value || "",
+
+      trabalho: $("#c_trabalho").value.trim(),
+      funcionario: $("#c_func").checked,
+      profissao: $("#c_prof").value.trim(),
+      instrucao: $("#c_instrucao").value.trim(),
+      renda: $("#c_renda").value.trim(),
+      rendaInfTipo: $("#c_renda_inf_tipo").value.trim(),
+      rendaInf: $("#c_renda_inf").value.trim(),
+      empregoMeses: $("#c_emp_meses").value.trim(),
+      ocupacao: $("#c_ocupacao").value.trim(),
+
+      zonaRural: $("#c_zona_rural").checked,
+      enderecoMeses: $("#c_end_meses").value.trim(),
+      residenciaTipo: $("#c_res_tipo").value.trim(),
+      obs: $("#c_obs").value.trim(),
+
+      fone: $("#c_fone").value.trim(),
+      emailNfe: $("#c_email_nfe").value.trim(),
+
+      pai: $("#c_pai").value.trim(),
+      mae: $("#c_mae").value.trim(),
+      estadoCivil: $("#c_est_civil").value.trim(),
+      conjuge: $("#c_conj").value.trim(),
+      conjugeCpf: $("#c_conjcpf").value.trim(),
+      dependentes: $("#c_depend").value.trim(),
+
+      avalista: $("#c_aval").value.trim(),
+      avalistaCpf: $("#c_avalcpf").value.trim(),
+      avalistaCel: $("#c_avalcel").value.trim(),
+      avalistaProf: ($("#c_avalprof")?$("#c_avalprof").value.trim():""),
+      avalistaRenda: ($("#c_avalrenda")?$("#c_avalrenda").value.trim():""),
+    });
+  }
+
+  // endereço de entrega (para PDF)
+  extra.entrega = {
+    nome: (_val("#e_nome","")||"").trim(),
+    tel: (_val("#e_tel","")||"").trim(),
+    cep: (_val("#e_cep","")||"").trim(),
+    endereco: (_val("#e_end","")||"").trim(),
+    numero: (_val("#e_num","")||"").trim(),
+    complemento: (_val("#e_comp","")||"").trim(),
+    bairro: (_val("#e_bairro","")||"").trim(),
+    cidade: (_val("#e_cidade","")||"").trim(),
+    referencia: (_val("#e_ref","")||"").trim(),
+  };
+
+  return { ...base, ...extra };
+}
+
+function saveCadastroOnly(){
+  if(!state.mode){ toast("Selecione a modalidade"); return; }
+  const cad = collectCadastro();
+  // minimal validation
+  if(!cad.nome || !cad.cpf || !cad.celular){
+    toast("Preencha Nome/CPF/Celular");
+    return;
+  }
+
+  if(!_validateAllPhoneInputs()) return;
+
+  const records = loadRecords();
+  const id = state.currentId || uid();
+  state.currentId = id;
+  saveState(state);
+
+  // preserve PV data if already exists
+  const existing = records.find(r=>r.id===id);
+  const now = new Date().toISOString();
+  const rec = existing ? {...existing} : { id, createdAt: now };
+  rec.updatedAt = now;
+  rec.mode = state.mode;
+  rec.cadastro = cad;
+  if(!rec.pv) rec.pv = {};
+  if(!rec.servicos) rec.servicos = {};
+  if(!rec.pagamento) rec.pagamento = {};
+  if(!existing) records.unshift(rec);
+  else {
+    const idx = records.findIndex(r=>r.id===id);
+    records[idx] = rec;
+  }
+  saveRecords(records);
+  toast("Cadastro salvo");
+  renderDashboard();
+}
+
+function goPV(){
+  showStep("pv");
+  // V68: endereço de entrega foi movido para esta etapa
+  try{ renderEntregaPV(); }catch(e){}
+  setTimeout(function(){ try{ $("#pv_cod").focus(); }catch(e){} }, 60);
+}
+
+function saveCadastroAndGo(){
+  saveCadastroOnly();
+  if(!state.currentId) return;
+
+  // Fluxo correto: Cadastro → Entrega (no PV) → Pagamento.
+  // Mesmo quando o atendimento começou pela Simulação, não pulamos a Entrega.
+  if(state.startedFromSim){
+    state.startedFromSim = false;
+  }
+
+  goPV();
+
+  // garante que a caixa de entrega esteja visível (primeira vez pode dar "sensação" de pular)
+  setTimeout(()=>{
+    const box = document.querySelector("#pvEntregaBox");
+    if(box) box.scrollIntoView({behavior:"smooth", block:"start"});
+  }, 60);
+}
+
+function collectPV(){
+  // Coleta PV conforme layout atual (v85)
+  const produtos = getPVProductsFromDOM();
+  return {
+    vendedor: ($("#pv_vend")?.value || "").trim(),
+    saida: ($("#pv_saida")?.value || "Loja"),
+    obs: ($("#pv_obs")?.value || "").trim(),
+    produtos,
+    // Endereço de entrega fica em pv.entrega (collectEntrega)
+  };
+}
+
+function savePVPartial(){
+  const id = state.currentId;
+  if(!id){ toast("Salve o cadastro primeiro"); return; }
+  if(!_validateAllPhoneInputs()) return;
+
+  const records = loadRecords();
+  const rec = records.find(r=>r.id===id);
+  if(!rec){ toast("Registro não encontrado"); return; }
+
+  // PV (produtos/observações/vendedor)
+  rec.pv = collectPV();
+
+  // Entrega: fica separada do cadastro (pv.entrega)
+  rec.pv = rec.pv || collectPV();
+  rec.pv.entrega = rec.pv.entrega || {};
+
+  // Regra:
+  // - Por padrão, entrega vem em branco.
+  // - Se usuário marcar "Usar do cadastro", copiamos do cadastro para a entrega.
+  // - Caso contrário, salva o que foi digitado nos campos de entrega (ou fica vazio).
+  const ent = collectEntrega();
+  const hasAny = Object.values(ent).some(v => (v||"").toString().trim() !== "");
+
+  rec.cadastro = rec.cadastro || collectCadastro();
+
+  if(state.entregaSameCadastro === true){
+    // copia do cadastro -> entrega
+    rec.pv.entrega = {
+      nome: rec.cadastro.nome || "",
+      tel: rec.cadastro.celular || "",
+      cep: rec.cadastro.cep || "",
+      endereco: rec.cadastro.endereco || "",
+      numero: rec.cadastro.numero || "",
+      complemento: rec.cadastro.complemento || "",
+      bairro: rec.cadastro.bairro || "",
+      cidade: rec.cadastro.cidade || ""
+    };
+  } else if(hasAny){
+    // entrega manual/CEP
+    rec.pv.entrega = ent;
+  } else {
+    // não informado: por padrão, usa o endereço do cadastro (evita Entrega vazia no resumo)
+    rec.cadastro = rec.cadastro || collectCadastro();
+    rec.pv.entrega = {
+      nome: rec.cadastro.nome || "",
+      tel: rec.cadastro.celular || "",
+      cep: rec.cadastro.cep || "",
+      endereco: rec.cadastro.endereco || "",
+      numero: rec.cadastro.numero || "",
+      complemento: rec.cadastro.complemento || "",
+      bairro: rec.cadastro.bairro || "",
+      cidade: rec.cadastro.cidade || ""
+    };
+  }
+
+  rec.updatedAt = new Date().toISOString();
+  saveRecords(records);
+}
+function collectServicos(){
+  const gTem = $("#s_g_tem").value === "sim";
+  const pTem = $("#s_p_tem").value === "sim";
+  return {
+    garantia: gTem ? {
+      tempo: $("#s_g_tempo").value.trim(),
+      av: $("#s_g_av").value.trim(),
+      parc: Number($("#s_g_parc").value||"1"),
+      parc_v: $("#s_g_parc_v").value.trim(),
+    } : { tem:false },
+    prestamista: pTem ? {
+      av: $("#s_p_av").value.trim(),
+      parc: Number($("#s_p_parc").value||"1"),
+      parc_v: $("#s_p_parc_v").value.trim(),
+    } : { tem:false }
+  };
+}
+
+function saveServicosPartial(){
+  const id = state.currentId;
+  if(!id){ toast("Salve o cadastro primeiro"); return; }
+  const records = loadRecords();
+  const rec = records.find(r=>r.id===id);
+  if(!rec){ toast("Registro não encontrado"); return; }
+  rec.servicos = collectServicos();
+  rec.updatedAt = new Date().toISOString();
+  saveRecords(records);
+}
+
+function updateResumo(){
+  try{
+    if(typeof renderResumo === "function") return renderResumo();
+  }catch(e){ console.warn("updateResumo->renderResumo:", e); }
+}
+
+function syncPayForm(mode){
+  // modalidade já é definida no card (state.mode)
+  if(mode) state.mode = mode;
+  saveState(state);
+  updatePayBlocks();
+}
+
+function updatePayBlocks(){
+  const v = (state.mode || "").toLowerCase();
+  // mostra o bloco correto (sem seletor, pois a modalidade já foi escolhida no card)
+  $("#pay_cartao").classList.toggle("hide", v !== "cartao");
+  $("#pay_pix").classList.toggle("hide", v !== "pix");
+  $("#pay_avista").classList.toggle("hide", v !== "avista");
+  $("#pay_carne").classList.toggle("hide", v !== "carne");
+
+  // label fixo da modalidade
+  const lbl = $("#payModeFixed");
+  if(lbl){
+    const pretty = (v==="carne")?"Carnê":(v==="cartao")?"Cartão":(v==="pix")?"PIX":(v==="avista")?"À vista":"—";
+    lbl.textContent = pretty;
+    try{ const h=document.getElementById("payModeHeader"); if(h) h.textContent = "Modalidade: " + pretty; }catch(e){}
+  }
+  try{ applyPagamentoDraft((state.mode||"").toLowerCase()); }catch(e){ console.warn(e); }
+  updateResumo();
+  try{ updatePayModeCardsActive(); }catch(e){}
+  try{ applyTrocoVisibility(); }catch(e){}
+}
+
+function bindPayModeCards(){
+  const wrap = document.getElementById("payModeCards");
+  if(!wrap) return;
+  if(wrap.dataset.bound === "1") { updatePayModeCardsActive(); return; }
+  wrap.dataset.bound = "1";
+  wrap.querySelectorAll("[data-mode]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      if(state && state.modeLocked){ try{ toast('Modalidade travada. Para mudar, inicie uma nova simulação.'); }catch(e){} return; }
+
+      const m = btn.getAttribute("data-mode");
+      if(m) setMode(m);
+      // definir e travar modalidade a partir daqui
+      state.modeLocked = true;
+      try{ document.body.classList.add('mode-locked'); }catch(e){}
+      saveState(state);
+
+      // definir e travar modalidade a partir daqui
+      state.modeLocked = true;
+      try{ document.body.classList.add('mode-locked'); }catch(e){}
+      saveState(state);
+
+      // já estamos no pagamento, só garante UI sincronizada
+      try{ updatePayBlocks(); }catch(e){}
+    });
+  });
+  updatePayModeCardsActive();
+}
+
+function updatePayModeCardsActive(){
+  const wrap = document.getElementById("payModeCards");
+  if(!wrap) return;
+  const cur = String(state.mode || "").toLowerCase();
+  wrap.querySelectorAll("[data-mode]").forEach(btn=>{
+    const m = String(btn.getAttribute("data-mode")||"").toLowerCase();
+    btn.classList.toggle("active", m && m === cur);
+  });
+}
+
+// ---- Troca de modalidade sem perder dados (pagamento) ----
+function _ensurePayDraft(){
+  if(!state.payDraftByMode) state.payDraftByMode = {};
+}
+function stashPagamentoDraft(){
+  try{
+    _ensurePayDraft();
+    const mode = (state.mode||"").toLowerCase();
+    if(!mode) return;
+    // captura campos comuns
+    const draft = {
+      caixa: byId("pa_caixa") ? byId("pa_caixa").value : "",
+      valorRecebido: byId("pay_valor") ? byId("pay_valor").value : "",
+      trocoDado: byId("pay_troco") ? byId("pay_troco").value : "",
+      obs: byId("pay_obs") ? byId("pay_obs").value : ""
+    };
+    if(mode==="cartao"){
+      draft.cartao = {
+        tipo: byId("pc_tipo")?byId("pc_tipo").value:"",
+        bandeira: byId("pc_band")?byId("pc_band").value:"",
+        final: byId("pc_final")?byId("pc_final").value:"",
+        parcelas: byId("pc_parc")?byId("pc_parc").value:"",
+        nsu: byId("pc_nsu")?byId("pc_nsu").value:""
+      };
+    }
+    if(mode==="pix"){
+      draft.pix = {
+        nome: byId("pp_nome")?byId("pp_nome").value:"",
+        cpf: byId("pp_cpf")?byId("pp_cpf").value:"",
+        tel: byId("pp_tel")?byId("pp_tel").value:"",
+        tipo: byId("pp_tipo")?byId("pp_tipo").value:"",
+        chave: byId("pp_chave")?byId("pp_chave").value:""
+      };
+    }
+    if(mode==="carne"){
+      if(mode === "carne"){
+      draft.carne = {
+        parcelas: Number((byId("pn_parc")?byId("pn_parc").value:"1")||"1"),
+        vparc: byId("pn_vparc")?byId("pn_vparc").value.trim():"",
+        venc: byId("pn_venc")?byId("pn_venc").value:"",
+        autAtend: byId("pn_aut_atend")?byId("pn_aut_atend").value.trim():"",
+        autGer: byId("pn_aut_ger")?byId("pn_aut_ger").value.trim():"",
+        obsImp: byId("pn_obsimp")?byId("pn_obsimp").value.trim():"",
+      };
+    }
+    }
+    state.payDraftByMode[mode] = draft;
+    saveState(state);
+  }catch(e){ console.warn("stashPagamentoDraft", e); }
+}
+function clearPagamentoInputs(){
+  ["pay_valor","pay_troco","pay_obs","pa_caixa","pc_band","pc_final","pc_nsu","pp_nome","pp_cpf","pp_tel","pp_chave","pn_parc","pn_vparc","pn_venc","pn_aut_atend","pn_aut_ger","pn_obsimp"].forEach(id=>{
+    const el = byId(id);
+    if(el) el.value = "";
+  });
+  if(byId("pc_tipo")) byId("pc_tipo").value = "Crédito";
+  if(byId("pc_parc")) byId("pc_parc").value = "1";
+  if(byId("pp_tipo")) byId("pp_tipo").value = "Chave";
+}
+function applyPagamentoDraft(mode){
+  try{
+    _ensurePayDraft();
+    const m = (mode||"").toLowerCase();
+    const draft = state.payDraftByMode[m];
+    if(!draft){ clearPagamentoInputs(); return; }
+
+    if(byId("pa_caixa")) byId("pa_caixa").value = draft.caixa || "";
+    if(byId("pay_valor")) byId("pay_valor").value = draft.valorRecebido || "";
+    if(byId("pay_troco")) byId("pay_troco").value = draft.trocoDado || "";
+    if(byId("pay_obs")) byId("pay_obs").value = draft.obs || "";
+
+    if(m==="cartao" && draft.cartao){
+      if(byId("pc_tipo")) byId("pc_tipo").value = draft.cartao.tipo || "Crédito";
+      if(byId("pc_band")) byId("pc_band").value = draft.cartao.bandeira || "";
+      if(byId("pc_final")) byId("pc_final").value = draft.cartao.final || "";
+      if(byId("pc_parc")) byId("pc_parc").value = draft.cartao.parcelas || "1";
+      if(byId("pc_nsu")) byId("pc_nsu").value = draft.cartao.nsu || "";
+    }
+    if(m==="pix" && draft.pix){
+      if(byId("pp_nome")) byId("pp_nome").value = draft.pix.nome || "";
+      if(byId("pp_cpf")) byId("pp_cpf").value = draft.pix.cpf || "";
+      if(byId("pp_tel")) byId("pp_tel").value = draft.pix.tel || "";
+      if(byId("pp_tipo")) byId("pp_tipo").value = draft.pix.tipo || "Chave";
+      if(byId("pp_chave")) byId("pp_chave").value = draft.pix.chave || "";
+    }
+    if(m==="carne" && draft.carne){
+      if(byId("pn_parc")) byId("pn_parc").value = String(draft.carne.parcelas || "1");
+      if(byId("pn_vparc")) byId("pn_vparc").value = draft.carne.vparc || "";
+      if(byId("pn_venc")) byId("pn_venc").value = draft.carne.venc || "";
+      if(byId("pn_aut_atend")) byId("pn_aut_atend").value = draft.carne.autAtend || "";
+      if(byId("pn_aut_ger")) byId("pn_aut_ger").value = draft.carne.autGer || "";
+      if(byId("pn_obsimp")) byId("pn_obsimp").value = draft.carne.obsImp || "";
+    }
+
+  }catch(e){ console.warn("applyPagamentoDraft", e); }
+}
+function toggleModeDropdown(force){
+  const dd = byId("modeDropdown");
+  const pill = byId("modePill");
+  if(!dd || !pill) return;
+  const willOpen = (typeof force==="boolean") ? force : dd.classList.contains("hide");
+  dd.classList.toggle("hide", !willOpen);
+  pill.setAttribute("aria-expanded", willOpen ? "true":"false");
+}
+function switchModePreserve(newMode){
+  const nm = (newMode||"").toLowerCase();
+  if(!nm || nm === (state.mode||"").toLowerCase()){ toggleModeDropdown(false); return; }
+  // guarda o que foi digitado no pagamento atual
+  stashPagamentoDraft();
+  // troca modalidade (mantendo cadastro/produtos/entrega/serviços)
+  setMode(nm);
+  // restaura campos da modalidade escolhida, se existirem
+  applyPagamentoDraft(nm);
+  toggleModeDropdown(false);
+  toast("Modalidade alterada: " + (ModeLabel[nm]||nm));
+}
+// Fecha dropdown ao clicar fora
+document.addEventListener("click", (e)=>{
+  const dd = byId("modeDropdown");
+  const pill = byId("modePill");
+  if(!dd || !pill) return;
+  const inside = dd.contains(e.target) || pill.contains(e.target);
+  if(!inside) toggleModeDropdown(false);
+});
+
+function collectPagamento(){
+  const forma = (state.mode || "").toLowerCase();
+  const p = { forma,
+    caixa: ($("#pa_caixa")?$("#pa_caixa").value.trim():""),
+    valorRecebido: ($("#pay_valor")?$("#pay_valor").value.trim():""),
+    trocoDado: ($("#pay_troco")?$("#pay_troco").value.trim():""),
+    obs: $("#pay_obs").value.trim()
+  };
+  if(forma === "cartao"){
+    p.cartao = {
+      tipo: $("#pc_tipo").value,
+      bandeira: $("#pc_band").value.trim(),
+      final: $("#pc_final").value.trim(),
+      parcelas: Number($("#pc_parc").value||"1"),
+      nsu: $("#pc_nsu").value.trim(),
+    };
+  }
+  if(forma === "pix"){
+    p.pix = {
+      nome: $("#pp_nome").value.trim(),
+      cpf: $("#pp_cpf").value.trim(),
+      tel: $("#pp_tel").value.trim(),
+      tipo: $("#pp_tipo").value,
+      chave: $("#pp_chave").value.trim(),
+    };
+  }
+  if(forma === "avista"){
+    p.avista = {
+      caixa: $("#pa_caixa").value.trim(),
+    };
+  }
+  if(forma === "carne"){
+    p.carne = {
+      parcelas: Number($("#pn_parc")?$("#pn_parc").value||"1":"1"),
+      vparc: $("#pn_vparc")?$("#pn_vparc").value.trim():"",
+      venc: $("#pn_venc")?$("#pn_venc").value:"",
+      autAtend: $("#pn_aut_atend")?$("#pn_aut_atend").value.trim():"",
+      autGer: $("#pn_aut_ger")?$("#pn_aut_ger").value.trim():"",
+      obsImp: $("#pn_obsimp")?$("#pn_obsimp").value.trim():"",
+    };
+  }
+  return p;
+}
+
+/* ===== Consolidação segura para Resumo (não quebra fluxo) ===== */
+function _mergeNonEmpty(dst, src){
+  dst = dst && typeof dst==="object" ? dst : {};
+  src = src && typeof src==="object" ? src : {};
+  const out = {...dst};
+  for(const k of Object.keys(src)){
+    const v = src[k];
+    const has = !(v===undefined || v===null || (typeof v==="string" && v.trim()===""));
+    if(has) out[k] = v;
+  }
+  return out;
+}
+
+function consolidateFinalData(){
+  try{
+    // garante um currentId
+    const id = state.currentId || uid();
+    if(!state.currentId){ state.currentId = id; saveState(state); }
+
+    const records = loadRecords();
+    const existing = records.find(r=>r.id===id);
+    const now = new Date().toISOString();
+    const rec = existing ? {...existing} : { id, createdAt: now };
+
+    rec.updatedAt = now;
+    rec.mode = state.mode || rec.mode || "";
+
+    // coleta ao vivo
+    const cadLive = (()=>{ try{return collectCadastro();}catch(e){return {}; } })();
+    const pvLive  = (()=>{ try{return collectPV();}catch(e){return {}; } })();
+    const payLive = (()=>{ try{return collectPagamento();}catch(e){return {}; } })();
+    const entLive = (()=>{ try{return collectEntrega();}catch(e){return {}; } })();
+
+    rec.cadastro = _mergeNonEmpty(rec.cadastro||{}, cadLive);
+
+    rec.pv = rec.pv || {};
+    // merge PV sem sobrescrever por vazio
+    rec.pv = _mergeNonEmpty(rec.pv, pvLive);
+
+    // entrega: manter no PV (forma já usada pelo sistema)
+    rec.pv.entrega = _mergeNonEmpty(rec.pv.entrega||{}, (pvLive && pvLive.entrega) ? pvLive.entrega : entLive);
+
+    rec.pagamento = _mergeNonEmpty(rec.pagamento||{}, payLive);
+
+    // garante sub-objetos usados em outras telas
+    if(!rec.servicos) rec.servicos = rec.servicos || {};
+    if(!existing) records.unshift(rec);
+    else {
+      const idx = records.findIndex(r=>r.id===id);
+      records[idx] = rec;
+    }
+    saveRecords(records);
+    return rec;
+  }catch(e){
+    console.warn("consolidateFinalData:", e);
+    return null;
+  }
+}
+
+function pixMesmoCadastro(){
+  try{
+    const nome = (document.getElementById("c_nome")?.value || "").trim();
+    const cpf  = (document.getElementById("c_cpf")?.value || "").trim();
+    const tel  = (document.getElementById("c_cel")?.value || "").trim();
+
+    const set = (id, v)=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.value = v;
+      try{ el.dispatchEvent(new Event('input',{bubbles:true})); }catch(e){}
+      try{ el.dispatchEvent(new Event('change',{bubbles:true})); }catch(e){}
+    };
+
+    set("pp_nome", nome);
+    set("pp_cpf", cpf);
+    set("pp_tel", tel);
+
+    // Atualiza o resumo imediatamente
+    try{ renderResumo(); }catch(e){}
+    toast("PIX preenchido com os dados do cadastro.");
+  }catch(e){
+    console.warn("pixMesmoCadastro:", e);
+  }
+}
+
+function renderResumo(){
+  try{
+    const id = state.currentId;
+    const records = loadRecords();
+    const rec = records.find(r=>r.id===id);
+    try{ consolidateDraft("renderResumo"); }catch(e){}
+    const draftNow = (typeof loadDraft==="function" ? (loadDraft()||{}) : {});
+
+    // Preferir dados preenchidos na tela (quando existem), senão usar state/registro salvo.
+// IMPORTANTE: não considerar objetos/arrays "vazios" como dado (ex: extra.entrega).
+const _hasStr = (v)=> (String(v ?? "").trim() !== "");
+const hasCadastro = (c)=> !!(c && (_hasStr(c.nome) || _hasStr(c.cpf) || _hasStr(c.celular) || _hasStr(c.endereco) || _hasStr(c.cep)));
+const hasPV = (p)=> !!(p && (_hasStr(p.vendedor) || _hasStr(p.obs) || (Array.isArray(p.produtos) && p.produtos.length>0)));
+const _deepHas = (obj)=>{ try{ if(!obj) return false; if(typeof obj==="string") return _hasStr(obj); if(typeof obj!=="object") return false; for(const k in obj){ if(_deepHas(obj[k])) return true; } return false; }catch(e){ return false; } };
+const hasPay = (p)=>{ if(!p) return false; if(_hasStr(p.forma) || _hasStr(p.caixa) || _hasStr(p.valorRecebido) || _hasStr(p.trocoDado) || _hasStr(p.obs)) return true; return _deepHas(p.pix) || _deepHas(p.cartao) || _deepHas(p.avista) || _deepHas(p.carne); };
+
+const cadLive = collectCadastro();
+const cadState = (state && state.cadastro) ? state.cadastro : {};
+const cadRec  = (rec && rec.cadastro) ? rec.cadastro : {};
+const cad = hasCadastro(cadLive) ? cadLive : (hasCadastro(cadState) ? cadState : (hasCadastro(cadRec) ? cadRec : cadLive));
+
+const pvLive = collectPV();
+const pvState = (state && state.pv) ? state.pv : {};
+const pvRec  = (rec && rec.pv) ? rec.pv : {};
+// Evitar que coletado vazio sobrescreva (prioridade: live > state > rec)
+const pvBase = hasPV(pvState) ? Object.assign({}, pvRec, pvState) : Object.assign({}, pvRec);
+const pv = hasPV(pvLive) ? Object.assign({}, pvBase, pvLive) : Object.assign({}, pvBase);
+
+const payLive = collectPagamento();
+const payState = (state && state.pagamento) ? state.pagamento : {};
+const payRec  = (rec && rec.pagamento) ? rec.pagamento : {};
+const payBase = hasPay(payState) ? Object.assign({}, payRec, payState) : Object.assign({}, payRec);
+const pay = hasPay(payLive) ? Object.assign({}, payBase, payLive) : Object.assign({}, payBase);
+// Entrega pode estar em dois formatos: (e_*) ou (endereco/numero/...)
+// REGRA: se tiver entrega digitada nos inputs (#e_*), ela tem prioridade.
+// Isso evita puxar do cadastro quando state.pv.entrega existe mas está vazio.
+const _hasEntrega = (o)=> {
+  if(!o) return false;
+  const pick = (k)=> String(o[k] ?? "").trim();
+  return !!(pick("e_nome")||pick("nome")||pick("e_tel")||pick("tel")||pick("e_cep")||pick("cep")||pick("e_end")||pick("endereco")||pick("e_num")||pick("numero")||pick("e_bairro")||pick("bairro")||pick("e_cidade")||pick("cidade")||pick("cidadeUF"));
+};
+const entLive = collectEntrega();
+const entFromPV = (pv && pv.entrega) ? pv.entrega : null;
+const entRaw = _hasEntrega(entLive) ? entLive : (_hasEntrega(entFromPV) ? entFromPV : entLive);
+    const ent = {
+      e_nome:  (entRaw.nome ?? entRaw.e_nome ?? "").trim?.() ? (entRaw.nome ?? entRaw.e_nome).trim() : (entRaw.nome ?? entRaw.e_nome ?? ""),
+      e_tel:   (entRaw.tel ?? entRaw.e_tel ?? "").trim?.() ? (entRaw.tel ?? entRaw.e_tel).trim() : (entRaw.tel ?? entRaw.e_tel ?? ""),
+      e_end:   (entRaw.e_end ?? entRaw.endereco ?? "").trim?.() ? (entRaw.e_end ?? entRaw.endereco).trim() : (entRaw.e_end ?? entRaw.endereco ?? ""),
+      e_num:   (entRaw.e_num ?? entRaw.numero ?? "").trim?.() ? (entRaw.e_num ?? entRaw.numero).trim() : (entRaw.e_num ?? entRaw.numero ?? ""),
+      e_bairro:(entRaw.e_bairro ?? entRaw.bairro ?? "").trim?.() ? (entRaw.e_bairro ?? entRaw.bairro).trim() : (entRaw.e_bairro ?? entRaw.bairro ?? ""),
+      e_cidade:(entRaw.e_cidade ?? entRaw.cidade ?? entRaw.cidadeUF ?? "").trim?.() ? (entRaw.e_cidade ?? entRaw.cidade ?? entRaw.cidadeUF).trim() : (entRaw.e_cidade ?? entRaw.cidade ?? entRaw.cidadeUF ?? ""),
+      e_cep:   (entRaw.e_cep ?? entRaw.cep ?? "").trim?.() ? (entRaw.e_cep ?? entRaw.cep).trim() : (entRaw.e_cep ?? entRaw.cep ?? ""),
+      e_comp:  (entRaw.e_comp ?? entRaw.complemento ?? "").trim?.() ? (entRaw.e_comp ?? entRaw.complemento).trim() : (entRaw.e_comp ?? entRaw.complemento ?? ""),
+      e_ref:   (entRaw.e_ref ?? entRaw.referencia ?? "").trim?.() ? (entRaw.e_ref ?? entRaw.referencia).trim() : (entRaw.e_ref ?? entRaw.referencia ?? ""),
+    };
+
+    const modo = (((draftNow && draftNow.mode) || state.mode || pay.forma || ((rec && rec.locked) ? rec.mode : "")) || "").toLowerCase();
+    const modoLbl = (ModeLabel[modo] || modo || "—");
+
+    
+const sec = (title, body)=>{
+  const inner = (body && String(body).trim()) ? body : '<div class="muted">—</div>';
+  return `<div class="resSec"><div class="resSecTitle">${esc(title)}</div><div class="resSecBody">${inner}</div></div>`;
+};
+const row = (lbl, val)=>`
+      <div class="summaryRow">
+        <div class="summaryLabel">${lbl}</div>
+        <div class="summaryValue">${val || '<span class="muted">—</span>'}</div>
+      </div>`;
+
+    const card = (title, inner)=>`
+      <div class="resCard">
+        <div class="resTitle">${title}</div>
+        ${inner}
+      </div>`;
+
+    // Modalidade
+    const cModo = card("Resumo geral", row("Modalidade", esc(modoLbl)));
+
+    // Cliente
+    let cCli = "";
+    cCli += row("Nome", esc(cad.nome || ""));
+    cCli += row("CPF", esc(cad.cpf || ""));
+    cCli += row("Celular", esc(cad.celular || ""));
+    if((cad.email||"").trim()) cCli += row("E-mail", esc(cad.email||""));
+    const cCliente = card("Cliente", cCli);
+
+    // Endereço do cadastro
+    let cCadEnd = "";
+    const cadEndTxt = [cad.endereco, cad.numero, cad.bairro, (cad.cidadeUF || cad.cidade)].filter(Boolean).join(" - ");
+    cCadEnd += row("Endereço", esc(cadEndTxt));
+    if((cad.cep||"").trim()) cCadEnd += row("CEP", esc(cad.cep||""));
+    if((cad.complemento||"").trim()) cCadEnd += row("Complemento", esc(cad.complemento||""));
+    if((cad.referencia||"").trim()) cCadEnd += row("Referência", esc(cad.referencia||""));
+    const cEnderecoCad = card("Endereço (cadastro)", cCadEnd);
+
+    // Entrega
+    let cEnt = "";
+    if((ent.e_nome||"").trim()) cEnt += row("Nome", esc(ent.e_nome||""));
+    if((ent.e_tel||"").trim()) cEnt += row("Contato", esc(ent.e_tel||""));
+    const endTxt = [ent.e_end, ent.e_num, ent.e_bairro, ent.e_cidade].filter(Boolean).join(" - ");
+    cEnt += row("Endereço", esc(endTxt));
+    if((ent.e_cep||"").trim()) cEnt += row("CEP", esc(ent.e_cep||""));
+    if((ent.e_comp||"").trim()) cEnt += row("Complemento", esc(ent.e_comp||""));
+    if((ent.e_ref||"").trim()) cEnt += row("Referência", esc(ent.e_ref||""));
+    const cEntrega = card("Entrega", cEnt);
+
+    // Pagamento
+    let cPay = "";
+    if(modo === "avista"){
+      cPay += row("Recebido por (caixa)", esc((pay.avista && pay.avista.caixa) || pay.caixa || ""));
+      cPay += row("Valor recebido", esc(pay.valorRecebido || ""));
+      cPay += row("Troco", esc(pay.trocoDado || ""));
+    } else if(modo === "cartao" && pay.cartao){
+      const c = pay.cartao;
+      cPay += row("Tipo", esc(c.tipo || ""));
+      if((c.bandeira||"").trim()) cPay += row("Bandeira", esc(c.bandeira||""));
+      if((c.final||"").trim()) cPay += row("Final do cartão", esc(c.final||""));
+      cPay += row("Parcelas", esc(String(c.parcelas || 1) + "x"));
+      if((c.nsu||"").trim()) cPay += row("NSU / Autorização", esc(c.nsu||""));
+    } else if(modo === "pix"){
+      const p = pay.pix || {};
+      cPay += row("Titular", esc(p.nome || ""));
+      if((p.cpf||"").trim()) cPay += row("CPF", esc(p.cpf||""));
+      if((p.tel||"").trim()) cPay += row("Telefone", esc(p.tel||""));
+      if((p.tipo||"").trim()) cPay += row("Tipo de chave", esc(p.tipo||""));
+      if((p.chave||"").trim()) cPay += row("Chave PIX", esc(p.chave||""));
+    } else if(modo === "carne"){
+      cPay += row("Detalhes", "Carnê");
+    }
+
+    if((pay.obs||"").trim()){
+      cPay += row("Obs.", esc(pay.obs||""));
+    }
+    const cPagamento = card("Pagamento", cPay || row("Detalhes", '<span class="muted">—</span>'));
+
+    const html = `<div class="resOne">${cModo}${cCliente}${cEnderecoCad}${cEntrega}${cPagamento}</div>`;
+
+    const box = document.getElementById("resumoBox");
+    const txt = document.getElementById("resumoTxt");
+    if(box && txt){
+      txt.classList.add("hide");
+      box.innerHTML = html;
+    }
+  }catch(e){
+    console.warn("renderResumo:", e);
+  }
+}
+function savePVFinal(
+){
+  const id = state.currentId;
+  if(!id){ toast("Salve o cadastro primeiro"); return; }
+  if(!_validateAllPhoneInputs()) return;
+  const records = loadRecords();
+  const rec = records.find(r=>r.id===id);
+  if(!rec){ toast("Registro não encontrado"); return; }
+
+  // atualizar cadastro (evita resumo vazio ao salvar)
+  try{
+    const cadNow = collectCadastro();
+    const _hasCad = cadNow && Object.values(cadNow).some(v=>String(v||"").trim()!=="");
+    if(_hasCad || !rec.cadastro) rec.cadastro = cadNow;
+  }catch(e){}
+
+  // persist pv + serv + pagamento
+  rec.pv = collectPV();
+  try{ rec.pv.entrega = collectEntrega(); }catch(e){ rec.pv.entrega = {}; }
+  try{ const _ent=rec.pv.entrega||{}; const _has=Object.values(_ent).some(v=>String(v||"").trim()!==""); if(!_has){ rec.cadastro=rec.cadastro||collectCadastro(); rec.pv.entrega={ nome:rec.cadastro.nome||"", tel:rec.cadastro.celular||"", cep:rec.cadastro.cep||"", endereco:rec.cadastro.endereco||"", numero:rec.cadastro.numero||"", complemento:rec.cadastro.complemento||"", bairro:rec.cadastro.bairro||"", cidade:rec.cadastro.cidade||"" }; } }catch(e){}
+  try{ rec.mode = String((state && state.mode) || rec.mode || "").toLowerCase(); }catch(e){}
+  rec.servicos = collectServicos();
+  rec.pagamento = collectPagamento();
+  rec.updatedAt = new Date().toISOString();
+  // travar (finalizado): não permitir edição depois
+  rec.locked = true;
+  rec.lockedAt = rec.updatedAt;
+  saveRecords(records);
+  toast("PV salvo ✅");
+  renderDashboard();
+  showStep("home");
+  // Após finalizar: limpar dados do atendimento atual (sem apagar histórico)
+  try{ clearSessionSilent(); }catch(e){}
+  try{ clearDraft(); }catch(e){}
+  try{ setLockedUI(false); }catch(e){}
+}
+
+function badgeCount(list, status){
+  return list.filter(r => (((r.pv && r.pv.status) || "analise") === status)).length;
+}
+
+function renderDashboard(){
+  const all = loadRecords();
+
+  // filters
+  const fMode = _val("#f_mode","")||"";
+  const fStatus = _val("#f_status","")||"";
+  const fVend = (_val("#f_vend","")||"").trim().toLowerCase();
+
+  const filtered = all.filter(r=>{
+    if(fMode && r.mode !== fMode) return false;
+    const st = ((r.pv && r.pv.status)||"analise");
+    if(fStatus && st !== fStatus) return false;
+    const vend = ((r.cadastro && r.cadastro.vendedor)||"").toLowerCase();
+    if(fVend && !vend.includes(fVend)) return false;
+    return true;
+  });
+
+  $("#k_total").textContent = filtered.length;
+  $("#k_ok").textContent = badgeCount(filtered, "autorizado");
+  $("#k_an").textContent = badgeCount(filtered, "analise");
+  $("#k_no").textContent = badgeCount(filtered, "negado");
+
+  const modes = ["carne","cartao","pix","avista"];
+  const tbody = $("#t_mod tbody");
+  tbody.innerHTML = modes.map(m=>{
+    const list = filtered.filter(r=>r.mode===m);
+    return `<tr>
+      <td>${ModeLabel[m]}</td>
+      <td><b>${list.length}</b></td>
+      <td>${badgeCount(list,"autorizado")}</td>
+      <td>${badgeCount(list,"analise")}</td>
+      <td>${badgeCount(list,"negado")}</td>
+    </tr>`;
+  }).join("");
+
+  // vendedores
+  const byVend = new Map();
+  filtered.forEach(r=>{
+    const v = ((r.cadastro && r.cadastro.vendedor)||"—").trim() || "—";
+    if(!byVend.has(v)) byVend.set(v, []);
+    byVend.get(v).push(r);
+  });
+  const vbody = $("#t_vend tbody");
+  const rows = Array.from(byVend.entries()).sort((a,b)=>b[1].length-a[1].length);
+  vbody.innerHTML = rows.map(([v,list])=>`
+    <tr>
+      <td>${v}</td>
+      <td><b>${list.length}</b></td>
+      <td>${badgeCount(list,"autorizado")}</td>
+      <td>${badgeCount(list,"analise")}</td>
+      <td>${badgeCount(list,"negado")}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="5" class="muted">Sem registros</td></tr>`;
+}
+
+function printDashboard(){
+  const w = window.open("", "_blank");
+  const html = document.getElementById("dashCard").innerHTML;
+  w.document.write(`<html><head><title>Dashboard - Zenir Offline</title>
+    <style>body{font-family:Arial;padding:18px} .title{color:#112a7a} table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid #ddd;padding:8px;text-align:left} th{background:#f3f6ff}
+  /* v94: organização Pagamentos */
+  .subcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 10px 24px rgba(17,42,122,.06);}
+  .subhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px 0;}
+  .subhead .kicker{font-weight:800;color:rgba(17,42,122,.92);letter-spacing:.2px}
+  .actions.compact{display:flex;flex-wrap:wrap;gap:10px}
+  .actions.compact .btn{padding:9px 12px}
+  @media (max-width: 860px){
+    .grid2{grid-template-columns:1fr !important;}
+    #pay .actions{justify-content:flex-start}
+  }
+
+/* Modalidade dropdown */
+.pillbtn{cursor:pointer;border:none;background:var(--pill-bg, #EEF2FF);}
+.pillbtn:active{transform:translateY(1px);}
+.mode-dd{position:fixed;top:64px;right:16px;z-index:50;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:14px;
+  box-shadow:0 18px 48px rgba(0,0,0,.18);padding:12px;min-width:260px;}
+.mode-dd.hide{display:none;}
+.mode-dd-title{font-weight:800;margin-bottom:8px;}
+.mode-dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mode-dd-btn{padding:10px 10px;border-radius:12px;border:1px solid rgba(0,0,0,.10);background:#F9FAFB;font-weight:700;cursor:pointer}
+.mode-dd-btn:hover{background:#EEF2FF;}
+
+/* === HOME LIMPO v117 === */
+#home .home-cpf,
+#home #dashCard,
+#home .hr,
+#home .title,
+#home .muted{
+  display:none !important;
+}
+
+/* === HOME SUPER LIMPO v118 === */
+#home ~ header,
+header{
+  display:none !important;
+}
+
+/* === v124 OCULTAR PRODUTOS / PLANOS === */
+#pvProdutosWrap,
+.prodPlanWrap,
+.pvProdutos,
+#produtosPlanos,
+.produtosPlanos{
+    display:none !important;
+}
+
+/* === v125: garante sumiço total dos Produtos/Planos === */
+#pvProdutosWrap, .prodPlanWrap, #pvProdutosList { display:none !important; }
+
+</style>
+  
+<style>
+.cards-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap:28px; /* MAIS ESPAÇO ENTRE CARDS */
+    margin-top:30px;
+}
+
+.card{
+    padding:22px;
+    border-radius:18px;
+    background:#ffffff;
+    box-shadow:0 12px 25px rgba(0,0,0,0.08);
+    transition:all 0.25s ease;
+    margin-bottom:10px;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 35px rgba(0,0,0,0.12);
+}
+
+.card-actions{
+    display:flex;
+    gap:14px; /* MAIS ESPAÇO ENTRE BOTÕES */
+    margin-top:18px;
+}
+
+.card-actions button{
+    flex:1;
+    padding:10px 12px;
+    border-radius:10px;
+}
+
+@media(max-width:768px){
+    .cards-grid{
+        gap:22px;
+        padding:0 10px;
+    }
+    .card{
+        padding:20px;
+    }
+}
+</style>
+
+<style>
+/* === FS Layout: botões dentro do card da modalidade === */
+.pay-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:22px; /* espaço entre cards */
+}
+
+/* O card inteiro (inclui conteúdo + botões) */
+.pay-card-wrap{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 25px rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.04);
+}
+
+/* Área superior clicável (título/ícone) */
+.pay-card{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  padding:18px 18px 14px 18px;
+  background:linear-gradient(135deg, rgba(34,92,197,.08), rgba(34,92,197,0));
+  border:none;
+  box-shadow:none !important; /* remove sombra separada do botão */
+  border-radius:0 !important;
+}
+
+/* Melhorar tipografia interna (se existirem essas classes) */
+.pay-title{ font-weight:800; }
+.pay-sub{ opacity:.75; font-size:.88rem; }
+
+/* Faixa dos botões (dentro do card) */
+.cardActions{
+  display:flex;
+  gap:12px;
+  padding:12px 14px 14px 14px;
+  background:rgba(0,0,0,.015);
+  border-top:1px solid rgba(0,0,0,.06);
+}
+
+.cardActions .btn{
+  flex:1;
+  height:40px;
+  border-radius:12px;
+}
+
+/* Mobile: garantir cards mais “respiráveis” */
+@media (max-width:520px){
+  .pay-grid{ gap:16px; }
+  .pay-card{ padding:16px 16px 12px 16px; }
+  .cardActions{ padding:12px; gap:10px; }
+  .cardActions .btn{ height:42px; }
+}
+</style>
+
+<style>
+/* === Desktop organizado 2x2 === */
+@media (min-width: 900px){
+  .pay-grid{
+    grid-template-columns: repeat(2, 1fr) !important;
+    max-width: 900px;
+    margin: 30px auto 0 auto;
+  }
+}
+
+/* Tablet mantém 2 colunas */
+@media (min-width:600px) and (max-width:899px){
+  .pay-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile 1 coluna */
+@media (max-width:599px){
+  .pay-grid{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<style>
+/* === Sombra mais destacada estilo FS === */
+.pay-card-wrap{
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08),
+    0 4px 10px rgba(0,0,0,0.04);
+  transition: all 0.25s ease;
+}
+
+.pay-card-wrap:hover{
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.12),
+    0 8px 18px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+}
+</style>
+
+<style>
+/* === Destaque mais forte + hover verde FS === */
+
+.pay-card-wrap{
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.18),
+    0 6px 14px rgba(0,0,0,0.12);
+  transition: all 0.25s ease;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.pay-card-wrap:hover{
+  transform: translateY(-6px);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.25),
+    0 10px 25px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,180,90,0.6);
+  background: linear-gradient(
+    135deg,
+    rgba(0,180,90,0.08),
+    rgba(0,180,90,0.02)
+  );
+}
+
+/* brilho sutil verde por fora */
+.pay-card-wrap:hover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  box-shadow: 0 0 25px rgba(0,180,90,0.35);
+  pointer-events:none;
+}
+</style>
+
+<style>
+/* === Travar modalidade após seleção inicial === */
+.mode-locked #payModeCards{ display:none !important; }
+.mode-locked .pay-mode-hint{ display:none !important; }
+</style>
+
+<style>
+/* === Tela final: esconder seleção de modalidade após travar === */
+.mode-locked .pay-grid{ display:none !important; }
+.mode-locked .pay-select-wrap{ display:none !important; } /* wrapper (se existir) */
+.mode-locked .pay-mode-header{ margin-top:0 !important; }
+
+/* Pill/modalidade destacada no topo */
+.pay-mode-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(0,180,90,.10);
+  border:1px solid rgba(0,180,90,.35);
+  color:#0f6b3a;
+  font-weight:800;
+  font-size:13px;
+}
+</style>
+
+<style>
+/* === Tela final (pay): esconder seleção de modalidade === */
+.tela-final .pay-select-wrap{ display:none !important; }
+.tela-final .pay-grid{ display:none !important; }
+
+/* === Resumão único === */
+.resOne{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(0,0,0,.10);
+}
+.resSec{
+  padding:14px 16px;
+}
+.resSec + .resSec{
+  border-top:1px solid rgba(0,0,0,.07);
+}
+.resSecTitle{
+  font-weight:900;
+  color:#0e2a5a;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.resSecBody{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px 14px;
+}
+.resRow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:rgba(0,0,0,.02);
+  border:1px solid rgba(0,0,0,.05);
+}
+.resRow .k{
+  color:rgba(0,0,0,.65);
+  font-weight:700;
+}
+.resRow .v{
+  font-weight:800;
+  color:#111;
+  text-align:right;
+}
+@media(max-width:720px){
+  .resSecBody{ grid-template-columns: 1fr; }
+}
+</style>
+
+<style>
+/* === Cabeçalho Pagamentos + Modalidade (mesmo nível do H2) === */
+.payTitleWrap{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.payTitleWrap h2{ margin:0; }
+.payTitlePill{
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-weight: 800;
+  color: rgba(14,42,90,.75);
+}
+</style>
+
+
+<style id="fs-v191-card-qr-fix">
+.pay-card-wrap{position:relative;}
+.pay-card-wrap .cardActions.fsQrMiniActions{
+  display:flex !important;
+  flex-direction:column;
+  gap:8px;
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  width:140px;
+  padding:0;
+  z-index:3;
+}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:38px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:800;
+  box-shadow:0 6px 14px rgba(15,23,42,.10);
+}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn[data-fs-qr-scan]{background:#12337a;color:#fff;border:1px solid rgba(18,51,122,.35);}
+.pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn[data-fs-qr-paste]{background:#fff;color:#0f172a;border:1px solid rgba(15,23,42,.16);}
+.pay-card-wrap .pay-card{padding-right:170px;}
+@media (max-width: 760px){
+  .pay-card-wrap .cardActions.fsQrMiniActions{position:static;transform:none;width:100%;padding:0 12px 12px;}
+  .pay-card-wrap .pay-card{padding-right:20px;}
+  .pay-card-wrap .cardActions.fsQrMiniActions .fsQrMiniBtn{min-height:40px;}
+}
+</style>
+</head><body>${html}
+  <div id="bottomBackBar" class="hide"><button id="btnBackToModalidades" type="button" class="backBtn">⬅ Modalidades</button></div>
+
+
+
+
+
+
+
+<script id="fs-v221-post-import-fix">
+(function(){
+  function afterImportRefresh(){
+    try{ if(typeof window.showStep==='function') window.showStep('pay'); }catch(e){}
+    try{ if(typeof window.consolidateFinalData==='function') window.consolidateFinalData(); }catch(e){}
+    try{ if(typeof window.renderResumo==='function') window.renderResumo(); }catch(e){}
+    try{ if(typeof window.updateNFPreview==='function') window.updateNFPreview(true); }catch(e){}
+    try{
+      var pay=document.getElementById('pay');
+      if(pay && pay.scrollIntoView) pay.scrollIntoView({behavior:'smooth',block:'start'});
+    }catch(e){}
+  }
+  document.addEventListener('click', function(ev){
+    var t=ev.target; if(!(t instanceof Element)) return;
+    if(t.id==='fsQrPasteConfirmBtn'){ setTimeout(afterImportRefresh, 180); setTimeout(afterImportRefresh, 500); }
+  });
+  document.addEventListener('fs:simulacao-importada', function(){ setTimeout(afterImportRefresh, 50); setTimeout(afterImportRefresh, 300); });
+})();
+(function(){
+  function fsMsg(msg, kind){
+    try{ if(typeof toast === 'function') return toast(msg, kind || 'success'); }catch(e){}
+    try{ alert(msg); }catch(e){}
+  }
+  async function autoPaste(importMode){
+    try{
+      if(typeof window.fsModeNorm === 'function'){
+        window.fsSelectedImportMode = window.fsModeNorm(importMode || window.fsSelectedImportMode || '');
+      }else{
+        window.fsSelectedImportMode = String(importMode || window.fsSelectedImportMode || '').toLowerCase();
+      }
+    }catch(e){}
+    var txt = '';
+    try{
+      if(navigator.clipboard && navigator.clipboard.readText){
+        txt = await navigator.clipboard.readText();
+      }
+    }catch(e){}
+    txt = String(txt || '').trim();
+    if(!txt){
+      try{ if(typeof openPasteModal === 'function') return openPasteModal(importMode); }catch(e){}
+      fsMsg('Não consegui ler da área de transferência. Copie os dados no Simulações e tente novamente.', 'error');
+      return;
+    }
+    try{
+      var payload = await window.resolvePayloadFromText(txt);
+      try{ if(typeof closePasteModal === 'function') closePasteModal(); }catch(e){}
+      window.applyPayload(payload);
+      fsMsg('✅ Dados colados com sucesso!', 'success');
+    }catch(err){
+      try{ if(typeof openPasteModal === 'function') openPasteModal(importMode); }catch(e){}
+      fsMsg((err && err.message) ? err.message : 'Conteúdo inválido para contingência.', 'error');
+    }
+  }
+  window.fsAutoPasteFromClipboard = autoPaste;
+  document.addEventListener('click', function(ev){
+    var el = ev.target instanceof Element ? ev.target : null;
+    if(!el) return;
+    var pasteModeEl = el.closest('[data-fs-qr-paste]');
+    if(pasteModeEl){
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      autoPaste(pasteModeEl.getAttribute('data-fs-qr-paste'));
+      return;
+    }
+    if(el.id === 'fsQrPasteBtn' || el.id === 'fsGlobalPasteBtn' || el.id === 'fsCadPasteBtn'){
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      autoPaste((window.state && window.state.mode) || '');
+      return;
+    }
+  }, true);
+})();
+
+<style id="fs-fixed-back-style">
+#fsVoltarHub{
+position:fixed;right:20px;bottom:20px;background:#0f172a;color:#fff;border:none;
+padding:12px 18px;border-radius:10px;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,0.2);
+cursor:pointer;z-index:9999;text-decoration:none;font-family:inherit
+}
+</style>
+<a id="fsVoltarHub" href="https://fildosobral-sys.github.io/fs-contingencia-zenir/">← Voltar</a>
+<script id="fs-fixed-back-script">
+(function(){
+  var btn=document.getElementById('fsVoltarHub');
+  if(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      window.location.href='https://fildosobral-sys.github.io/fs-contingencia-zenir/';
+      return false;
+    });
+  }
+})();
+</script>
+
+</body></html>
