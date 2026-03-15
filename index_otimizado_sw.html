@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FS Soluções</title>
+<style>
+:root{--bg:#f4f5f9;--card:#fff;--text:#1f2937;--muted:#6b7280;--primary:#667eea;--primary2:#764ba2;--line:#e5e7eb;--shadow:0 14px 30px rgba(0,0,0,.16)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f6f7fb 0%,#f1f3f8 100%);color:var(--text)}
+.page{max-width:1200px;margin:0 auto;padding:0 24px 96px}.header-wrap{margin:22px 0 20px;background:linear-gradient(90deg,var(--primary),var(--primary2));border-radius:24px;box-shadow:var(--shadow);overflow:visible}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px}.logo-section{display:flex;align-items:center;gap:14px;min-width:0;flex:1}
+.logo-badge{width:72px;height:72px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffffff 0,#e5e7eb 38%,#111827 100%);color:#111827;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0;box-shadow:0 10px 28px rgba(0,0,0,.28);position:relative}
+.logo-badge::before{content:"";position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(from 0deg,#ffd700,#fff176,#9b4dff,#667eea,#ffd700);z-index:-1;filter:blur(6px);opacity:.65;animation:spin 8s linear infinite}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.logo-text{min-width:0}.app-title{margin:0;font-size:20px;font-weight:800;color:#fff;line-height:1.1;text-shadow:0 3px 10px rgba(0,0,0,.25)}.system-subtitle{margin:4px 0 0;font-size:13px;font-weight:700;color:rgba(255,255,255,.92)}.company-name{margin:6px 0 0;font-size:13px;font-weight:800;color:#ffd84d;text-shadow:0 2px 8px rgba(0,0,0,.18)}
+.header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative}.header-btn,.menu-btn{border:none;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.12);font-weight:700}
+.menu-wrap{position:relative}.menu-avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);color:#5b5bd6;display:flex;align-items:center;justify-content:center;font-weight:800}.menu-meta small{display:block;font-size:11px;color:rgba(255,255,255,.82)}.menu-meta strong{display:block;font-size:15px;color:#fff}
+.menu-dropdown{position:absolute;top:calc(100% + 8px);right:0;width:240px;background:#fff;border:1px solid #e8eaf3;border-radius:16px;box-shadow:0 14px 30px rgba(0,0,0,.16);padding:8px;display:none;z-index:80}.menu-dropdown.open{display:block}.menu-item{width:100%;border:none;background:none;text-align:left;padding:11px 12px;border-radius:12px;cursor:pointer;font-size:14px;color:#374151}.menu-item:hover{background:#f5f7ff}
+.section{margin-top:18px}.section h2{margin:0 0 12px;font-size:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(320px,1fr));gap:22px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.08);border:1px solid #eceef3;transition:transform .18s ease,box-shadow .18s ease}.card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.11)}.card img{width:100%;height:190px;object-fit:cover;display:block;background:#e5e7eb}.card-body{padding:16px 18px 18px}.card-title{font-size:17px;font-weight:700;margin:0 0 4px}.card-desc{font-size:14px;color:var(--muted);margin:0 0 10px;line-height:1.35}.card-action{display:inline-block;font-size:14px;color:#6366f1;font-weight:700;text-decoration:none;cursor:pointer}
+footer{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;z-index:40}.foot-btn{background:none;border:none;cursor:pointer;font-size:14px;color:#374151;padding:0}.foot-btn:hover{color:#4f46e5}.support{margin-left:auto;background:#e0e7ff;color:#1f3ea8;padding:7px 14px;border-radius:999px;font-weight:700;cursor:pointer;border:none}
+.float-panel{position:fixed;bottom:58px;left:16px;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 16px 30px rgba(0,0,0,.14);padding:12px;display:none;z-index:70;min-width:220px}.float-panel.open{display:block}.float-panel h4{margin:0 0 8px;font-size:14px}.float-panel input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:10px;font-size:14px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(2px);display:none;z-index:90}.modal-backdrop.open{display:block}.share-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(1100px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:#f4f6fb;border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.25);display:none;z-index:100}
+.share-modal.open{display:block}.share-head{position:sticky;top:0;z-index:2;background:linear-gradient(135deg,#5b5bd6,#9b4dff);color:#fff;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:22px 22px 0 0}.share-head h3{margin:0;font-size:20px}.share-close{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.26);border-radius:12px;padding:8px 12px;cursor:pointer}
+.share-body{padding:18px}.panel-card{background:#fff;padding:18px;border-radius:14px;margin-bottom:16px;box-shadow:0 8px 18px rgba(0,0,0,.08)}.panel-grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:10px}.panel-card h4{margin:0 0 12px;font-size:18px}.panel-input{padding:10px;width:100%;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;text-transform:uppercase}
+.btn-primary{background:#5b5bd6;color:#fff;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:700}.btn-edit{background:#f59e0b;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}.btn-block{background:#ef4444;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}.btn-delete-real{background:#111827;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer}.btn-secondary{background:#e5e7eb;color:#111827;border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:700}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}td,th{padding:10px;border-bottom:1px solid #eee;text-align:left;font-size:14px}.small{font-size:13px;color:#666}.kpis{display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:10px;margin-bottom:14px}.kpi{background:#fff;border-radius:14px;padding:14px;box-shadow:0 6px 16px rgba(0,0,0,.06)}.kpi strong{display:block;font-size:22px;margin-top:4px}
+.form-note{margin-top:8px;padding:10px 12px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;color:#1d4ed8;font-size:13px}
+@media (max-width:980px){.header-inner{flex-direction:column;align-items:flex-start}.grid{grid-template-columns:1fr}.header-actions{width:100%;justify-content:flex-start;flex-wrap:wrap}.panel-grid,.kpis{grid-template-columns:1fr}}
+@media (max-width:640px){.page{padding:0 14px 104px}.header-wrap{margin:14px 0 18px;border-radius:22px}.header-inner{padding:16px;gap:14px}.header-actions{width:100%;justify-content:space-between}.header-btn,.menu-btn{padding:10px 12px}.menu-btn{min-width:0;max-width:58vw}.menu-meta strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}.logo-badge{width:60px;height:60px;font-size:22px}.app-title{font-size:17px}.system-subtitle,.company-name{font-size:12px}.grid{gap:18px}.card{border-radius:18px}.card img{height:178px}.card-body{padding:14px 16px 16px}.support{margin-left:0}.float-panel{left:14px;right:14px;min-width:auto}}
+</style>
+<style>
+/* Ajuste mobile header e barra inferior */
+@media (max-width:768px){
+
+header{
+  padding-top:10px !important;
+  padding-bottom:10px !important;
+}
+
+header h1{
+  font-size:18px !important;
+}
+
+header p{
+  font-size:12px !important;
+}
+
+/* barra inferior */
+footer, .footer-bar, #fsFooter{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  gap:6px !important;
+  font-size:12px !important;
+  padding:6px 10px !important;
+}
+
+footer span{
+  white-space:nowrap;
+}
+
+}
+</style>
+<style id="fs-pro-mobile-patch">
+@media (max-width:768px){
+  body{
+    background:linear-gradient(180deg,#f8f9fc 0%,#eef1f7 100%) !important;
+  }
+  .page{
+    padding:0 14px 92px !important;
+  }
+  .header-wrap{
+    margin:12px 0 14px !important;
+    border-radius:24px !important;
+    box-shadow:0 18px 34px rgba(77, 88, 190, .20) !important;
+  }
+  .header-inner{
+    padding:16px 16px !important;
+    gap:12px !important;
+  }
+  .logo-badge{
+    width:60px !important;
+    height:60px !important;
+    font-size:18px !important;
+    box-shadow:0 10px 22px rgba(0,0,0,.22) !important;
+  }
+  .app-title{
+    font-size:17px !important;
+    letter-spacing:-.2px !important;
+  }
+  .system-subtitle{
+    font-size:11px !important;
+    line-height:1.2 !important;
+  }
+  .company-name{
+    font-size:10px !important;
+    line-height:1.2 !important;
+    margin-top:5px !important;
+  }
+  .header-actions{
+    gap:8px !important;
+  }
+  .header-btn,.menu-btn{
+    padding:8px 10px !important;
+    border-radius:18px !important;
+    min-height:48px !important;
+    box-shadow:0 8px 18px rgba(0,0,0,.10) !important;
+  }
+  .menu-avatar{
+    width:34px !important;
+    height:34px !important;
+    font-size:16px !important;
+  }
+  .menu-meta small{
+    font-size:10px !important;
+    line-height:1 !important;
+  }
+  .menu-meta strong{
+    font-size:11px !important;
+    line-height:1.05 !important;
+  }
+
+  .section{
+    margin-top:10px !important;
+  }
+  .section h2{
+    margin:0 0 10px !important;
+    font-size:17px !important;
+    letter-spacing:-.2px !important;
+  }
+  .grid{
+    gap:16px !important;
+  }
+  .card{
+    border-radius:24px !important;
+    box-shadow:0 12px 28px rgba(31,41,55,.08) !important;
+    overflow:hidden !important;
+    min-height:272px !important;
+  }
+  .card img{
+    width:100% !important;
+    height:168px !important;
+    object-fit:cover !important;
+    display:block !important;
+  }
+  .card-body{
+    padding:14px 16px 16px !important;
+  }
+  .card-title{
+    font-size:12px !important;
+    font-weight:800 !important;
+    margin:0 0 4px !important;
+    letter-spacing:-.15px !important;
+  }
+  .card-desc{
+    font-size:11px !important;
+    line-height:1.25 !important;
+    margin:0 0 10px !important;
+    color:#6b7280 !important;
+  }
+  .card-action{
+    font-size:11px !important;
+    font-weight:800 !important;
+  }
+
+  footer, .footer-bar, #fsFooter{
+    padding:7px 10px !important;
+    gap:6px !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+  }
+  .foot-btn{
+    font-size:10px !important;
+    white-space:nowrap !important;
+    line-height:1 !important;
+  }
+  .support, .support-fab, .support-btn, #btnSupport{
+    margin-left:0 !important;
+    padding:8px 12px !important;
+    font-size:10px !important;
+    border-radius:999px !important;
+    white-space:nowrap !important;
+  }
+}
+</style>
+
+
+<style id="fs-index-final-patch">
+.logo-image{
+  object-fit:cover !important;
+  border-radius:50% !important;
+  border:2px solid rgba(255,255,255,.24);
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.08),
+    0 14px 26px rgba(0,0,0,.26),
+    0 0 30px rgba(255,216,77,.30);
+  background:#fff;
+}
+.card.card-clickable{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.card.card-clickable:active{transform:scale(.985)}
+.card.card-clickable.fs-card-press{
+  box-shadow:0 0 0 2px rgba(34,197,94,.28), 0 18px 36px rgba(59,130,246,.18) !important;
+  transform:translateY(-2px) scale(.992);
+}
+.panel-input,.float-panel input{text-transform:uppercase}
+@media (max-width:768px){
+  .logo-badge.logo-image{width:62px !important;height:62px !important}
+}
+</style>
+
+
+<style id="fs-index-blank-upper-patch">
+.logo-image{object-fit:cover!important;border-radius:50%!important;border:2px solid rgba(255,255,255,.24);box-shadow:0 0 0 4px rgba(255,255,255,.08),0 14px 26px rgba(0,0,0,.26),0 0 30px rgba(255,216,77,.30);background:#fff}
+.card.card-clickable{cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.card.card-clickable.fs-card-press{box-shadow:0 0 0 2px rgba(34,197,94,.25),0 16px 34px rgba(59,130,246,.16)!important;transform:translateY(-2px) scale(.992)}
+.panel-input,.float-panel input,.share-modal input,.share-modal textarea{text-transform:uppercase}
+</style>
+
+
+<style id="fs-access-modal-style">
+.fs-access-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);display:none;z-index:9998}
+.fs-access-backdrop.open{display:block}
+.fs-access-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 28px));background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(0,0,0,.28);padding:18px 16px 16px;display:none;z-index:9999}
+.fs-access-modal.open{display:block}
+.fs-access-modal h3{margin:0 0 12px;font-size:22px}
+.fs-access-modal p{margin:0 0 12px;color:#6b7280}
+.fs-access-modal label{display:block;font-size:13px;font-weight:700;margin:10px 0 6px}
+.fs-access-modal input{width:100%;padding:12px 14px;border:1px solid #d1d5db;border-radius:14px;font-size:16px;text-transform:uppercase}
+.fs-access-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.fs-access-actions button{border:none;border-radius:14px;padding:11px 14px;font-weight:700;cursor:pointer}
+.fs-access-cancel{background:#eef2ff;color:#374151}
+.fs-access-ok{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff}
+</style>
+
+<style id="fs-index-final-stable-style">
+.logo-section img.logo-image{display:block;opacity:1;visibility:visible}
+.fs-dev-footer{
+  position:fixed;left:0;right:0;bottom:4px;z-index:60;
+  text-align:center;font-size:10px;letter-spacing:.2px;
+  color:rgba(31,41,55,.72);pointer-events:none;
+}
+.fs-dev-footer b{color:rgba(245,158,11,.92);font-weight:700}
+@media (max-width:768px){
+  .fs-dev-footer{font-size:9px;bottom:2px}
+}
+</style>
+
+
+<style id="fs-logo-stable-fix">
+.logo-badge.logo-image{
+  object-fit: cover !important;
+  object-position: center center !important;
+  background:#fff !important;
+  image-rendering:auto;
+}
+</style>
+
+<link rel="preload" as="image" href="file_0000000010cc720e9b2db5d429c8af46.png" fetchpriority="high">
+<link rel="preload" as="image" href="IMG-20260313-WA0007.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="file_000000004d1c720ea4a64950929c6e11.png" fetchpriority="high">
+
+</head>
+<body>
+<div class="page">
+<div class="header-wrap">
+<div class="header-inner">
+<div class="logo-section">
+<img src="file_00000000c73c71f58c92d4b660989472.png" alt="FS Soluções" class="logo-badge logo-image" loading="eager" decoding="async">
+<div class="logo-text">
+<h1 class="app-title">FS Soluções</h1>
+<p class="system-subtitle">Ecossistema Inteligente de Vendas</p>
+<p class="company-name" id="motivationalMessage">💪 Hoje é dia de fazer história nas vendas!</p>
+</div>
+</div>
+<div class="header-actions">
+<button class="header-btn" id="btnSharePanel" type="button">🔗 Compartilhamento</button>
+<div class="menu-wrap">
+<button class="menu-btn" id="menuBtn" type="button">
+<div class="menu-avatar">F</div>
+<div class="menu-meta"><small id="menuRole">Menu</small><strong id="menuUserName">Fildo</strong></div>
+<span>▾</span>
+</button>
+<div class="menu-dropdown" id="menuDropdown">
+<button class="menu-item" id="btnTrocarUsuario" type="button">🔁 Trocar usuário</button>
+<button class="menu-item" id="btnSairAcesso" type="button">🚪 Sair do acesso</button>
+<button class="menu-item" onclick="alert('Perfil em preparação.')" type="button">👤 Perfil</button>
+<button class="menu-item" onclick="alert('Configurações em preparação.')" type="button">⚙️ Configurações</button>
+<button class="menu-item" onclick="alert('Central de avisos em preparação.')" type="button">🔔 Avisos</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section class="section">
+<h2>Negociações</h2>
+<div class="grid">
+<article class="card"><img alt="Vendas" loading="eager" fetchpriority="high" decoding="async" src="file_0000000010cc720e9b2db5d429c8af46.png"/><div class="card-body"><div class="card-title">Vendas</div><p class="card-desc">Operação comercial e atendimento.</p><a class="card-action" href="vendas.html">Acessar →</a></div></article>
+<article class="card"><img alt="Crediário" loading="eager" fetchpriority="high" decoding="async" src="IMG-20260313-WA0007.jpg"/><div class="card-body"><div class="card-title">Crediário</div><p class="card-desc">Análise e aprovação com base integrada.</p><a class="card-action" href="crediario.html">Acessar →</a></div></article>
+
+<article class="card">
+<img alt="Parcelamentos e Planos" loading="eager" fetchpriority="high" decoding="async" src="file_000000004d1c720ea4a64950929c6e11.png"/>
+<div class="card-body">
+<div class="card-title">Parcelamentos e Planos</div>
+<p class="card-desc">Simulação e parcelamento de planos e serviços.</p>
+<a class="card-action" href="parcelamento_planos.html">Acessar →</a>
+</div>
+</article>
+
+</div>
+</section>
+<section class="section" style="margin-top:22px;">
+<h2>Acompanhamento &amp; Indicadores</h2>
+<div class="grid">
+<article class="card"><img alt="Dashboard" loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1100&amp;q=72&amp;auto=format&amp;fit=crop"/><div class="card-body"><div class="card-title">Dashboard</div><p class="card-desc">Indicadores e análises.</p><a class="card-action" href="#">Ver →</a></div></article>
+<article class="card"><img alt="Expansão futura" loading="lazy" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1100&amp;q=72&amp;auto=format&amp;fit=crop"/><div class="card-body"><div class="card-title">Expansão futura</div><p class="card-desc">Novo módulo da plataforma.</p><a class="card-action" href="#">—</a></div></article>
+</div>
+</section>
+</div>
+<div class="float-panel" id="datePanel"><h4>Selecionar data</h4><input id="dateInput" type="date"/></div>
+<div class="float-panel" id="timePanel"><h4>Selecionar hora</h4><input id="timeInput" type="time"/></div>
+<div class="modal-backdrop" id="shareBackdrop"></div>
+<div class="share-modal" id="shareModal">
+<div class="share-head">
+<div><h3>Compartilhamento e banco FS</h3><div style="font-size:13px;opacity:.92">Painel central de acessos, edição, bloqueio e notificações.</div></div>
+<button class="share-close" id="shareClose" type="button">Fechar ✕</button>
+</div>
+<div class="share-body">
+<div class="kpis">
+<div class="kpi"><span class="small">Total de usuários</span><strong id="kpiTotal">0</strong></div>
+<div class="kpi"><span class="small">Usuários ativos</span><strong id="kpiAtivos">0</strong></div>
+<div class="kpi"><span class="small">Gerentes</span><strong id="kpiGerentes">0</strong></div>
+<div class="kpi"><span class="small">Filiais</span><strong id="kpiFiliais">0</strong></div>
+</div>
+<div class="panel-card">
+<h4>Compartilhar acesso</h4>
+<div class="panel-grid">
+<input class="panel-input" id="filial" placeholder="EX.: FILIAL 28"/>
+<input class="panel-input" id="nome" placeholder="NOME COMPLETO"/>
+<input class="panel-input" id="cargo" placeholder="FUNÇÃO / CARGO"/>
+<input class="panel-input" id="whats" placeholder="WHATSAPP"/>
+</div>
+<div class="actions">
+<button class="btn-primary" id="btnSalvarUser" type="button">GERAR COMPARTILHAMENTO</button>
+<button class="btn-secondary" id="btnCancelarEdicao" type="button">CANCELAR EDIÇÃO</button>
+</div>
+<div class="form-note">A filial precisa estar no padrão <strong>FILIAL + NÚMERO</strong>. Ex.: <strong>FILIAL 28</strong>. Se não estiver assim, o sistema barra o cadastro.</div>
+</div>
+<div class="panel-card">
+<h4>Usuários cadastrados</h4>
+<div class="table-wrap">
+<table id="usersTable">
+<thead>
+<tr>
+<th>FILIAL</th>
+<th>NOME</th>
+<th>CARGO</th>
+<th>WHATSAPP</th>
+<th>STATUS</th>
+<th>AÇÕES</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<div class="panel-card">
+<h4>Notificar atualização</h4>
+<input class="panel-input" id="updateTitle" placeholder="TÍTULO DA ATUALIZAÇÃO"/>
+<input class="panel-input" id="updateText" placeholder="DESCRIÇÃO DA ATUALIZAÇÃO"/>
+<div class="actions">
+<button class="btn-primary" id="btnRegistrarAtualizacao" type="button">REGISTRAR ATUALIZAÇÃO</button>
+<button class="btn-secondary" id="btnNotificarTodos" type="button">ENVIAR NOTIFICAÇÃO</button>
+</div>
+<p class="small">A notificação abre o WhatsApp com o link da plataforma em linha separada.</p>
+</div>
+</div>
+</div>
+<footer>
+<button class="foot-btn" id="btnDate" type="button">📅 <span id="dateLabel">12/03/2026</span></button>
+<button class="foot-btn" id="btnTime" type="button">⏰ <span id="timeLabel">14:07</span></button>
+<span>🏢 FILIAL 28</span>
+<button class="foot-btn" id="btnCalc" type="button">🧮 HP12C</button>
+<button class="support" id="btnSupport" type="button">Suporte FS</button>
+</footer>
+<script>
+(function(){
+  const API_FS = "https://script.google.com/macros/s/AKfycbzQTAJGkaqzLEZs6xiEBMUp7rnLSxQiZxUQzNPiciAWxdj3ZUL6ObW4iAUfkmutueVasw/exec";
+  const PLATFORM_LINK = window.location.href;
+  const DEV_MASTER_NAME = 'FRANCIFILDO PEREIRA SOBRAL';
+  const DEV_MASTER_CARGO = 'DESENVOLVEDOR_MASTER';
+  const DEV_MASTER_WHATS = '88988222564';
+  const messages = ['Hoje é dia de fazer história nas vendas!','Cliente bem atendido sempre volta.','Disciplina diária gera resultados extraordinários.','Cada atendimento é uma oportunidade de crescer.','Venda é confiança: entregue valor em cada atendimento.'];
+
+  const menuBtn=document.getElementById('menuBtn');
+  const menuDropdown=document.getElementById('menuDropdown');
+  const dateLabel=document.getElementById('dateLabel');
+  const timeLabel=document.getElementById('timeLabel');
+  const dateInput=document.getElementById('dateInput');
+  const timeInput=document.getElementById('timeInput');
+  const datePanel=document.getElementById('datePanel');
+  const timePanel=document.getElementById('timePanel');
+  const btnDate=document.getElementById('btnDate');
+  const btnTime=document.getElementById('btnTime');
+  const btnCalc=document.getElementById('btnCalc');
+  const btnSupport=document.getElementById('btnSupport');
+  const motivationalMessage=document.getElementById('motivationalMessage');
+  const btnSharePanel = document.getElementById('btnSharePanel');
+  const shareBackdrop = document.getElementById('shareBackdrop');
+  const shareModal = document.getElementById('shareModal');
+  const shareClose = document.getElementById('shareClose');
+  const filialEl = document.getElementById('filial');
+  const nomeEl = document.getElementById('nome');
+  const cargoEl = document.getElementById('cargo');
+  const whatsEl = document.getElementById('whats');
+  const btnSalvarUser = document.getElementById('btnSalvarUser');
+  const btnCancelarEdicao = document.getElementById('btnCancelarEdicao');
+  const updateTitle = document.getElementById('updateTitle');
+  const updateText = document.getElementById('updateText');
+  const btnRegistrarAtualizacao = document.getElementById('btnRegistrarAtualizacao');
+  const btnNotificarTodos = document.getElementById('btnNotificarTodos');
+  const btnTrocarUsuario = document.getElementById('btnTrocarUsuario');
+  const btnSairAcesso = document.getElementById('btnSairAcesso');
+  const menuRole = document.getElementById('menuRole');
+  const menuUserName = document.getElementById('menuUserName');
+
+  let usuarios = [];
+  let editId = null;
+
+  function upper(v){ return String(v || '').trim().toUpperCase(); }
+  function onlyDigits(v){ return String(v || '').replace(/\D/g,''); }
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function dateToBR(v){ const parts=v.split('-'); return parts[2]+'/'+parts[1]+'/'+parts[0]; }
+  function filialValida(v){ return /^FILIAL\s+\d+$/i.test(upper(v)); }
+
+  function getCurrentAccessData(){
+    return {
+      nome: upper(localStorage.getItem('fs_nome') || ''),
+      cargo: upper(localStorage.getItem('fs_cargo') || ''),
+      whatsapp: onlyDigits(localStorage.getItem('fs_whatsapp') || ''),
+      filial: upper(localStorage.getItem('fs_filial') || '')
+    };
+  }
+
+  function isDeveloperMaster(){
+    const user = getCurrentAccessData();
+    if(!user.nome && !user.cargo && !user.whatsapp){ return true; }
+    return user.nome === DEV_MASTER_NAME && user.cargo === DEV_MASTER_CARGO && user.whatsapp === DEV_MASTER_WHATS;
+  }
+
+  function isManager(){
+    const user = getCurrentAccessData();
+    return user.cargo === 'GERENTE';
+  }
+
+  function ensureBootstrapAccess(){
+    const user = getCurrentAccessData();
+    if (!user.nome && !user.cargo && !user.whatsapp && window.location.protocol === 'file:') {
+      localStorage.setItem('fs_nome', DEV_MASTER_NAME);
+      localStorage.setItem('fs_cargo', DEV_MASTER_CARGO);
+      localStorage.setItem('fs_whatsapp', DEV_MASTER_WHATS);
+      localStorage.setItem('fs_filial', 'FILIAL 28');
+    }
+  }
+
+  function syncAccessBadge(){
+    const user = getCurrentAccessData();
+    if (user.nome) {
+      menuUserName.textContent = user.nome;
+      menuRole.textContent = user.cargo || 'USUÁRIO';
+    } else {
+      menuUserName.textContent = 'Fildo';
+      menuRole.textContent = 'Menu';
+    }
+  }
+
+  function applyPermissionVisibility(){
+    btnSharePanel.style.display = 'inline-flex';
+    syncAccessBadge();
+  }
+
+  async function trocarUsuario(){
+    const filial = upper(prompt('INFORME A FILIAL NO PADRÃO FILIAL + NÚMERO. EX.: FILIAL 28', getCurrentAccessData().filial || ''));
+    if (!filial) return;
+    if (!filialValida(filial)) {
+      alert('USE O PADRÃO: FILIAL + NÚMERO. EX.: FILIAL 28');
+      return;
+    }
+    const nome = upper(prompt('INFORME O NOME COMPLETO DO USUÁRIO', getCurrentAccessData().nome || ''));
+    if (!nome) return;
+    const cargo = upper(prompt('INFORME O CARGO DO USUÁRIO', getCurrentAccessData().cargo || ''));
+    if (!cargo) return;
+    const whatsapp = onlyDigits(prompt('INFORME O WHATSAPP DO USUÁRIO', getCurrentAccessData().whatsapp || ''));
+    try{
+      const json = await apiGet(API_FS + '?acao=validarAcesso&filial=' + encodeURIComponent(filial) + '&nome=' + encodeURIComponent(nome) + '&cargo=' + encodeURIComponent(cargo));
+      if(json && json.ok){
+        localStorage.setItem('fs_filial', filial);
+        localStorage.setItem('fs_nome', nome);
+        localStorage.setItem('fs_cargo', cargo);
+        localStorage.setItem('fs_whatsapp', whatsapp);
+        syncAccessBadge();
+        renderUsuarios();
+        alert('ACESSO IDENTIFICADO COM SUCESSO.');
+      }else{
+        alert((json && json.mensagem) || 'USUÁRIO NÃO AUTORIZADO.');
+      }
+    }catch(e){
+      console.error(e);
+      alert('ERRO AO IDENTIFICAR ACESSO.');
+    }
+  }
+
+  function sairAcesso(){
+    localStorage.removeItem('fs_filial');
+    localStorage.removeItem('fs_nome');
+    localStorage.removeItem('fs_cargo');
+    localStorage.removeItem('fs_whatsapp');
+    syncAccessBadge();
+    renderUsuarios();
+    alert('ACESSO LOCAL REMOVIDO.');
+  }
+
+  function syncNow(){
+    const now = new Date();
+    dateLabel.textContent = pad(now.getDate())+'/'+pad(now.getMonth()+1)+'/'+now.getFullYear();
+    timeLabel.textContent = pad(now.getHours())+':'+pad(now.getMinutes());
+    dateInput.value = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
+    timeInput.value = pad(now.getHours())+':'+pad(now.getMinutes());
+    motivationalMessage.textContent = '💪 '+messages[now.getDate()%messages.length];
+  }
+
+  function closePanels(){ datePanel.classList.remove('open'); timePanel.classList.remove('open'); }
+  function openShare(){ shareBackdrop.classList.add('open'); shareModal.classList.add('open'); }
+  function closeShare(){ shareBackdrop.classList.remove('open'); shareModal.classList.remove('open'); }
+
+  async function apiGet(url){
+    const res = await fetch(url);
+    return await res.json();
+  }
+  async function apiPost(payload){
+    const res = await fetch(API_FS, {method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body: JSON.stringify(payload)});
+    return await res.json();
+  }
+
+  async function carregarUsuarios(){
+    try{
+      const json = await apiGet(API_FS + '?acao=listarUsuarios');
+      usuarios = Array.isArray(json.usuarios) ? json.usuarios : [];
+      renderUsuarios();
+      renderKpis();
+    }catch(e){
+      console.error(e);
+      alert('ERRO AO CARREGAR USUÁRIOS DO BANCO.');
+    }
+  }
+
+  function renderKpis(){
+    const ativos = usuarios.filter(function(u){return upper(u.status)==='ATIVO';}).length;
+    const gerentes = usuarios.filter(function(u){return upper(u.cargo).indexOf('GERENTE')>=0;}).length;
+    const filiais = new Set(usuarios.map(function(u){return upper(u.filial);}).filter(Boolean)).size;
+    document.getElementById('kpiTotal').textContent = usuarios.length;
+    document.getElementById('kpiAtivos').textContent = ativos;
+    document.getElementById('kpiGerentes').textContent = gerentes;
+    document.getElementById('kpiFiliais').textContent = filiais;
+  }
+
+  function renderUsuarios(){
+    const tbody = document.querySelector('#usersTable tbody');
+    const devMaster = isDeveloperMaster();
+    tbody.innerHTML = '';
+    usuarios.forEach(function(u){
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>'+(u.filial||'')+'</td>'+
+        '<td>'+(u.nome||'')+'</td>'+
+        '<td>'+(u.cargo||'')+'</td>'+
+        '<td>'+(u.whatsapp||'')+'</td>'+
+        '<td>'+(u.status||'')+'</td>'+
+        '<td><div class="actions">'+
+        '<button class="btn-edit" data-id="'+u.id+'">EDITAR</button>'+
+        '<button class="btn-block" data-id="'+u.id+'">BLOQUEAR</button>'+
+        (devMaster ? '<button class="btn-delete-real" data-id="'+u.id+'">DELETAR</button>' : '')+
+        '</div></td>';
+      tbody.appendChild(tr);
+    });
+
+    tbody.querySelectorAll('.btn-edit').forEach(function(btn){
+      btn.addEventListener('click', function(){ editarUsuario(btn.dataset.id); });
+    });
+    tbody.querySelectorAll('.btn-block').forEach(function(btn){
+      btn.addEventListener('click', function(){ bloquearUsuario(btn.dataset.id); });
+    });
+    tbody.querySelectorAll('.btn-delete-real').forEach(function(btn){
+      btn.addEventListener('click', function(){ deletarUsuarioDefinitivo(btn.dataset.id); });
+    });
+  }
+
+  function limparFormulario(){
+    filialEl.value=''; nomeEl.value=''; cargoEl.value=''; whatsEl.value='';
+    editId = null;
+    btnSalvarUser.textContent = 'GERAR COMPARTILHAMENTO';
+  }
+
+  function editarUsuario(id){
+    const u = usuarios.find(function(x){ return String(x.id) === String(id); });
+    if(!u) return;
+    filialEl.value = upper(u.filial);
+    nomeEl.value = upper(u.nome);
+    cargoEl.value = upper(u.cargo);
+    whatsEl.value = u.whatsapp || '';
+    editId = id;
+    btnSalvarUser.textContent = 'SALVAR EDIÇÃO';
+    openShare();
+    shareModal.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  async function bloquearUsuario(id){
+    if(!confirm('DESEJA BLOQUEAR ESTE USUÁRIO?')) return;
+    try{
+      const json = await apiPost({ acao:'deletarUsuario', id:id });
+      alert(json.mensagem || 'USUÁRIO BLOQUEADO');
+      await carregarUsuarios();
+    }catch(e){
+      console.error(e);
+      alert('ERRO AO BLOQUEAR USUÁRIO.');
+    }
+  }
+
+  async function deletarUsuarioDefinitivo(id){
+    if(!isDeveloperMaster()){
+      alert('APENAS O DESENVOLVEDOR_MASTER PODE DELETAR DEFINITIVAMENTE.');
+      return;
+    }
+    try{
+      const json = await apiPost({ acao:'excluirUsuarioDefinitivo', id:id });
+      if(json && json.ok){
+        alert(json.mensagem || 'USUÁRIO DELETADO');
+        await carregarUsuarios();
+      }else{
+        alert((json && json.mensagem) || 'A API AINDA NÃO TEM EXCLUSÃO DEFINITIVA. USE BLOQUEAR ATÉ ATUALIZAR O APPS SCRIPT.');
+      }
+    }catch(e){
+      console.error(e);
+      alert('A API AINDA NÃO TEM EXCLUSÃO DEFINITIVA. USE BLOQUEAR ATÉ ATUALIZAR O APPS SCRIPT.');
+    }
+  }
+
+  async function salvarUsuario(){
+    const filial = upper(filialEl.value);
+    const nome = upper(nomeEl.value);
+    const cargo = upper(cargoEl.value);
+    const whatsapp = onlyDigits(whatsEl.value);
+
+    if(!filial || !nome || !cargo || !whatsapp){
+      alert('PREENCHA OS CAMPOS.');
+      return;
+    }
+    if(!filialValida(filial)){
+      alert('USE O PADRÃO: FILIAL + NÚMERO. EX.: FILIAL 28');
+      return;
+    }
+
+    if (isManager()) {
+      const cargosBloqueados = ['GERENTE', 'DESENVOLVEDOR_MASTER'];
+      if (cargosBloqueados.includes(cargo)) {
+        alert('GERENTES SÓ PODEM COMPARTILHAR COM FUNÇÕES OPERACIONAIS DA PRÓPRIA FILIAL.');
+        return;
+      }
+      const filialAtual = upper(localStorage.getItem('fs_filial') || '');
+      if (filialAtual && filial !== filialAtual) {
+        alert('GERENTES SÓ PODEM CADASTRAR USUÁRIOS DA PRÓPRIA FILIAL.');
+        return;
+      }
+    }
+
+    try{
+      let json;
+      if(editId){
+        json = await apiPost({ acao:'editarUsuario', id: editId, filial: filial, nome: nome, cargo: cargo, whatsapp: whatsapp });
+      }else{
+        json = await apiPost({ acao:'cadastrarUsuario', filial: filial, nome: nome, cargo: cargo, whatsapp: whatsapp, criado_por:'FS SOLUCOES' });
+      }
+      const msg = 'OLÁ '+nome+'!\n\nVOCÊ RECEBEU ACESSO À PLATAFORMA FS SOLUÇÕES.\n\nFILIAL: '+filial+'\nCARGO: '+cargo+'\n\nACESSE A PLATAFORMA:\n\n'+PLATFORM_LINK;
+      window.open('https://wa.me/55'+whatsapp+'?text='+encodeURIComponent(msg), '_blank', 'noopener');
+      alert(json.mensagem || 'OPERAÇÃO REALIZADA COM SUCESSO');
+      limparFormulario();
+      await carregarUsuarios();
+    }catch(e){
+      console.error(e);
+      alert('ERRO AO SALVAR USUÁRIO.');
+    }
+  }
+
+  async function registrarAtualizacao(){
+    const titulo = upper(updateTitle.value);
+    const descricao = upper(updateText.value);
+    if(!titulo || !descricao){
+      alert('PREENCHA TÍTULO E DESCRIÇÃO.');
+      return;
+    }
+    try{
+      const json = await apiPost({ acao:'registrarAtualizacao', titulo: titulo, descricao: descricao, criado_por:'FS SOLUCOES', link_plataforma: PLATFORM_LINK });
+      alert(json.mensagem || 'ATUALIZAÇÃO REGISTRADA');
+    }catch(e){
+      console.error(e);
+      alert('ERRO AO REGISTRAR ATUALIZAÇÃO.');
+    }
+  }
+
+  function notificarTodos(){
+    const titulo = upper(updateTitle.value);
+    const descricao = upper(updateText.value);
+    if(!titulo || !descricao){
+      alert('PREENCHA TÍTULO E DESCRIÇÃO.');
+      return;
+    }
+    const ativos = usuarios.filter(function(u){ return upper(u.status)==='ATIVO' && onlyDigits(u.whatsapp); });
+    if(!ativos.length){
+      alert('NENHUM USUÁRIO ATIVO PARA NOTIFICAR.');
+      return;
+    }
+    ativos.forEach(function(u){
+      const msg = 'OLÁ '+upper(u.nome)+'!\n\nA PLATAFORMA FS SOLUÇÕES RECEBEU UMA NOVA ATUALIZAÇÃO.\n\nTÍTULO: '+titulo+'\nDESCRIÇÃO: '+descricao+'\n\nACESSE A PLATAFORMA:\n\n'+PLATFORM_LINK;
+      window.open('https://wa.me/55'+onlyDigits(u.whatsapp)+'?text='+encodeURIComponent(msg), '_blank', 'noopener');
+    });
+  }
+
+  ensureBootstrapAccess();
+  syncNow();
+  applyPermissionVisibility();
+  carregarUsuarios();
+  setInterval(function(){
+    const now = new Date();
+    timeLabel.textContent = pad(now.getHours())+':'+pad(now.getMinutes());
+  },15000);
+
+  menuBtn.addEventListener('click', function(e){ e.stopPropagation(); menuDropdown.classList.toggle('open'); closePanels(); });
+  btnDate.addEventListener('click', function(e){ e.stopPropagation(); timePanel.classList.remove('open'); datePanel.classList.toggle('open'); menuDropdown.classList.remove('open'); });
+  btnTime.addEventListener('click', function(e){ e.stopPropagation(); datePanel.classList.remove('open'); timePanel.classList.toggle('open'); menuDropdown.classList.remove('open'); });
+  dateInput.addEventListener('change', function(){ if(!dateInput.value) return; dateLabel.textContent = dateToBR(dateInput.value); closePanels(); });
+  timeInput.addEventListener('change', function(){ if(!timeInput.value) return; timeLabel.textContent = timeInput.value; closePanels(); });
+  btnCalc.addEventListener('click', function(){ window.open('https://simulado.estacio.br/img/Hp/','_blank','noopener'); });
+  btnSupport.addEventListener('click', function(){ window.open('https://wa.me/5588988222564','_blank','noopener'); });
+  btnSharePanel.addEventListener('click', function(){ menuDropdown.classList.remove('open'); closePanels(); if(!(isDeveloperMaster() || isManager())){ alert('SEU PERFIL NÃO TEM PERMISSÃO PARA COMPARTILHAR ACESSOS.'); return; } openShare(); });
+  shareClose.addEventListener('click', closeShare);
+  shareBackdrop.addEventListener('click', closeShare);
+  btnSalvarUser.addEventListener('click', salvarUsuario);
+  btnCancelarEdicao.addEventListener('click', limparFormulario);
+  btnRegistrarAtualizacao.addEventListener('click', registrarAtualizacao);
+  btnNotificarTodos.addEventListener('click', notificarTodos);
+  btnTrocarUsuario.addEventListener('click', trocarUsuario);
+  btnSairAcesso.addEventListener('click', sairAcesso);
+  document.addEventListener('click', function(e){ if (!menuDropdown.contains(e.target) && !menuBtn.contains(e.target)) menuDropdown.classList.remove('open'); if (!datePanel.contains(e.target) && e.target !== btnDate) datePanel.classList.remove('open'); if (!timePanel.contains(e.target) && e.target !== btnTime) timePanel.classList.remove('open'); });
+})();
+</script>
+
+
+
+
+<div class="fs-access-backdrop" id="fsAccessBackdrop"></div>
+<div class="fs-access-modal" id="fsAccessModal" role="dialog" aria-modal="true" aria-labelledby="fsAccessTitle">
+  <h3 id="fsAccessTitle">Identificação de acesso</h3>
+  <p>Informe os dados do colaborador para entrar no sistema.</p>
+  <label for="fsAccessFilial">Filial</label>
+  <input id="fsAccessFilial" placeholder="FILIAL 28" autocomplete="off" />
+  <label for="fsAccessNome">Nome completo</label>
+  <input id="fsAccessNome" placeholder="NOME COMPLETO" autocomplete="off" />
+  <label for="fsAccessCargo">Cargo / função</label>
+  <input id="fsAccessCargo" placeholder="VENDEDOR(A)" autocomplete="off" />
+  <label for="fsAccessWhats">WhatsApp</label>
+  <input id="fsAccessWhats" placeholder="88999999999" inputmode="numeric" autocomplete="off" />
+  <div class="fs-access-actions">
+    <button type="button" class="fs-access-cancel" id="fsAccessCancel">Cancelar</button>
+    <button type="button" class="fs-access-ok" id="fsAccessOk">Entrar</button>
+  </div>
+</div>
+
+
+<script id="fs-download-menu">
+function fsDownloadHTML(){
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html],{type:"text/html"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  let name = "sistema.html";
+  if(location.href.toLowerCase().includes("vendas")) name="vendas.html";
+  if(location.href.toLowerCase().includes("crediario")) name="crediario.html";
+  if(location.href.toLowerCase().includes("index")) name="index.html";
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+let deferredPrompt;
+window.addEventListener("beforeinstallprompt",(e)=>{
+ e.preventDefault();
+ deferredPrompt = e;
+});
+
+function fsInstallApp(){
+ if(deferredPrompt){
+   deferredPrompt.prompt();
+   deferredPrompt.userChoice.then(()=>{
+     deferredPrompt=null;
+   });
+ }else{
+   alert("Para instalar: use 'Adicionar à tela inicial' no navegador.");
+ }
+}
+</script>
+
+
+
+<script id="fs-index-stable-auth">
+(function(){
+  function upperLive(v){ return String(v||'').toUpperCase(); }
+  function upperSave(v){ return String(v||'').toUpperCase().trim(); }
+  function onlyDigits(v){ return String(v||'').replace(/\D/g,''); }
+  function filialOk(v){ return /^FILIAL\s+\d+$/i.test(upperSave(v)); }
+  function getUser(){
+    return {
+      filial: upperSave(localStorage.getItem('fs_filial') || ''),
+      nome: upperSave(localStorage.getItem('fs_nome') || ''),
+      cargo: upperSave(localStorage.getItem('fs_cargo') || ''),
+      whatsapp: onlyDigits(localStorage.getItem('fs_whatsapp') || '')
+    };
+  }
+  function saveUser(u){
+    localStorage.setItem('fs_filial', upperSave(u.filial||''));
+    localStorage.setItem('fs_nome', upperSave(u.nome||''));
+    localStorage.setItem('fs_cargo', upperSave(u.cargo||''));
+    localStorage.setItem('fs_whatsapp', onlyDigits(u.whatsapp||''));
+    localStorage.setItem('fsAuthGlobal', 'ok-@fildO1060');
+    sessionStorage.setItem('fs_access_done', '1');
+  }
+  function resetBadge(){
+    var menuUserName = document.getElementById('menuUserName');
+    var menuRole = document.getElementById('menuRole');
+    if(menuUserName) menuUserName.textContent = 'Fildo';
+    if(menuRole) menuRole.textContent = 'Menu';
+  }
+  function syncBadge(){
+    var u = getUser();
+    var menuUserName = document.getElementById('menuUserName');
+    var menuRole = document.getElementById('menuRole');
+    if(u.nome){
+      if(menuUserName) menuUserName.textContent = u.nome;
+      if(menuRole) menuRole.textContent = u.cargo || 'USUÁRIO';
+    }else{
+      resetBadge();
+    }
+  }
+  function applyPermissionVisibility(){
+    var u = getUser();
+    var btnShare = document.getElementById('btnSharePanel');
+    var allow = ['GERENTE','DESENVOLVEDOR','DESENVOLVEDOR MASTER','DIRETORIA'].includes(u.cargo);
+    if(btnShare) btnShare.style.display = allow ? 'inline-flex' : 'none';
+    syncBadge();
+  }
+
+  function openModal(){
+    return new Promise(function(resolve){
+      var backdrop = document.getElementById('fsAccessBackdrop');
+      var modal = document.getElementById('fsAccessModal');
+      var filial = document.getElementById('fsAccessFilial');
+      var nome = document.getElementById('fsAccessNome');
+      var cargo = document.getElementById('fsAccessCargo');
+      var whats = document.getElementById('fsAccessWhats');
+      var ok = document.getElementById('fsAccessOk');
+      var cancel = document.getElementById('fsAccessCancel');
+
+      [filial,nome,cargo].forEach(function(el){
+        el.value = '';
+        el.oninput = function(){
+          const pos = el.selectionStart;
+          el.value = upperLive(el.value);
+          try{ el.setSelectionRange(pos,pos); }catch(e){}
+        };
+      });
+      whats.value = '';
+      whats.oninput = function(){ whats.value = onlyDigits(whats.value); };
+
+      function close(result){
+        backdrop.classList.remove('open');
+        modal.classList.remove('open');
+        ok.onclick = cancel.onclick = backdrop.onclick = null;
+        resolve(result);
+      }
+      ok.onclick = function(){
+        var payload = {
+          filial: upperSave(filial.value),
+          nome: upperSave(nome.value),
+          cargo: upperSave(cargo.value),
+          whatsapp: onlyDigits(whats.value)
+        };
+        if(!filialOk(payload.filial)){ alert('USE O PADRÃO: FILIAL 28'); filial.focus(); return; }
+        if(!payload.nome){ nome.focus(); return; }
+        if(!payload.cargo){ cargo.focus(); return; }
+        close(payload);
+      };
+      cancel.onclick = function(){ close(null); };
+      backdrop.onclick = function(){ close(null); };
+      backdrop.classList.add('open');
+      modal.classList.add('open');
+      setTimeout(function(){ filial.focus(); }, 60);
+    });
+  }
+
+  window.fsConfirmarAcesso = async function(force){
+    var actual = getUser();
+    if(!force && actual.filial && actual.nome && actual.cargo){
+      saveUser(actual);
+      applyPermissionVisibility();
+      return true;
+    }
+    var data = await openModal();
+    if(!data) return false;
+    saveUser(data);
+    applyPermissionVisibility();
+    return true;
+  };
+
+  document.addEventListener('DOMContentLoaded', function(){
+    // if logo image fails to load, fallback is already present; keep visual stable
+    var logo = document.querySelector('.logo-badge.logo-image');
+    if(logo){
+      logo.decoding = 'sync';
+      logo.loading = 'eager';
+    }
+
+    resetBadge();
+    // pedir só se ainda não houver sessão salva no dispositivo
+    applyPermissionVisibility();
+    setTimeout(async function(){
+      var u = getUser();
+      if(u.filial && u.nome && u.cargo){
+        saveUser(u);
+        applyPermissionVisibility();
+        return;
+      }
+      await window.fsConfirmarAcesso(true);
+    }, 120);
+
+document.querySelectorAll('.card').forEach(function(card){
+      var link = card.querySelector('.card-action[href]');
+      if(!link) return;
+      card.classList.add('card-clickable');
+      function go(){
+        card.classList.add('fs-card-press');
+        setTimeout(function(){ window.location.href = link.getAttribute('href'); }, 120);
+      }
+      card.onclick = function(e){
+        if(e.target.closest('a,button,input,select,textarea,label')) return;
+        go();
+      };
+      link.onclick = function(e){
+        e.preventDefault();
+        go();
+      };
+    });
+
+    var btnTrocar = document.getElementById('btnTrocarUsuario');
+    if(btnTrocar){
+      btnTrocar.onclick = async function(){
+        localStorage.removeItem('fs_filial');
+        localStorage.removeItem('fs_nome');
+        localStorage.removeItem('fs_cargo');
+        localStorage.removeItem('fs_whatsapp');
+        sessionStorage.removeItem('fs_access_done');
+        resetBadge();
+        await window.fsConfirmarAcesso(true);
+      };
+    }
+    var btnSair = document.getElementById('btnSairAcesso');
+    if(btnSair){
+      btnSair.onclick = function(){
+        localStorage.removeItem('fs_filial');
+        localStorage.removeItem('fs_nome');
+        localStorage.removeItem('fs_cargo');
+        localStorage.removeItem('fs_whatsapp');
+        sessionStorage.removeItem('fs_access_done');
+        resetBadge();
+        applyPermissionVisibility();
+      };
+    }
+  });
+})();
+</script>
+
+
+<script id="fs-sw-register">
+(function(){
+  if(!('serviceWorker' in navigator)) return;
+
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+      .then(function(reg){
+        function requestUpdate(){
+          if(reg.waiting){
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+        }
+
+        reg.addEventListener('updatefound', function(){
+          var next = reg.installing;
+          if(!next) return;
+          next.addEventListener('statechange', function(){
+            if(next.state === 'installed' && navigator.serviceWorker.controller){
+              requestUpdate();
+            }
+          });
+        });
+
+        if(reg.waiting){ requestUpdate(); }
+      })
+      .catch(function(err){
+        console.log('SW register falhou:', err);
+      });
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(window.__fsSwRefreshing) return;
+    window.__fsSwRefreshing = true;
+    window.location.reload();
+  });
+})();
+</script>
+
+</body>
+</html>
